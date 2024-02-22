@@ -6,7 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const globalErrorHandler_1 = require("./app/middlewares/globalErrorHandler");
 const notFound_1 = require("./app/middlewares/notFound");
+const user_route_1 = require("./app/modules/users/user.route");
 const app = (0, express_1.default)();
+// middlewares for globally
+app.use(cors());
+app.use(express_1.default.json());
+// route points
+app.use("/users", user_route_1.UserRouter);
+// Global error handler
 app.use(globalErrorHandler_1.globalErrorHandler);
+// error handle for no route found
 app.use(notFound_1.notFound);
 exports.default = app;
