@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ServiceRouter = void 0;
+const express_1 = require("express");
+const service_controller_1 = require("./service.controller");
+const validateRequest_1 = require("../../middlewares/validateRequest");
+const service_validation_1 = require("./service.validation");
+const router = (0, express_1.Router)();
+router.post("/create-service", (0, validateRequest_1.validateRequest)(service_validation_1.ServiceValidations.createServiceValidation), service_controller_1.ServiceControllers.createService);
+exports.ServiceRouter = router;

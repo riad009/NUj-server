@@ -3,6 +3,7 @@ import cors from "cors";
 import { globalErrorHandler } from "./app/middlewares/globalErrorHandler";
 import { notFound } from "./app/middlewares/notFound";
 import { UserRouter } from "./app/modules/users/user.route";
+import { ServiceRouter } from "./app/modules/services/service.route";
 
 const app = express();
 // middlewares for globally
@@ -11,6 +12,7 @@ app.use(express.json());
 
 // route points
 app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/services", ServiceRouter);
 
 // Global error handler
 app.use(globalErrorHandler);
