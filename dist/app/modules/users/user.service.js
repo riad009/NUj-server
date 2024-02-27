@@ -10,11 +10,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
+const AppError_1 = require("../../errors/AppError");
 const user_model_1 = require("./user.model");
 const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isExist = yield user_model_1.UserModel.findOne({ email: payload === null || payload === void 0 ? void 0 : payload.email });
+    if (isExist) {
+        throw new AppError_1.AppError(400, "User Already exists");
+    }
     const result = yield user_model_1.UserModel.create(payload);
+    return result;
+});
+const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const oldUser = yield user_model_1.UserModel.findById(userId);
+    if (!oldUser) {
+        throw new AppError_1.AppError(404, "User not found");
+    }
+    if (oldUser === null || oldUser === void 0 ? void 0 : oldUser.isDeleted) {
+        throw new AppError_1.AppError(400, "User is deletd");
+    }
+    const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, payload, {
+        new: true,
+    });
     return result;
 });
 exports.UserServices = {
     createUserIntoDB,
+    updateUserFromDB,
 };

@@ -7,4 +7,5 @@ const user_validation_1 = require("./user.validation");
 const user_controller_1 = require("./user.controller");
 const router = (0, express_1.Router)();
 router.post("/create-user", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.createUserValidation), user_controller_1.UserControllers.createUser);
+router.post("/update-user/:userId", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.updateUserValidation), user_controller_1.UserControllers.updateUser);
 exports.UserRouter = router;

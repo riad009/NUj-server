@@ -11,4 +11,10 @@ router.post(
   UserControllers.createUser
 );
 
+router.post(
+  "/update-user/:userId",
+  validateRequest(UserValidations.updateUserValidation),
+  UserControllers.updateUser
+);
+
 export const UserRouter = router;

@@ -23,6 +23,16 @@ const createUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const updateUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserServices.updateUserFromDB(req.params.userId, req.body);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "User updated successfully",
+        data: result,
+    });
+}));
 exports.UserControllers = {
     createUser,
+    updateUser,
 };
