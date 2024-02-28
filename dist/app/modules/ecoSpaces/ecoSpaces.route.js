@@ -10,4 +10,8 @@ const router = (0, express_1.Router)();
 router.post("/create-eco-space", (0, validateRequest_1.validateRequest)(ecoSpaces_validation_1.EcoSpaceValidations.createEcoSpaceValidation), ecoSpaces_controller_1.EcoSpaceControllers.createEcoSpace);
 // getting recent ecospace
 router.get("/recent-eco-spaces", ecoSpaces_controller_1.EcoSpaceControllers.getRecentEcoSpaces);
+// getting ecospaces by owner ids
+router.get("/list/:ownerId", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByOwnerId);
+// getting all the ecospaces for admin
+router.get("/all", ecoSpaces_controller_1.EcoSpaceControllers.getAllEcoSpaces);
 exports.EcoSpaceRouter = router;

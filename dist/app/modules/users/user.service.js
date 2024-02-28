@@ -21,7 +21,17 @@ const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const result = yield user_model_1.UserModel.create(payload);
     return result;
 });
-// Updaing user
+// getting all the users
+const getAllUsersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.find({ role: "user" });
+    return result;
+});
+// get single user with _id
+const getSingleUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findById(userId);
+    return result;
+});
+// Updating user
 const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const oldUser = yield user_model_1.UserModel.findById(userId);
     if (!oldUser) {
@@ -36,7 +46,7 @@ const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, 
     });
     return result;
 });
-// updaing is notification preferences
+// updating is notification preferences
 const updateNotifyFromDB = (userId, isNotify) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, { isNotify });
     return result;
@@ -45,4 +55,6 @@ exports.UserServices = {
     createUserIntoDB,
     updateUserFromDB,
     updateNotifyFromDB,
+    getAllUsersFromDB,
+    getSingleUserFromDB,
 };

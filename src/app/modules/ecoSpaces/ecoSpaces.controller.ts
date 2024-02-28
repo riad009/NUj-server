@@ -25,7 +25,32 @@ const getRecentEcoSpaces = catchAsync(async (req, res, next) => {
   });
 });
 
+const getEcoSpacesByOwnerId = catchAsync(async (req, res, next) => {
+  const ownerId = req.params.ownerId;
+  const result = await EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(ownerId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpaces retrieved successfully",
+    data: result,
+  });
+});
+
+const getAllEcoSpaces = catchAsync(async (req, res, next) => {
+  const result = await EcoSpaceServices.getAllEcoSpacesFromDB();
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpaces retrieved successfully",
+    data: result,
+  });
+});
+
 export const EcoSpaceControllers = {
   createEcoSpace,
   getRecentEcoSpaces,
+  getEcoSpacesByOwnerId,
+  getAllEcoSpaces,
 };

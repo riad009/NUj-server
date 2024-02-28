@@ -7,10 +7,10 @@ import { EcoSpaceModel } from "./ecoSpaces.model";
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   const userExist = await UserModel.findById(payload?.owner);
   if (!userExist) {
-    throw new AppError(401, "User not found");
+    throw new AppError(400, "User not found");
   }
   if (userExist?.isDeleted) {
-    throw new AppError(401, "User not found");
+    throw new AppError(400, "User not found");
   }
 
   const result = (await EcoSpaceModel.create(payload)).populate(
@@ -32,7 +32,21 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
   return result;
 };
 
+// getting list of ecospaces for a single user by _id(owner)
+const getEcoSpacesByOwnerIdFromDB = async (ownerId: string) => {
+  const result = await EcoSpaceModel.find({ owner: ownerId });
+  return result;
+};
+
+// getting all the ecospaces for admin only
+const getAllEcoSpacesFromDB = async () => {
+  const result = await EcoSpaceModel.find({});
+  return result;
+};
+
 export const EcoSpaceServices = {
   createEcoSpaceIntoDB,
   getRecentEcoSpacesFromDB,
+  getEcoSpacesByOwnerIdFromDB,
+  getAllEcoSpacesFromDB,
 };

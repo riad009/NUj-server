@@ -15,4 +15,10 @@ router.post(
 // getting recent ecospace
 router.get("/recent-eco-spaces", EcoSpaceControllers.getRecentEcoSpaces);
 
+// getting ecospaces by owner ids
+router.get("/list/:ownerId", EcoSpaceControllers.getEcoSpacesByOwnerId);
+
+// getting all the ecospaces for admin
+router.get("/all", EcoSpaceControllers.getAllEcoSpaces);
+
 export const EcoSpaceRouter = router;

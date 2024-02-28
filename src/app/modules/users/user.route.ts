@@ -12,6 +12,12 @@ router.post(
   UserControllers.createUser
 );
 
+// getting all users
+router.get("/all", UserControllers.getAllUsers);
+
+// getting single user by _id
+router.get("/:userId", UserControllers.getSingleUser);
+
 // updating user
 router.put(
   "/update-user/:userId",

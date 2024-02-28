@@ -32,7 +32,28 @@ const getRecentEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __aw
         data: result,
     });
 }));
+const getEcoSpacesByOwnerId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const ownerId = req.params.ownerId;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(ownerId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "EcoSpaces retrieved successfully",
+        data: result,
+    });
+}));
+const getAllEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.getAllEcoSpacesFromDB();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "EcoSpaces retrieved successfully",
+        data: result,
+    });
+}));
 exports.EcoSpaceControllers = {
     createEcoSpace,
     getRecentEcoSpaces,
+    getEcoSpacesByOwnerId,
+    getAllEcoSpaces,
 };

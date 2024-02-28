@@ -23,6 +23,7 @@ const createEcoSpaceValidation = z.object({
     plan: z.string().optional(),
     planPurchasedAt: z.string().optional(),
     ecoSpaceNotify: z.boolean().default(true).optional(),
+    isDeleted: z.boolean().default(false).optional(),
   }),
 });
 

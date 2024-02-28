@@ -60,6 +60,11 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
       required: false,
       default: true,
     },
+    isDeleted: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -17,10 +17,10 @@ const ecoSpaces_model_1 = require("./ecoSpaces.model");
 const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userExist = yield user_model_1.UserModel.findById(payload === null || payload === void 0 ? void 0 : payload.owner);
     if (!userExist) {
-        throw new AppError_1.AppError(401, "User not found");
+        throw new AppError_1.AppError(400, "User not found");
     }
     if (userExist === null || userExist === void 0 ? void 0 : userExist.isDeleted) {
-        throw new AppError_1.AppError(401, "User not found");
+        throw new AppError_1.AppError(400, "User not found");
     }
     const result = (yield ecoSpaces_model_1.EcoSpaceModel.create(payload)).populate("owner serviceId plan");
     return result;
@@ -33,7 +33,19 @@ const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, fu
         .populate("plan");
     return result;
 });
+// getting list of ecospaces for a single user by _id(owner)
+const getEcoSpacesByOwnerIdFromDB = (ownerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ owner: ownerId });
+    return result;
+});
+// getting all the ecospaces for admin only
+const getAllEcoSpacesFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({});
+    return result;
+});
 exports.EcoSpaceServices = {
     createEcoSpaceIntoDB,
     getRecentEcoSpacesFromDB,
+    getEcoSpacesByOwnerIdFromDB,
+    getAllEcoSpacesFromDB,
 };

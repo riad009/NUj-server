@@ -12,7 +12,19 @@ const createUserIntoDB = async (payload: Partial<TUser>) => {
   return result;
 };
 
-// Updaing user
+// getting all the users
+const getAllUsersFromDB = async () => {
+  const result = await UserModel.find({ role: "user" });
+  return result;
+};
+
+// get single user with _id
+const getSingleUserFromDB = async (userId: string) => {
+  const result = await UserModel.findById(userId);
+  return result;
+};
+
+// Updating user
 const updateUserFromDB = async (userId: string, payload: Partial<TUser>) => {
   const oldUser = await UserModel.findById(userId);
   if (!oldUser) {
@@ -29,7 +41,7 @@ const updateUserFromDB = async (userId: string, payload: Partial<TUser>) => {
   return result;
 };
 
-// updaing is notification preferences
+// updating is notification preferences
 const updateNotifyFromDB = async (userId: string, isNotify: boolean) => {
   const result = await UserModel.findByIdAndUpdate(userId, { isNotify });
   return result;
@@ -39,4 +51,6 @@ export const UserServices = {
   createUserIntoDB,
   updateUserFromDB,
   updateNotifyFromDB,
+  getAllUsersFromDB,
+  getSingleUserFromDB,
 };
