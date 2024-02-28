@@ -3,6 +3,7 @@ import { UserModel } from "../users/user.model";
 import { TEcoSpace } from "./ecoSpaces.interface";
 import { EcoSpaceModel } from "./ecoSpaces.model";
 
+// creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   const userExist = await UserModel.findById(payload?.owner);
   if (!userExist) {
@@ -18,6 +19,20 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   return result;
 };
 
+// Getting recent ecospace, this will only return limited ecosapce with limited values
+const getRecentEcoSpacesFromDB = async (limit: number) => {
+  const result = await EcoSpaceModel.find(
+    {},
+    { company: 1, project: 1, plan: 1 }
+  )
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .populate("plan");
+
+  return result;
+};
+
 export const EcoSpaceServices = {
   createEcoSpaceIntoDB,
+  getRecentEcoSpacesFromDB,
 };

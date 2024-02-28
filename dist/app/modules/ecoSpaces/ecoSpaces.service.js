@@ -13,6 +13,7 @@ exports.EcoSpaceServices = void 0;
 const AppError_1 = require("../../errors/AppError");
 const user_model_1 = require("../users/user.model");
 const ecoSpaces_model_1 = require("./ecoSpaces.model");
+// creating ecospace
 const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userExist = yield user_model_1.UserModel.findById(payload === null || payload === void 0 ? void 0 : payload.owner);
     if (!userExist) {
@@ -24,6 +25,15 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     const result = (yield ecoSpaces_model_1.EcoSpaceModel.create(payload)).populate("owner serviceId plan");
     return result;
 });
+// Getting recent ecospace, this will only return limited ecosapce with limited values
+const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({}, { company: 1, project: 1, plan: 1 })
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .populate("plan");
+    return result;
+});
 exports.EcoSpaceServices = {
     createEcoSpaceIntoDB,
+    getRecentEcoSpacesFromDB,
 };

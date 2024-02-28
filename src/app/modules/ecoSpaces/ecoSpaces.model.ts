@@ -47,6 +47,7 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
     },
     plan: {
       type: Schema.Types.ObjectId,
+      ref: "Plan",
       required: true,
     },
     planPurchasedAt: {
