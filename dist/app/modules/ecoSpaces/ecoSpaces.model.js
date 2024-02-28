@@ -48,7 +48,7 @@ const ecoSpaceSchema = new mongoose_1.Schema({
     plan: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "Plan",
-        required: true,
+        required: false,
     },
     planPurchasedAt: {
         type: String,

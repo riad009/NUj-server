@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
 const AppError_1 = require("../../errors/AppError");
 const user_model_1 = require("./user.model");
+// Creating user
 const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const isExist = yield user_model_1.UserModel.findOne({ email: payload === null || payload === void 0 ? void 0 : payload.email });
     if (isExist) {
@@ -20,6 +21,7 @@ const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const result = yield user_model_1.UserModel.create(payload);
     return result;
 });
+// Updaing user
 const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const oldUser = yield user_model_1.UserModel.findById(userId);
     if (!oldUser) {
@@ -34,6 +36,7 @@ const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, 
     });
     return result;
 });
+// updaing is notification preferences
 const updateNotifyFromDB = (userId, isNotify) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, { isNotify });
     return result;

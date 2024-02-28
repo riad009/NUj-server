@@ -2,6 +2,7 @@ import { AppError } from "../../errors/AppError";
 import { TUser } from "./user.interface";
 import { UserModel } from "./user.model";
 
+// Creating user
 const createUserIntoDB = async (payload: Partial<TUser>) => {
   const isExist = await UserModel.findOne({ email: payload?.email });
   if (isExist) {
@@ -11,6 +12,7 @@ const createUserIntoDB = async (payload: Partial<TUser>) => {
   return result;
 };
 
+// Updaing user
 const updateUserFromDB = async (userId: string, payload: Partial<TUser>) => {
   const oldUser = await UserModel.findById(userId);
   if (!oldUser) {
@@ -27,6 +29,7 @@ const updateUserFromDB = async (userId: string, payload: Partial<TUser>) => {
   return result;
 };
 
+// updaing is notification preferences
 const updateNotifyFromDB = async (userId: string, isNotify: boolean) => {
   const result = await UserModel.findByIdAndUpdate(userId, { isNotify });
   return result;

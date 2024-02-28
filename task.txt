@@ -1,1 +1,8 @@
 Plan - might change currecy to float
+
+
+
+
+
+
+get recent appointments
