@@ -8,7 +8,7 @@ const getStatisticsFromDB = async () => {
     plan: { $exists: true },
   });
 
-  const result = { ecoSpacesCount, usersCount, subscribersCount };
+  const result = { ecoSpacesCount, usersCount, subscribersCount, revenue: 200 };
   return result;
 };
 

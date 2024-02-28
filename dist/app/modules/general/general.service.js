@@ -18,7 +18,7 @@ const getStatisticsFromDB = () => __awaiter(void 0, void 0, void 0, function* ()
     const subscribersCount = yield ecoSpaces_model_1.EcoSpaceModel.countDocuments({
         plan: { $exists: true },
     });
-    const result = { ecoSpacesCount, usersCount, subscribersCount };
+    const result = { ecoSpacesCount, usersCount, subscribersCount, revenue: 200 };
     return result;
 });
 exports.GeneralServices = {
