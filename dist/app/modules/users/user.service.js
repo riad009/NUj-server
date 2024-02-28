@@ -30,10 +30,16 @@ const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, 
     }
     const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, payload, {
         new: true,
+        upsert: true,
     });
+    return result;
+});
+const updateNotifyFromDB = (userId, isNotify) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, { isNotify });
     return result;
 });
 exports.UserServices = {
     createUserIntoDB,
     updateUserFromDB,
+    updateNotifyFromDB,
 };

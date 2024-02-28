@@ -27,6 +27,7 @@ const createEcoSpaceValidation = zod_1.default.object({
         }),
         plan: zod_1.default.string().optional(),
         planPurchasedAt: zod_1.default.string().optional(),
+        ecoSpaceNotify: zod_1.default.boolean().default(true).optional(),
     }),
 });
 exports.EcoSpaceValidations = {

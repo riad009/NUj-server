@@ -22,11 +22,18 @@ const updateUserFromDB = async (userId: string, payload: Partial<TUser>) => {
 
   const result = await UserModel.findByIdAndUpdate(userId, payload, {
     new: true,
+    upsert: true,
   });
+  return result;
+};
+
+const updateNotifyFromDB = async (userId: string, isNotify: boolean) => {
+  const result = await UserModel.findByIdAndUpdate(userId, { isNotify });
   return result;
 };
 
 export const UserServices = {
   createUserIntoDB,
   updateUserFromDB,
+  updateNotifyFromDB,
 };

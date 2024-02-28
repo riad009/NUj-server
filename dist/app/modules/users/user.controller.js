@@ -32,7 +32,19 @@ const updateUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const updateNotify = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
+    const isNotify = Boolean(req.body.isNotify);
+    const result = yield user_service_1.UserServices.updateNotifyFromDB(userId, isNotify);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Notification preference updated successfully",
+        data: null,
+    });
+}));
 exports.UserControllers = {
     createUser,
     updateUser,
+    updateNotify,
 };

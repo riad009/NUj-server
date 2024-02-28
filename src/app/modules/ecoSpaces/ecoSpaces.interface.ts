@@ -13,4 +13,5 @@ export type TEcoSpace = {
   project: string;
   plan: Types.ObjectId;
   planPurchasedAt: string;
+  ecoSpaceNotify: boolean;
 };

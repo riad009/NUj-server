@@ -28,7 +28,21 @@ const updateUser = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateNotify = catchAsync(async (req, res, next) => {
+  const userId = req.params.userId;
+  const isNotify = Boolean(req.body.isNotify);
+  const result = await UserServices.updateNotifyFromDB(userId, isNotify);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Notification preference updated successfully",
+    data: null,
+  });
+});
+
 export const UserControllers = {
   createUser,
   updateUser,
+  updateNotify,
 };

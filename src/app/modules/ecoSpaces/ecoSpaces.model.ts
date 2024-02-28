@@ -54,6 +54,11 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
       required: false,
       default: new Date(Date.now()).toISOString(),
     },
+    ecoSpaceNotify: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   {
     timestamps: true,
