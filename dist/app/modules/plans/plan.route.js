@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PlanRouter = void 0;
+const express_1 = require("express");
+const validateRequest_1 = require("../../middlewares/validateRequest");
+const plan_validation_1 = require("./plan.validation");
+const plan_controller_1 = require("./plan.controller");
+const router = (0, express_1.Router)();
+router.post("/create-plan", (0, validateRequest_1.validateRequest)(plan_validation_1.PlanValidations.createPlanValidation), plan_controller_1.PlanControllers.createPlan);
+router.get("/all", plan_controller_1.PlanControllers.getAllPlan);
+exports.PlanRouter = router;

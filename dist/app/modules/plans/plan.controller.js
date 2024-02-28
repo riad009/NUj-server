@@ -22,6 +22,16 @@ const createPlan = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const getAllPlan = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield plan_service_1.PlanServices.getAllPlanFromDB();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Plans retrieved successfully",
+        data: result,
+    });
+}));
 exports.PlanControllers = {
     createPlan,
+    getAllPlan,
 };

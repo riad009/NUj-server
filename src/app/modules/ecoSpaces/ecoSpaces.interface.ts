@@ -1,1 +1,16 @@
-export type TEcoSpace = {};
+import { Types } from "mongoose";
+
+export type TEcoSpace = {
+  owner: Types.ObjectId;
+  company: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+  serviceId: Types.ObjectId;
+  serviceDescription: string;
+  staffs: string[];
+  project: string;
+  plan: Types.ObjectId;
+  planPurchasedAt: string;
+};

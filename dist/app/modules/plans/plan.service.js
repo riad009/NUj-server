@@ -15,6 +15,11 @@ const createPlanIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const result = yield plan_model_1.PlanModel.create(payload);
     return result;
 });
+const getAllPlanFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield plan_model_1.PlanModel.find({});
+    return result;
+});
 exports.PlanServices = {
     createPlanIntoDB,
+    getAllPlanFromDB,
 };
