@@ -10,6 +10,7 @@ const notFound_1 = require("./app/middlewares/notFound");
 const user_route_1 = require("./app/modules/users/user.route");
 const service_route_1 = require("./app/modules/services/service.route");
 const plan_route_1 = require("./app/modules/plans/plan.route");
+const ecoSpaces_route_1 = require("./app/modules/ecoSpaces/ecoSpaces.route");
 const app = (0, express_1.default)();
 // middlewares for globally
 app.use((0, cors_1.default)());
@@ -18,6 +19,7 @@ app.use(express_1.default.json());
 app.use("/api/v1/users", user_route_1.UserRouter);
 app.use("/api/v1/services", service_route_1.ServiceRouter);
 app.use("/api/v1/plans", plan_route_1.PlanRouter);
+app.use("/api/v1/eco-spaces", ecoSpaces_route_1.EcoSpaceRouter);
 // Global error handler
 app.use(globalErrorHandler_1.globalErrorHandler);
 // error handle for no route found

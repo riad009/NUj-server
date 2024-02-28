@@ -51,7 +51,7 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
     },
     planPurchasedAt: {
       type: String,
-      required: true,
+      required: false,
       default: new Date(Date.now()).toISOString(),
     },
   },

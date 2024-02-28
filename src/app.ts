@@ -5,6 +5,7 @@ import { notFound } from "./app/middlewares/notFound";
 import { UserRouter } from "./app/modules/users/user.route";
 import { ServiceRouter } from "./app/modules/services/service.route";
 import { PlanRouter } from "./app/modules/plans/plan.route";
+import { EcoSpaceRouter } from "./app/modules/ecoSpaces/ecoSpaces.route";
 
 const app = express();
 // middlewares for globally
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/services", ServiceRouter);
 app.use("/api/v1/plans", PlanRouter);
+app.use("/api/v1/eco-spaces", EcoSpaceRouter);
 
 // Global error handler
 app.use(globalErrorHandler);

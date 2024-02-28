@@ -23,7 +23,7 @@ const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
 const updateUserFromDB = (userId, payload) => __awaiter(void 0, void 0, void 0, function* () {
     const oldUser = yield user_model_1.UserModel.findById(userId);
     if (!oldUser) {
-        throw new AppError_1.AppError(404, "User not found");
+        throw new AppError_1.AppError(401, "User not found");
     }
     if (oldUser === null || oldUser === void 0 ? void 0 : oldUser.isDeleted) {
         throw new AppError_1.AppError(400, "User is deletd");
