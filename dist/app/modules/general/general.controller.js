@@ -22,6 +22,17 @@ const getStatistics = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter
         data: result,
     });
 }));
+const getMyProfile = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.params.email;
+    const result = yield general_service_1.GeneralServices.getMyProfileFromDB(email);
+    (0, sendResponse_1.sendResponse)(res, {
+        status: 200,
+        success: true,
+        message: "My Profile Retrieved Successfully",
+        data: result,
+    });
+}));
 exports.GeneralControllers = {
     getStatistics,
+    getMyProfile,
 };
