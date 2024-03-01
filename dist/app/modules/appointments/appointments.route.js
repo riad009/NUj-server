@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AppointmentRouter = void 0;
+const express_1 = require("express");
+const validateRequest_1 = require("../../middlewares/validateRequest");
+const appointments_validation_1 = require("./appointments.validation");
+const appointments_controller_1 = require("./appointments.controller");
+const router = (0, express_1.Router)();
+router.post("/create-appointment", (0, validateRequest_1.validateRequest)(appointments_validation_1.AppointmentValidations.createAppointmentValidationSchema), appointments_controller_1.AppointmentControllers.createAppointment);
+exports.AppointmentRouter = router;
