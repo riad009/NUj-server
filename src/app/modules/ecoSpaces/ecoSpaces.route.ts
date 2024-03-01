@@ -21,4 +21,7 @@ router.get("/list/:ownerId", EcoSpaceControllers.getEcoSpacesByOwnerId);
 // getting all the ecospaces for admin
 router.get("/all", EcoSpaceControllers.getAllEcoSpaces);
 
+// Getting ecospaces by query (serviceid)
+router.get("/list", EcoSpaceControllers.getEcoSpacesByServiceId);
+
 export const EcoSpaceRouter = router;

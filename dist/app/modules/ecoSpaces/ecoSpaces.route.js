@@ -14,4 +14,6 @@ router.get("/recent-eco-spaces", ecoSpaces_controller_1.EcoSpaceControllers.getR
 router.get("/list/:ownerId", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByOwnerId);
 // getting all the ecospaces for admin
 router.get("/all", ecoSpaces_controller_1.EcoSpaceControllers.getAllEcoSpaces);
+// Getting ecospaces by query (serviceid)
+router.get("/list", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByServiceId);
 exports.EcoSpaceRouter = router;

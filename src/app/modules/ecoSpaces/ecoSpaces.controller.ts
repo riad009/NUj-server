@@ -48,9 +48,24 @@ const getAllEcoSpaces = catchAsync(async (req, res, next) => {
   });
 });
 
+const getEcoSpacesByServiceId = catchAsync(async (req, res, next) => {
+  const serviceId = req?.query?.service;
+  const result = await EcoSpaceServices.getEcoSpacesByServiceIdFromDB(
+    serviceId as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpaces retrieved successfully",
+    data: result,
+  });
+});
+
 export const EcoSpaceControllers = {
   createEcoSpace,
   getRecentEcoSpaces,
   getEcoSpacesByOwnerId,
   getAllEcoSpaces,
+  getEcoSpacesByServiceId,
 };

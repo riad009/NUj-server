@@ -51,9 +51,21 @@ const getAllEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __await
         data: result,
     });
 }));
+const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const serviceId = (_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.service;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByServiceIdFromDB(serviceId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "EcoSpaces retrieved successfully",
+        data: result,
+    });
+}));
 exports.EcoSpaceControllers = {
     createEcoSpace,
     getRecentEcoSpaces,
     getEcoSpacesByOwnerId,
     getAllEcoSpaces,
+    getEcoSpacesByServiceId,
 };

@@ -44,9 +44,19 @@ const getAllEcoSpacesFromDB = async () => {
   return result;
 };
 
+// Getting ecospaces for taking appointment - query(serviceId)
+const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
+  const result = await EcoSpaceModel.find({ serviceId });
+  if (!result.length) {
+    throw new AppError(400, "No EcoSpaces Found");
+  }
+  return result;
+};
+
 export const EcoSpaceServices = {
   createEcoSpaceIntoDB,
   getRecentEcoSpacesFromDB,
   getEcoSpacesByOwnerIdFromDB,
   getAllEcoSpacesFromDB,
+  getEcoSpacesByServiceIdFromDB,
 };

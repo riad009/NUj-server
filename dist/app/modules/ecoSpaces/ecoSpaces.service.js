@@ -43,9 +43,18 @@ const getAllEcoSpacesFromDB = () => __awaiter(void 0, void 0, void 0, function* 
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({});
     return result;
 });
+// Getting ecospaces for taking appointment - query(serviceId)
+const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId });
+    if (!result.length) {
+        throw new AppError_1.AppError(400, "No EcoSpaces Found");
+    }
+    return result;
+});
 exports.EcoSpaceServices = {
     createEcoSpaceIntoDB,
     getRecentEcoSpacesFromDB,
     getEcoSpacesByOwnerIdFromDB,
     getAllEcoSpacesFromDB,
+    getEcoSpacesByServiceIdFromDB,
 };
