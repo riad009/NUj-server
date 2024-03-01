@@ -25,6 +25,11 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     const result = (yield ecoSpaces_model_1.EcoSpaceModel.create(payload)).populate("owner serviceId plan");
     return result;
 });
+// Get single ecospace by id
+const getSingleEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId);
+    return result;
+});
 // Getting recent ecospace, this will only return limited ecosapce with limited values
 const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({}, { company: 1, project: 1, plan: 1 })
@@ -53,6 +58,7 @@ const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, v
 });
 exports.EcoSpaceServices = {
     createEcoSpaceIntoDB,
+    getSingleEcoSpaceFromDB,
     getRecentEcoSpacesFromDB,
     getEcoSpacesByOwnerIdFromDB,
     getAllEcoSpacesFromDB,

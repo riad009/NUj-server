@@ -14,6 +14,9 @@ router.post(
   EcoSpaceControllers.createEcoSpace
 );
 
+// getting single ecospace by id
+router.get("/:ecoSpaceId", EcoSpaceControllers.getSingleEcoSpace);
+
 // getting recent ecospace
 router.get("/recent-eco-spaces", EcoSpaceControllers.getRecentEcoSpaces);
 

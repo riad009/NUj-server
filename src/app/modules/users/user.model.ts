@@ -10,7 +10,7 @@ const userSchema = new Schema<TUser>(
     role: {
       type: String,
       enum: ["user", "admin"],
-      required: true,
+      required: false,
       default: "user",
     },
     email: {

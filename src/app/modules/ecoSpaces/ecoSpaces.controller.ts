@@ -13,6 +13,19 @@ const createEcoSpace = catchAsync(async (req, res, next) => {
   });
 });
 
+const getSingleEcoSpace = catchAsync(async (req, res, next) => {
+  const result = await EcoSpaceServices.getSingleEcoSpaceFromDB(
+    req.params.ecoSpaceId
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpace Found successfully",
+    data: result,
+  });
+});
+
 const getRecentEcoSpaces = catchAsync(async (req, res, next) => {
   const limit = Number(req.query.limit);
   const result = await EcoSpaceServices.getRecentEcoSpacesFromDB(limit || 3);
@@ -64,6 +77,7 @@ const getEcoSpacesByServiceId = catchAsync(async (req, res, next) => {
 
 export const EcoSpaceControllers = {
   createEcoSpace,
+  getSingleEcoSpace,
   getRecentEcoSpaces,
   getEcoSpacesByOwnerId,
   getAllEcoSpaces,

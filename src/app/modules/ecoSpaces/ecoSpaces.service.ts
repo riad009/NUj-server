@@ -19,6 +19,12 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   return result;
 };
 
+// Get single ecospace by id
+const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
+  const result = await EcoSpaceModel.findById(ecoSpaceId);
+  return result;
+};
+
 // Getting recent ecospace, this will only return limited ecosapce with limited values
 const getRecentEcoSpacesFromDB = async (limit: number) => {
   const result = await EcoSpaceModel.find(
@@ -55,6 +61,7 @@ const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
 
 export const EcoSpaceServices = {
   createEcoSpaceIntoDB,
+  getSingleEcoSpaceFromDB,
   getRecentEcoSpacesFromDB,
   getEcoSpacesByOwnerIdFromDB,
   getAllEcoSpacesFromDB,

@@ -11,7 +11,7 @@ import { AppointmentRouter } from "./app/modules/appointments/appointments.route
 
 const app = express();
 // middlewares for globally
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // route points

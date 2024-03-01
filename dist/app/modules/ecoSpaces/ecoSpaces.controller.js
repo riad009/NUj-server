@@ -22,6 +22,15 @@ const createEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
         data: result,
     });
 }));
+const getSingleEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.getSingleEcoSpaceFromDB(req.params.ecoSpaceId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "EcoSpace Found successfully",
+        data: result,
+    });
+}));
 const getRecentEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const limit = Number(req.query.limit);
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getRecentEcoSpacesFromDB(limit || 3);
@@ -64,6 +73,7 @@ const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) =>
 }));
 exports.EcoSpaceControllers = {
     createEcoSpace,
+    getSingleEcoSpace,
     getRecentEcoSpaces,
     getEcoSpacesByOwnerId,
     getAllEcoSpaces,

@@ -15,7 +15,7 @@ const general_route_1 = require("./app/modules/general/general.route");
 const appointments_route_1 = require("./app/modules/appointments/appointments.route");
 const app = (0, express_1.default)();
 // middlewares for globally
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)({ origin: "*" }));
 app.use(express_1.default.json());
 // route points
 app.use("/api/v1/users", user_route_1.UserRouter);

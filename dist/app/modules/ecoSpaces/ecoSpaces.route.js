@@ -10,6 +10,8 @@ const EcoSpaceDocuments_controller_1 = require("../EcoSpaceDocuments/EcoSpaceDoc
 const router = (0, express_1.Router)();
 // creating eco space
 router.post("/create-eco-space", (0, validateRequest_1.validateRequest)(ecoSpaces_validation_1.EcoSpaceValidations.createEcoSpaceValidation), ecoSpaces_controller_1.EcoSpaceControllers.createEcoSpace);
+// getting single ecospace by id
+router.get("/:ecoSpaceId", ecoSpaces_controller_1.EcoSpaceControllers.getSingleEcoSpace);
 // getting recent ecospace
 router.get("/recent-eco-spaces", ecoSpaces_controller_1.EcoSpaceControllers.getRecentEcoSpaces);
 // getting ecospaces by owner ids
