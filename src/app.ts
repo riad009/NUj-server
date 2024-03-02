@@ -8,6 +8,7 @@ import { PlanRouter } from "./app/modules/plans/plan.route";
 import { EcoSpaceRouter } from "./app/modules/ecoSpaces/ecoSpaces.route";
 import { GeneralRouter } from "./app/modules/general/general.route";
 import { AppointmentRouter } from "./app/modules/appointments/appointments.route";
+import { EcoSpaceDocumentRoutes } from "./app/modules/EcoSpaceDocuments/EcoSpaceDocuments.route";
 
 const app = express();
 // middlewares for globally
@@ -21,6 +22,7 @@ app.use("/api/v1/plans", PlanRouter);
 app.use("/api/v1/eco-spaces", EcoSpaceRouter);
 app.use("/api/v1/general", GeneralRouter);
 app.use("/api/v1/appointments", AppointmentRouter);
+app.use("/api/v1/eco-space-documents", EcoSpaceDocumentRoutes);
 
 // Global error handler
 app.use(globalErrorHandler);

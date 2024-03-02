@@ -17,6 +17,20 @@ const createEcoSpaceDocument = catchAsync(async (req, res, next) => {
   });
 });
 
+const toxicityDetection = catchAsync(async (req, res, next) => {
+  console.log("clicked");
+  const payload = req?.body;
+  const result = await EcoSpaceDocumentServices.toxicityDetection(payload);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Generated",
+    data: result,
+  });
+});
+
 export const EcoSpaceDocumentControllers = {
+  toxicityDetection,
   createEcoSpaceDocument,
 };
