@@ -17,8 +17,25 @@ const createEcoSpaceDocument = catchAsync(async (req, res, next) => {
   });
 });
 
+const uploadFiles = catchAsync(async (req, res, next) => {
+  const file = req?.file;
+  const fieldName = req?.query.fieldName;
+  const id = req?.params.id;
+  const result = await EcoSpaceDocumentServices.uploadFiles(
+    file,
+    fieldName,
+    id
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Uploaded Successfully",
+    data: result,
+  });
+});
+
 const toxicityDetection = catchAsync(async (req, res, next) => {
-  console.log("clicked");
   const payload = req?.body;
   const result = await EcoSpaceDocumentServices.toxicityDetection(payload);
 
@@ -33,4 +50,5 @@ const toxicityDetection = catchAsync(async (req, res, next) => {
 export const EcoSpaceDocumentControllers = {
   toxicityDetection,
   createEcoSpaceDocument,
+  uploadFiles,
 };

@@ -2,12 +2,43 @@ import config from "../../config";
 import { TEcoSpaceDocument } from "./EcoSpaceDocuments.interface";
 import { EcoSpaceDocumentModel } from "./EcoSpaceDocuments.model";
 import axios from "axios";
+import cloudinary from "cloudinary";
+
+cloudinary.v2.config({
+  cloud_name: config.cloud_name,
+  api_key: config.api_key,
+  api_secret: config.api_secret,
+});
 
 const createEcoSpaceDocumentIntoDB = async (payload: TEcoSpaceDocument) => {
   // validations adding soon
 
   const result = await EcoSpaceDocumentModel.create(payload);
   return result;
+};
+
+const uploadFiles = async (file: any, fieldName: string, id: any) => {
+  console.log({ file, fieldName, id });
+
+  if (!file) {
+    throw new Error("No file uploaded");
+  }
+
+  const response = await cloudinary.v2.uploader.upload(file.path, {
+    resource_type: "auto",
+  });
+
+  // if (response.secure_url) {
+  //   const updatedDoc = await EcoSpaceDocumentModel.findByIdAndUpdate(
+  //     id,
+  //     { $set: { [fieldName]: response.secure_url } },
+  //     { new: true }
+  //   );
+
+  //   return updatedDoc;
+  // }
+
+  return response.secure_url;
 };
 
 const toxicityDetection = async (payload: any) => {
@@ -100,4 +131,5 @@ const toxicityDetection = async (payload: any) => {
 export const EcoSpaceDocumentServices = {
   createEcoSpaceDocumentIntoDB,
   toxicityDetection,
+  uploadFiles,
 };
