@@ -19,6 +19,19 @@ const createAppointmentIntoDB = async (payload: TAppointment) => {
   return result;
 };
 
+const getRecentAppointmentFromDB = async (limit: number) => {
+  const result = await AppointmentModel.find(
+    {},
+    { participantId: 1, ecoSpaceId: 1, reason: 1 }
+  )
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .populate("participantId ecoSpaceId");
+
+  return result;
+};
+
 export const AppointmentServices = {
   createAppointmentIntoDB,
+  getRecentAppointmentFromDB,
 };

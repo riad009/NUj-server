@@ -28,7 +28,7 @@ const getSingleEcoSpace = catchAsync(async (req, res, next) => {
 
 const getRecentEcoSpaces = catchAsync(async (req, res, next) => {
   const limit = Number(req.query.limit);
-  const result = await EcoSpaceServices.getRecentEcoSpacesFromDB(limit || 3);
+  const result = await EcoSpaceServices.getRecentEcoSpacesFromDB(limit || 5);
 
   sendResponse(res, {
     success: true,

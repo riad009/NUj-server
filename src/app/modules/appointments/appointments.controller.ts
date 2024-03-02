@@ -14,6 +14,21 @@ const createAppointment = catchAsync(async (req, res, next) => {
   });
 });
 
+const getRecentAppointment = catchAsync(async (req, res, next) => {
+  const limit = Number(req.query.limit);
+  const result = await AppointmentServices.getRecentAppointmentFromDB(
+    limit || 5
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Recent Appointments retrieved successfully",
+    data: result,
+  });
+});
+
 export const AppointmentControllers = {
   createAppointment,
+  getRecentAppointment,
 };

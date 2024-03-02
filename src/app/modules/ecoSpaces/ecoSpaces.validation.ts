@@ -6,12 +6,8 @@ const createEcoSpaceValidation = z.object({
     company: z.string({ required_error: "Must provide a valid company name" }),
     address: z.string({ required_error: "Must provide a valid address" }),
     phone: z.string({ required_error: "Must provide a valid phone" }),
-    email: z
-      .string({ required_error: "Must provide valid email" })
-      .email({ message: "Your email is not valid" }),
-    website: z
-      .string({ required_error: "Must provide a website url" })
-      .url({ message: "Your URL is ont valid" }),
+    email: z.string({ required_error: "Must provide valid email" }),
+    website: z.string({ required_error: "Must provide a website url" }),
     serviceId: z.string({ required_error: "Choose a service" }),
     serviceDescription: z.string({
       required_error: "Must provide a description for service",

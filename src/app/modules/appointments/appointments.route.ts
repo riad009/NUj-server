@@ -11,4 +11,7 @@ router.post(
   AppointmentControllers.createAppointment
 );
 
+// getting recent appointments
+router.get("/recent-appointments", AppointmentControllers.getRecentAppointment);
+
 export const AppointmentRouter = router;

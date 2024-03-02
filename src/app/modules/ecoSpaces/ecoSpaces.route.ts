@@ -13,9 +13,8 @@ router.post(
   validateRequest(EcoSpaceValidations.createEcoSpaceValidation),
   EcoSpaceControllers.createEcoSpace
 );
-
-// getting single ecospace by id
-router.get("/:ecoSpaceId", EcoSpaceControllers.getSingleEcoSpace);
+// getting all the ecospaces for admin
+router.get("/all", EcoSpaceControllers.getAllEcoSpaces);
 
 // getting recent ecospace
 router.get("/recent-eco-spaces", EcoSpaceControllers.getRecentEcoSpaces);
@@ -23,15 +22,14 @@ router.get("/recent-eco-spaces", EcoSpaceControllers.getRecentEcoSpaces);
 // getting ecospaces by owner ids
 router.get("/list/:ownerId", EcoSpaceControllers.getEcoSpacesByOwnerId);
 
-// getting all the ecospaces for admin
-router.get("/all", EcoSpaceControllers.getAllEcoSpaces);
-
 // Getting ecospaces by query (serviceid)
 router.get(
   "/eco-space-list/:serviceId",
   EcoSpaceControllers.getEcoSpacesByServiceId
 );
 
+// getting single ecospace by id
+router.get("/:ecoSpaceId", EcoSpaceControllers.getSingleEcoSpace);
 // !Uploading from EcoSpaceDocuments controller
 router.post(
   "/upload-documents",

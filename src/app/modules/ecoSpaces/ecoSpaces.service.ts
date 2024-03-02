@@ -36,8 +36,7 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
     { company: 1, project: 1, plan: 1 }
   )
     .sort({ createdAt: -1 })
-    .limit(limit)
-    .populate("plan");
+    .limit(limit);
 
   return result;
 };
