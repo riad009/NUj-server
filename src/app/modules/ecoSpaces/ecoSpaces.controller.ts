@@ -62,7 +62,7 @@ const getAllEcoSpaces = catchAsync(async (req, res, next) => {
 });
 
 const getEcoSpacesByServiceId = catchAsync(async (req, res, next) => {
-  const serviceId = req?.query?.service;
+  const serviceId = req?.params?.serviceId;
   const result = await EcoSpaceServices.getEcoSpacesByServiceIdFromDB(
     serviceId as string
   );

@@ -7,4 +7,5 @@ const validateRequest_1 = require("../../middlewares/validateRequest");
 const service_validation_1 = require("./service.validation");
 const router = (0, express_1.Router)();
 router.post("/create-service", (0, validateRequest_1.validateRequest)(service_validation_1.ServiceValidations.createServiceValidation), service_controller_1.ServiceControllers.createService);
+router.get("/list", service_controller_1.ServiceControllers.getAllServices);
 exports.ServiceRouter = router;

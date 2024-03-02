@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EcoSpaceServices = void 0;
 const AppError_1 = require("../../errors/AppError");
+const EcoSpaceDocuments_model_1 = require("../EcoSpaceDocuments/EcoSpaceDocuments.model");
 const user_model_1 = require("../users/user.model");
 const ecoSpaces_model_1 = require("./ecoSpaces.model");
 // creating ecospace
@@ -27,8 +28,9 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
 });
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId);
-    return result;
+    const documents = yield EcoSpaceDocuments_model_1.EcoSpaceDocumentModel.findOne({ ecoSpaceId });
+    const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId).populate("serviceId");
+    return { documents, ecoSpace };
 });
 // Getting recent ecospace, this will only return limited ecosapce with limited values
 const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, function* () {
@@ -50,6 +52,9 @@ const getAllEcoSpacesFromDB = () => __awaiter(void 0, void 0, void 0, function* 
 });
 // Getting ecospaces for taking appointment - query(serviceId)
 const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!serviceId || serviceId === "null") {
+        return yield ecoSpaces_model_1.EcoSpaceModel.find({});
+    }
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId });
     if (!result.length) {
         throw new AppError_1.AppError(400, "No EcoSpaces Found");

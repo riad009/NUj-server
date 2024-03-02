@@ -22,6 +22,16 @@ const createService = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter
         data: result,
     });
 }));
+const getAllServices = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield service_service_1.ServiceServices.getAllServicesFromDB();
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Service created successfully",
+        data: result,
+    });
+}));
 exports.ServiceControllers = {
     createService,
+    getAllServices,
 };

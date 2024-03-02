@@ -6,6 +6,12 @@ const createServiceIntoDB = async (payload: Partial<TService>) => {
   return result;
 };
 
+const getAllServicesFromDB = async () => {
+  const result = await ServiceModel.find({});
+  return result;
+};
+
 export const ServiceServices = {
   createServiceIntoDB,
+  getAllServicesFromDB,
 };

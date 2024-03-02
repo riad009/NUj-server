@@ -15,6 +15,11 @@ const createServiceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
     const result = yield service_model_1.ServiceModel.create(payload);
     return result;
 });
+const getAllServicesFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield service_model_1.ServiceModel.find({});
+    return result;
+});
 exports.ServiceServices = {
     createServiceIntoDB,
+    getAllServicesFromDB,
 };

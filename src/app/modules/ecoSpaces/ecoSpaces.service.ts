@@ -1,4 +1,5 @@
 import { AppError } from "../../errors/AppError";
+import { EcoSpaceDocumentModel } from "../EcoSpaceDocuments/EcoSpaceDocuments.model";
 import { UserModel } from "../users/user.model";
 import { TEcoSpace } from "./ecoSpaces.interface";
 import { EcoSpaceModel } from "./ecoSpaces.model";
@@ -21,8 +22,11 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
 
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
-  const result = await EcoSpaceModel.findById(ecoSpaceId);
-  return result;
+  const documents = await EcoSpaceDocumentModel.findOne({ ecoSpaceId });
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
+    "serviceId"
+  );
+  return { documents, ecoSpace };
 };
 
 // Getting recent ecospace, this will only return limited ecosapce with limited values
@@ -52,6 +56,9 @@ const getAllEcoSpacesFromDB = async () => {
 
 // Getting ecospaces for taking appointment - query(serviceId)
 const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
+  if (!serviceId || serviceId === "null") {
+    return await EcoSpaceModel.find({});
+  }
   const result = await EcoSpaceModel.find({ serviceId });
   if (!result.length) {
     throw new AppError(400, "No EcoSpaces Found");

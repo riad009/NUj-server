@@ -62,7 +62,7 @@ const getAllEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __await
 }));
 const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
-    const serviceId = (_a = req === null || req === void 0 ? void 0 : req.query) === null || _a === void 0 ? void 0 : _a.service;
+    const serviceId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.serviceId;
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByServiceIdFromDB(serviceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

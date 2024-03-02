@@ -19,7 +19,7 @@ router.get("/list/:ownerId", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSp
 // getting all the ecospaces for admin
 router.get("/all", ecoSpaces_controller_1.EcoSpaceControllers.getAllEcoSpaces);
 // Getting ecospaces by query (serviceid)
-router.get("/list", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByServiceId);
+router.get("/eco-space-list/:serviceId", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByServiceId);
 // !Uploading from EcoSpaceDocuments controller
 router.post("/upload-documents", (0, validateRequest_1.validateRequest)(EcoSpaceDocuments_validation_1.EcoSpaceDocumentValidations.createEcoSpaceDocumentValidationSchema), EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.createEcoSpaceDocument);
 exports.EcoSpaceRouter = router;

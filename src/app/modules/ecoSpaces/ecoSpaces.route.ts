@@ -27,7 +27,10 @@ router.get("/list/:ownerId", EcoSpaceControllers.getEcoSpacesByOwnerId);
 router.get("/all", EcoSpaceControllers.getAllEcoSpaces);
 
 // Getting ecospaces by query (serviceid)
-router.get("/list", EcoSpaceControllers.getEcoSpacesByServiceId);
+router.get(
+  "/eco-space-list/:serviceId",
+  EcoSpaceControllers.getEcoSpacesByServiceId
+);
 
 // !Uploading from EcoSpaceDocuments controller
 router.post(
