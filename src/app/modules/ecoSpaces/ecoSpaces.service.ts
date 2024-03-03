@@ -58,7 +58,9 @@ const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
   if (!serviceId || serviceId === "null") {
     return await EcoSpaceModel.find({});
   }
-  const result = await EcoSpaceModel.find({ serviceId });
+  const result = await EcoSpaceModel.find({ serviceId }).populate(
+    "serviceId plan"
+  );
   if (!result.length) {
     throw new AppError(400, "No EcoSpaces Found");
   }
