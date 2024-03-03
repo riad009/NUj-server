@@ -18,8 +18,21 @@ const getStatisticsFromDB = async () => {
   const subscribersCount = await EcoSpaceModel.countDocuments({
     plan: { $exists: true },
   });
+  const revenue = await EcoSpaceModel.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalRevenue: { $sum: "$planPrice" },
+      },
+    },
+  ]);
 
-  const result = { ecoSpacesCount, usersCount, subscribersCount, revenue: 200 };
+  const result = {
+    ecoSpacesCount,
+    usersCount,
+    subscribersCount,
+    revenue: revenue[0].totalRevenue,
+  };
   return result;
 };
 

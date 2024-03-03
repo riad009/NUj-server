@@ -1,8 +1,10 @@
+import mongoose from "mongoose";
 import { AppError } from "../../errors/AppError";
 import { EcoSpaceDocumentModel } from "../EcoSpaceDocuments/EcoSpaceDocuments.model";
 import { UserModel } from "../users/user.model";
 import { TEcoSpace } from "./ecoSpaces.interface";
 import { EcoSpaceModel } from "./ecoSpaces.model";
+import { AppointmentModel } from "../appointments/appointments.model";
 
 // creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
@@ -17,6 +19,15 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   const result = (await EcoSpaceModel.create(payload)).populate(
     "owner serviceId plan"
   );
+  return result;
+};
+
+// updating single ecospce details by querying with id
+const updateEcoSpaceFromDB = async (
+  ecoSpaceId: string,
+  payload: Partial<TEcoSpace>
+) => {
+  const result = await EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, payload);
   return result;
 };
 
@@ -44,7 +55,9 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
 
 // getting list of ecospaces for a single user by _id(owner)
 const getEcoSpacesByOwnerIdFromDB = async (ownerId: string) => {
-  const result = await EcoSpaceModel.find({ owner: ownerId });
+  const result = await EcoSpaceModel.find({ owner: ownerId }).populate(
+    "serviceId"
+  );
   return result;
 };
 
@@ -59,11 +72,54 @@ const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
   if (!serviceId || serviceId === "null") {
     return await EcoSpaceModel.find({});
   }
-  const result = await EcoSpaceModel.find({ serviceId });
+  const result = await EcoSpaceModel.find({ serviceId }).populate(
+    "serviceId plan"
+  );
   if (!result.length) {
     throw new AppError(400, "No EcoSpaces Found");
   }
   return result;
+};
+
+// deleteing ecospace by id
+const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const deleteEcoSpaceResult = await EcoSpaceModel.findByIdAndDelete(
+      ecoSpaceId,
+      { session }
+    );
+    if (!deleteEcoSpaceResult) {
+      throw new AppError(400, "Could not delete");
+    }
+
+    const deleteAppointmentsResult = await AppointmentModel.deleteMany(
+      {
+        ecoSpaceId,
+      },
+      { session }
+    );
+    if (!deleteAppointmentsResult) {
+      throw new AppError(400, "Could not delete");
+    }
+
+    const deleteEcoSpaceDocumentsResult = await EcoSpaceDocumentModel.deleteOne(
+      { ecoSpaceId },
+      { session }
+    );
+    if (!deleteEcoSpaceDocumentsResult) {
+      throw new AppError(400, "Could not delete");
+    }
+
+    await session.commitTransaction();
+    await session.endSession();
+    return deleteEcoSpaceResult;
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(400, "Could not delete");
+  }
 };
 
 export const EcoSpaceServices = {
@@ -73,4 +129,6 @@ export const EcoSpaceServices = {
   getEcoSpacesByOwnerIdFromDB,
   getAllEcoSpacesFromDB,
   getEcoSpacesByServiceIdFromDB,
+  deleteEcoSpaceFromDB,
+  updateEcoSpaceFromDB,
 };
