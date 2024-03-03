@@ -51,6 +51,17 @@ const updateUser = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateImage = catchAsync(async (req, res, next) => {
+  const result = await UserServices.updateImage(req.params.userId, req.file);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "User image updated successfully",
+    data: result as object,
+  });
+});
+
 const updateNotify = catchAsync(async (req, res, next) => {
   const userId = req.params.userId;
   const isNotify = Boolean(req.body.isNotify);
@@ -70,4 +81,5 @@ export const UserControllers = {
   updateNotify,
   getAllUsers,
   getSingleUser,
+  updateImage,
 };

@@ -5,9 +5,14 @@ import { AppointmentControllers } from "./appointments.controller";
 
 const router = Router();
 
+import multer from "multer";
+const storage = multer.diskStorage({});
+
+const upload = multer({ storage });
+
 router.post(
   "/create-appointment",
-  validateRequest(AppointmentValidations.createAppointmentValidationSchema),
+  // validateRequest(AppointmentValidations.createAppointmentValidationSchema),
   AppointmentControllers.createAppointment
 );
 
@@ -35,6 +40,12 @@ router.get(
 router.get(
   "/user/appointment/list/:userId",
   AppointmentControllers.getAppointmentsForSingleUser
+);
+
+router.patch(
+  "/location-image/",
+  upload.single("image"),
+  AppointmentControllers.updateLocationImage
 );
 
 export const AppointmentRouter = router;

@@ -1,8 +1,9 @@
+import config from "../../config";
 import { AppError } from "../../errors/AppError";
 import { UserModel } from "../users/user.model";
 import { TAppointment } from "./appointments.interface";
 import { AppointmentModel } from "./appointments.model";
-
+import cloudinary from "cloudinary";
 // creating appointment
 const createAppointmentIntoDB = async (payload: TAppointment) => {
   const userId = payload?.participantId;
@@ -73,6 +74,22 @@ const getAppointmentsForSingleUserFromDB = async (userId: string) => {
   return result;
 };
 
+cloudinary.v2.config({
+  cloud_name: config.cloud_name,
+  api_key: config.api_key,
+  api_secret: config.api_secret,
+});
+
+const updateLocationImage = async (file: any) => {
+  if (!file) {
+    throw new Error("File not found");
+  }
+
+  const result = await cloudinary.v2.uploader.upload(file.path);
+
+  return result.secure_url;
+};
+
 export const AppointmentServices = {
   createAppointmentIntoDB,
   getRecentAppointmentFromDB,
@@ -81,4 +98,5 @@ export const AppointmentServices = {
   approveAppointmentFromDB,
   completeAppointmentFromDB,
   getAppointmentsForSingleUserFromDB,
+  updateLocationImage,
 };

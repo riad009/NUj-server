@@ -4,6 +4,9 @@ import { AppointmentServices } from "./appointments.service";
 
 const createAppointment = catchAsync(async (req, res, next) => {
   const payload = req.body;
+
+  console.log({ payload });
+
   const result = await AppointmentServices.createAppointmentIntoDB(payload);
 
   sendResponse(res, {
@@ -84,6 +87,18 @@ const completeAppointment = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateLocationImage = catchAsync(async (req, res, next) => {
+  const file = req?.file;
+  const result = await AppointmentServices.updateLocationImage(file);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Appointment location image uploaded",
+    data: result,
+  });
+});
+
 const getAppointmentsForSingleUser = catchAsync(async (req, res, next) => {
   const userId = req?.params?.userId;
   const result = await AppointmentServices.getAppointmentsForSingleUserFromDB(
@@ -106,4 +121,5 @@ export const AppointmentControllers = {
   approveAppointment,
   completeAppointment,
   getAppointmentsForSingleUser,
+  updateLocationImage,
 };
