@@ -50,6 +50,11 @@ const ecoSpaceSchema = new mongoose_1.Schema({
         ref: "Plan",
         required: false,
     },
+    planPrice: {
+        type: Number,
+        required: false,
+        min: 0,
+    },
     planPurchasedAt: {
         type: String,
         required: false,
@@ -64,6 +69,18 @@ const ecoSpaceSchema = new mongoose_1.Schema({
         type: Boolean,
         required: true,
         default: false,
+    },
+    generalDocument: {
+        type: String,
+        required: false,
+    },
+    voice: {
+        type: String,
+        required: false,
+    },
+    video: {
+        type: String,
+        required: false,
     },
 }, {
     timestamps: true,

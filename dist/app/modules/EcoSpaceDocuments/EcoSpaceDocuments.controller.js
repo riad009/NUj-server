@@ -37,7 +37,8 @@ const uploadFiles = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(v
     });
 }));
 const toxicityDetection = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const payload = req === null || req === void 0 ? void 0 : req.body;
+    const { payload } = req === null || req === void 0 ? void 0 : req.body;
+    console.log({ payload });
     const result = yield EcoSpaceDocuments_service_1.EcoSpaceDocumentServices.toxicityDetection(payload);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

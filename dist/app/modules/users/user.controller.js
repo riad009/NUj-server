@@ -51,6 +51,15 @@ const updateUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(vo
         data: result,
     });
 }));
+const updateImage = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_service_1.UserServices.updateImage(req.params.userId, req.file);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "User image updated successfully",
+        data: result,
+    });
+}));
 const updateNotify = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.userId;
     const isNotify = Boolean(req.body.isNotify);
@@ -68,4 +77,5 @@ exports.UserControllers = {
     updateNotify,
     getAllUsers,
     getSingleUser,
+    updateImage,
 };

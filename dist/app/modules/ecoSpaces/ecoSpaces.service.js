@@ -8,12 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EcoSpaceServices = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const AppError_1 = require("../../errors/AppError");
-const EcoSpaceDocuments_model_1 = require("../EcoSpaceDocuments/EcoSpaceDocuments.model");
 const user_model_1 = require("../users/user.model");
 const ecoSpaces_model_1 = require("./ecoSpaces.model");
+const appointments_model_1 = require("../appointments/appointments.model");
 // creating ecospace
 const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userExist = yield user_model_1.UserModel.findById(payload === null || payload === void 0 ? void 0 : payload.owner);
@@ -26,23 +30,26 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     const result = (yield ecoSpaces_model_1.EcoSpaceModel.create(payload)).populate("owner serviceId plan");
     return result;
 });
+// updating single ecospce details by querying with id
+const updateEcoSpaceFromDB = (ecoSpaceId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, payload);
+    return result;
+});
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
-    const documents = yield EcoSpaceDocuments_model_1.EcoSpaceDocumentModel.findOne({ ecoSpaceId });
     const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId).populate("serviceId");
-    return { documents, ecoSpace };
+    return { ecoSpace };
 });
 // Getting recent ecospace, this will only return limited ecosapce with limited values
 const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({}, { company: 1, project: 1, plan: 1 })
         .sort({ createdAt: -1 })
-        .limit(limit)
-        .populate("plan");
+        .limit(limit);
     return result;
 });
 // getting list of ecospaces for a single user by _id(owner)
 const getEcoSpacesByOwnerIdFromDB = (ownerId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ owner: ownerId });
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ owner: ownerId }).populate("serviceId");
     return result;
 });
 // getting all the ecospaces for admin only
@@ -55,11 +62,36 @@ const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, v
     if (!serviceId || serviceId === "null") {
         return yield ecoSpaces_model_1.EcoSpaceModel.find({});
     }
-    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId });
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId }).populate("serviceId plan");
     if (!result.length) {
         throw new AppError_1.AppError(400, "No EcoSpaces Found");
     }
     return result;
+});
+// deleteing ecospace by id
+const deleteEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        const deleteEcoSpaceResult = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndDelete(ecoSpaceId, { session });
+        if (!deleteEcoSpaceResult) {
+            throw new AppError_1.AppError(400, "Could not delete");
+        }
+        const deleteAppointmentsResult = yield appointments_model_1.AppointmentModel.deleteMany({
+            ecoSpaceId,
+        }, { session });
+        if (!deleteAppointmentsResult) {
+            throw new AppError_1.AppError(400, "Could not delete");
+        }
+        yield session.commitTransaction();
+        yield session.endSession();
+        return deleteEcoSpaceResult;
+    }
+    catch (error) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new AppError_1.AppError(400, "Could not delete");
+    }
 });
 exports.EcoSpaceServices = {
     createEcoSpaceIntoDB,
@@ -68,4 +100,6 @@ exports.EcoSpaceServices = {
     getEcoSpacesByOwnerIdFromDB,
     getAllEcoSpacesFromDB,
     getEcoSpacesByServiceIdFromDB,
+    deleteEcoSpaceFromDB,
+    updateEcoSpaceFromDB,
 };

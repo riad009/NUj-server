@@ -6,7 +6,7 @@ export const sendResponse = (
     status: number;
     success: boolean;
     message: string;
-    data: object | null;
+    data: object | null | string | undefined;
   }
 ) => {
   res.status(data.status).json({

@@ -13,6 +13,8 @@ const createAppointmentIntoDB = async (payload: TAppointment) => {
   if (!userExist) {
     throw new AppError(400, "User not found");
   }
+
+  // @ts-ignore
   if (userExist?.isDeleted) {
     throw new AppError(400, "User is deleted");
   }

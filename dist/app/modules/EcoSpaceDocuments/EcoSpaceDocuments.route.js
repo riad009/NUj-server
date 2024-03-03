@@ -11,5 +11,5 @@ const multer_1 = __importDefault(require("multer"));
 const storage = multer_1.default.diskStorage({});
 const upload = (0, multer_1.default)({ storage });
 router.post("/toxicity-detection", EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.toxicityDetection);
-router.post("/upload-files/:id", upload.single("file"), EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.uploadFiles);
+router.patch("/upload-files/:id", upload.single("file"), EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.uploadFiles);
 exports.EcoSpaceDocumentRoutes = router;

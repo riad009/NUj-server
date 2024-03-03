@@ -28,7 +28,20 @@ const getStatisticsFromDB = () => __awaiter(void 0, void 0, void 0, function* ()
     const subscribersCount = yield ecoSpaces_model_1.EcoSpaceModel.countDocuments({
         plan: { $exists: true },
     });
-    const result = { ecoSpacesCount, usersCount, subscribersCount, revenue: 200 };
+    const revenue = yield ecoSpaces_model_1.EcoSpaceModel.aggregate([
+        {
+            $group: {
+                _id: null,
+                totalRevenue: { $sum: "$planPrice" },
+            },
+        },
+    ]);
+    const result = {
+        ecoSpacesCount,
+        usersCount,
+        subscribersCount,
+        revenue: revenue[0].totalRevenue,
+    };
     return result;
 });
 exports.GeneralServices = {

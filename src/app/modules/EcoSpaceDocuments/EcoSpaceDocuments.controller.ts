@@ -23,7 +23,7 @@ const uploadFiles = catchAsync(async (req, res, next) => {
   const id = req?.params.id;
   const result = await EcoSpaceDocumentServices.uploadFiles(
     file,
-    fieldName,
+    fieldName as string,
     id
   );
 
