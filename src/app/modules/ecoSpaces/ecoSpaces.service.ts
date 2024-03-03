@@ -54,7 +54,9 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
 
 // getting list of ecospaces for a single user by _id(owner)
 const getEcoSpacesByOwnerIdFromDB = async (ownerId: string) => {
-  const result = await EcoSpaceModel.find({ owner: ownerId });
+  const result = await EcoSpaceModel.find({ owner: ownerId }).populate(
+    "serviceId"
+  );
   return result;
 };
 

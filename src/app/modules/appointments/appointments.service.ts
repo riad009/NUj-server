@@ -67,7 +67,9 @@ const completeAppointmentFromDB = async (appointmentId: string) => {
 
 // getting all appointments for a single user
 const getAppointmentsForSingleUserFromDB = async (userId: string) => {
-  const result = await AppointmentModel.find({ participantId: userId });
+  const result = await AppointmentModel.find({
+    participantId: userId,
+  }).populate("ecoSpaceId");
   return result;
 };
 
