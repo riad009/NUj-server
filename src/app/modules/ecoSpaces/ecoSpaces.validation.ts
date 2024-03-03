@@ -17,6 +17,7 @@ const createEcoSpaceValidation = z.object({
       required_error: "Add the project name your company is working on.",
     }),
     plan: z.string().optional(),
+    planPrice: z.number().min(0).optional(),
     planPurchasedAt: z.string().optional(),
     ecoSpaceNotify: z.boolean().default(true).optional(),
     isDeleted: z.boolean().default(false).optional(),
@@ -52,6 +53,7 @@ const updateEcoSpaceValidation = z.object({
       })
       .optional(),
     plan: z.string().optional(),
+    planPrice: z.number().min(0).optional(),
     planPurchasedAt: z.string().optional(),
     ecoSpaceNotify: z.boolean().default(true).optional(),
     isDeleted: z.boolean().default(false).optional(),

@@ -50,6 +50,11 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
       ref: "Plan",
       required: false,
     },
+    planPrice: {
+      type: Number,
+      required: false,
+      min: 0,
+    },
     planPurchasedAt: {
       type: String,
       required: false,
