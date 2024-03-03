@@ -23,6 +23,42 @@ const createEcoSpaceValidation = z.object({
   }),
 });
 
+const updateEcoSpaceValidation = z.object({
+  body: z.object({
+    owner: z.string({ required_error: "Creator must be valid" }).optional(),
+    company: z
+      .string({ required_error: "Must provide a valid company name" })
+      .optional(),
+    address: z
+      .string({ required_error: "Must provide a valid address" })
+      .optional(),
+    phone: z
+      .string({ required_error: "Must provide a valid phone" })
+      .optional(),
+    email: z.string({ required_error: "Must provide valid email" }).optional(),
+    website: z
+      .string({ required_error: "Must provide a website url" })
+      .optional(),
+    serviceId: z.string({ required_error: "Choose a service" }).optional(),
+    serviceDescription: z
+      .string({
+        required_error: "Must provide a description for service",
+      })
+      .optional(),
+    staffs: z.array(z.string()).optional(),
+    project: z
+      .string({
+        required_error: "Add the project name your company is working on.",
+      })
+      .optional(),
+    plan: z.string().optional(),
+    planPurchasedAt: z.string().optional(),
+    ecoSpaceNotify: z.boolean().default(true).optional(),
+    isDeleted: z.boolean().default(false).optional(),
+  }),
+});
+
 export const EcoSpaceValidations = {
   createEcoSpaceValidation,
+  updateEcoSpaceValidation,
 };

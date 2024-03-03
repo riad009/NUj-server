@@ -13,6 +13,23 @@ const createEcoSpace = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateEcoSpace = catchAsync(async (req, res, next) => {
+  const ecoSpaceId = req?.params?.ecoSpaceId;
+  const payload = req?.body;
+
+  const result = await EcoSpaceServices.updateEcoSpaceFromDB(
+    ecoSpaceId,
+    payload
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpace Updated successfully",
+    data: result,
+  });
+});
+
 const getSingleEcoSpace = catchAsync(async (req, res, next) => {
   const result = await EcoSpaceServices.getSingleEcoSpaceFromDB(
     req.params.ecoSpaceId
@@ -75,6 +92,18 @@ const getEcoSpacesByServiceId = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteEcoSpace = catchAsync(async (req, res, next) => {
+  const ecoSpaceId = req?.params?.ecoSpaceId;
+  const result = await EcoSpaceServices.deleteEcoSpaceFromDB(ecoSpaceId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "EcoSpace deleted successfully",
+    data: result,
+  });
+});
+
 export const EcoSpaceControllers = {
   createEcoSpace,
   getSingleEcoSpace,
@@ -82,4 +111,6 @@ export const EcoSpaceControllers = {
   getEcoSpacesByOwnerId,
   getAllEcoSpaces,
   getEcoSpacesByServiceId,
+  deleteEcoSpace,
+  updateEcoSpace,
 };
