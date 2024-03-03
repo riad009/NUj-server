@@ -65,6 +65,18 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
       required: true,
       default: false,
     },
+    generalDocument: {
+      type: String,
+      required: false,
+    },
+    voice: {
+      type: String,
+      required: false,
+    },
+    video: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

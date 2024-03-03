@@ -15,4 +15,7 @@ export type TEcoSpace = {
   planPurchasedAt?: string;
   ecoSpaceNotify: boolean;
   isDeleted: boolean;
+  generalDocument: string;
+  voice: string;
+  video: string;
 };

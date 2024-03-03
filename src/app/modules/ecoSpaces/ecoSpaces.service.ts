@@ -23,9 +23,9 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
   const documents = await EcoSpaceDocumentModel.findOne({ ecoSpaceId });
-  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
-    "serviceId"
-  );
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId)
+    .populate("serviceId")
+    .populate("files");
   return { documents, ecoSpace };
 };
 

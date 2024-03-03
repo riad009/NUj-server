@@ -36,7 +36,8 @@ const uploadFiles = catchAsync(async (req, res, next) => {
 });
 
 const toxicityDetection = catchAsync(async (req, res, next) => {
-  const payload = req?.body;
+  const { payload } = req?.body;
+  console.log({ payload });
   const result = await EcoSpaceDocumentServices.toxicityDetection(payload);
 
   sendResponse(res, {

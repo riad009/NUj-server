@@ -10,7 +10,7 @@ router.post(
   EcoSpaceDocumentControllers.toxicityDetection
 );
 
-router.post(
+router.patch(
   "/upload-files/:id",
   upload.single("file"),
   EcoSpaceDocumentControllers.uploadFiles
