@@ -14,3 +14,18 @@ async function main() {
 }
 
 main();
+
+process.on("unhandledRejection", () => {
+  console.log(`Unhandled rejection, going offline!`);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  }
+  process.exit(1);
+});
+
+process.on("uncaughtException", () => {
+  console.log(`Uncaught Exception, going offline!`);
+  process.exit(1);
+});
