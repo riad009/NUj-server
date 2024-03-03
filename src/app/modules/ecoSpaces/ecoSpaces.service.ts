@@ -33,12 +33,11 @@ const updateEcoSpaceFromDB = async (
 
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
-  const documents = await EcoSpaceDocumentModel.findOne({ ecoSpaceId });
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
     "serviceId"
   );
 
-  return { documents, ecoSpace };
+  return { ecoSpace };
 };
 
 // Getting recent ecospace, this will only return limited ecosapce with limited values
@@ -101,14 +100,6 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
       { session }
     );
     if (!deleteAppointmentsResult) {
-      throw new AppError(400, "Could not delete");
-    }
-
-    const deleteEcoSpaceDocumentsResult = await EcoSpaceDocumentModel.deleteOne(
-      { ecoSpaceId },
-      { session }
-    );
-    if (!deleteEcoSpaceDocumentsResult) {
       throw new AppError(400, "Could not delete");
     }
 
