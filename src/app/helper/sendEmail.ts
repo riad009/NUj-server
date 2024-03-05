@@ -19,7 +19,7 @@ export const sendEmail = async (
     subject: `Notifications from the ${ecoSpaceName}`,
     html: `
     <p>Dear ${email}, You have been invited to join the project <strong>${ecoSpaceName}</strong>.</p>
-    <p>Click the following link to accept: <a href="http://localhost:3000/accept-invitation/${ecoSpaceId}/${email}">Accept Invitation</a></p>
+    <p>Click the following link to accept: <a href="http://localhost:5173/accept-invitation/${ecoSpaceId}/${email}">Accept Invitation</a></p>
   `,
   };
 
