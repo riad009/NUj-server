@@ -5,6 +5,7 @@ import { UserModel } from "../users/user.model";
 import { TEcoSpace } from "./ecoSpaces.interface";
 import { EcoSpaceModel } from "./ecoSpaces.model";
 import { AppointmentModel } from "../appointments/appointments.model";
+import { sendEmail } from "../../helper/sendEmail";
 
 // creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
@@ -113,6 +114,28 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
   }
 };
 
+const inviteEcospace = async (
+  email: string,
+  ecoSpaceId: string,
+  ecoSpaceName: string
+) => {
+  const result = await sendEmail(email, ecoSpaceId, ecoSpaceName);
+
+  return result;
+};
+const acceptInvite = async (email: string, ecoSpaceId: string) => {
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId);
+
+  if (!ecoSpace) {
+    throw new Error("Ecospace not found!");
+  }
+
+  ecoSpace?.staffs.push(email);
+  const result = await ecoSpace?.save();
+
+  return result;
+};
+
 export const EcoSpaceServices = {
   createEcoSpaceIntoDB,
   getSingleEcoSpaceFromDB,
@@ -122,4 +145,6 @@ export const EcoSpaceServices = {
   getEcoSpacesByServiceIdFromDB,
   deleteEcoSpaceFromDB,
   updateEcoSpaceFromDB,
+  inviteEcospace,
+  acceptInvite,
 };

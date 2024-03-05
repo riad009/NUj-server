@@ -12,7 +12,7 @@ import { EcoSpaceDocumentRoutes } from "./app/modules/EcoSpaceDocuments/EcoSpace
 
 const app = express();
 // middlewares for globally
-app.use(cors({ origin: "*" }));
+app.use(cors());
 app.use(express.json());
 
 // route points

@@ -104,6 +104,34 @@ const deleteEcoSpace = catchAsync(async (req, res, next) => {
   });
 });
 
+const inviteEcospace = catchAsync(async (req, res, next) => {
+  const { email, ecoSpaceId, ecoSpaceName } = req?.body;
+  const result = await EcoSpaceServices.inviteEcospace(
+    email,
+    ecoSpaceId,
+    ecoSpaceName
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Invited successfully",
+    data: result,
+  });
+});
+
+const acceptInvite = catchAsync(async (req, res, next) => {
+  const { email, ecoSpaceId } = req?.body;
+  const result = await EcoSpaceServices.acceptInvite(email, ecoSpaceId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Invite accepted successfully",
+    data: result,
+  });
+});
+
 export const EcoSpaceControllers = {
   createEcoSpace,
   getSingleEcoSpace,
@@ -113,4 +141,6 @@ export const EcoSpaceControllers = {
   getEcoSpacesByServiceId,
   deleteEcoSpace,
   updateEcoSpace,
+  inviteEcospace,
+  acceptInvite,
 };
