@@ -38,7 +38,7 @@ const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
     "serviceId"
   );
 
-  return { ecoSpace };
+  return ecoSpace;
 };
 
 // Getting recent ecospace, this will only return limited ecosapce with limited values
