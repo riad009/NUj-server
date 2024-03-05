@@ -53,15 +53,7 @@ router.patch(
   EcoSpaceControllers.updateEcoSpace
 );
 
-router.post(
-  "/invite",
-  validateRequest(EcoSpaceValidations.updateEcoSpaceValidation),
-  EcoSpaceControllers.inviteEcospace
-);
-router.patch(
-  "/accept-invite",
-  validateRequest(EcoSpaceValidations.updateEcoSpaceValidation),
-  EcoSpaceControllers.acceptInvite
-);
+router.post("/invite", EcoSpaceControllers.inviteEcospace);
+router.patch("/accept-invite", EcoSpaceControllers.acceptInvite);
 
 export const EcoSpaceRouter = router;
