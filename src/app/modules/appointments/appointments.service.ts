@@ -38,9 +38,9 @@ const getRecentAppointmentFromDB = async (limit: number) => {
 
 // getting ecospace specific appointments (querying by id)
 const getEcoSpaceAppointmentsFromDB = async (ecoSpaceId: string) => {
-  const result = await AppointmentModel.find({ ecoSpaceId }).populate(
-    "participantId"
-  );
+  const result = await AppointmentModel.find({ ecoSpaceId })
+    .sort({ date: -1 })
+    .populate("participantId");
   return result;
 };
 

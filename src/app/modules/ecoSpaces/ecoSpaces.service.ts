@@ -55,9 +55,9 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
 
 // getting list of ecospaces for a single user by _id(owner)
 const getEcoSpacesByOwnerIdFromDB = async (ownerId: string) => {
-  const result = await EcoSpaceModel.find({ owner: ownerId }).populate(
-    "serviceId"
-  );
+  const result = await EcoSpaceModel.find({ owner: ownerId })
+    .sort({ createdAt: -1 })
+    .populate("serviceId");
   return result;
 };
 
@@ -72,9 +72,9 @@ const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
   if (!serviceId || serviceId === "null") {
     return await EcoSpaceModel.find({});
   }
-  const result = await EcoSpaceModel.find({ serviceId }).populate(
-    "serviceId plan"
-  );
+  const result = await EcoSpaceModel.find({ serviceId })
+    .sort({ createdAt: -1 })
+    .populate("serviceId plan");
   if (!result.length) {
     throw new AppError(400, "No EcoSpaces Found");
   }
