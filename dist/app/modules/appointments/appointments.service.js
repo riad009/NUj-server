@@ -42,7 +42,9 @@ const getRecentAppointmentFromDB = (limit) => __awaiter(void 0, void 0, void 0, 
 });
 // getting ecospace specific appointments (querying by id)
 const getEcoSpaceAppointmentsFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield appointments_model_1.AppointmentModel.find({ ecoSpaceId }).populate("participantId");
+    const result = yield appointments_model_1.AppointmentModel.find({ ecoSpaceId })
+        .sort({ date: -1 })
+        .populate("participantId");
     return result;
 });
 // get single appointment by _id

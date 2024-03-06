@@ -94,6 +94,26 @@ const deleteEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
         data: result,
     });
 }));
+const inviteEcospace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, ecoSpaceId, ecoSpaceName } = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.inviteEcospace(email, ecoSpaceId, ecoSpaceName);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Invited successfully",
+        data: result,
+    });
+}));
+const acceptInvite = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, ecoSpaceId } = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.acceptInvite(email, ecoSpaceId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Invite accepted successfully",
+        data: result,
+    });
+}));
 exports.EcoSpaceControllers = {
     createEcoSpace,
     getSingleEcoSpace,
@@ -103,4 +123,6 @@ exports.EcoSpaceControllers = {
     getEcoSpacesByServiceId,
     deleteEcoSpace,
     updateEcoSpace,
+    inviteEcospace,
+    acceptInvite,
 };
