@@ -35,7 +35,7 @@ const updateEcoSpaceFromDB = async (
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
-    "serviceId"
+    "serviceId owner"
   );
 
   return ecoSpace;
