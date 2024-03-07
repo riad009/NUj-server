@@ -16,9 +16,9 @@ const createMessage = catchAsync(async (req, res, next) => {
 });
 
 const getAllMessages = catchAsync(async (req, res, next) => {
-  const ecoSpaceId = req.params.ecoSpaceId;
+  const channelId = req.params.channelId;
 
-  const result = await MessageService.getAllMessages(ecoSpaceId);
+  const result = await MessageService.getAllMessages(channelId);
 
   sendResponse(res, {
     success: true,

@@ -7,6 +7,11 @@ const messageSchema = new Schema(
       ref: "EcoSpace",
       required: true,
     },
+    channelId: {
+      type: Schema.Types.ObjectId,
+      ref: "Channel",
+      required: true,
+    },
     email: {
       type: String,
       required: true,
