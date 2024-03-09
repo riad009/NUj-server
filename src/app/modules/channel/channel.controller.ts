@@ -26,7 +26,21 @@ const getAllChannels = catchAsync(async (req, res, next) => {
   });
 });
 
+const getSingleChannel = catchAsync(async (req, res, next) => {
+  const channelId = req.params.channelId;
+
+  const result = await ChannelService.getSingleChannel(channelId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "retrieved successfully",
+    data: result,
+  });
+});
+
 export const ChannelController = {
   createChannel,
   getAllChannels,
+  getSingleChannel,
 };

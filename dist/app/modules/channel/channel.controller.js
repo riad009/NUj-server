@@ -9,31 +9,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MessageController = void 0;
+exports.ChannelController = void 0;
 const catchAsync_1 = require("../../middlewares/catchAsync");
 const sendResponse_1 = require("../../middlewares/sendResponse");
-const message_service_1 = require("./message.service");
-const createMessage = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.files, req.body);
-    const result = yield message_service_1.MessageService.createMessage(req.files, req.body);
+const channel_service_1 = require("./channel.service");
+const createChannel = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield channel_service_1.ChannelService.createChannel(req.body);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
-        message: "Message sent Successfully",
+        message: "Created Successfully",
         data: result,
     });
 }));
-const getAllMessages = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const channelId = req.params.channelId;
-    const result = yield message_service_1.MessageService.getAllMessages(channelId);
+const getAllChannels = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const ecoSpaceId = req.params.ecoSpaceId;
+    const result = yield channel_service_1.ChannelService.getAllChannels(ecoSpaceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
-        message: "Messages retrieved successfully",
+        message: "retrieved successfully",
         data: result,
     });
 }));
-exports.MessageController = {
-    createMessage,
-    getAllMessages,
+exports.ChannelController = {
+    createChannel,
+    getAllChannels,
 };
