@@ -15,6 +15,7 @@ const general_route_1 = require("./app/modules/general/general.route");
 const appointments_route_1 = require("./app/modules/appointments/appointments.route");
 const EcoSpaceDocuments_route_1 = require("./app/modules/EcoSpaceDocuments/EcoSpaceDocuments.route");
 const message_route_1 = require("./app/modules/message/message.route");
+const channel_route_1 = require("./app/modules/channel/channel.route");
 const app = (0, express_1.default)();
 // middlewares for globally
 app.use((0, cors_1.default)());
@@ -28,6 +29,7 @@ app.use("/api/v1/general", general_route_1.GeneralRouter);
 app.use("/api/v1/appointments", appointments_route_1.AppointmentRouter);
 app.use("/api/v1/eco-space-documents", EcoSpaceDocuments_route_1.EcoSpaceDocumentRoutes);
 app.use("/api/v1/message", message_route_1.MessageRoutes);
+app.use("/api/v1/channel", channel_route_1.ChannelRoutes);
 // Global error handler
 app.use(globalErrorHandler_1.globalErrorHandler);
 // error handle for no route found

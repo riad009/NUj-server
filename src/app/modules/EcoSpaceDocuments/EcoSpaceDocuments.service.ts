@@ -45,13 +45,13 @@ const uploadFiles = async (file: any, fieldName: string, id: any) => {
 const toxicityDetection = async (payload: any) => {
   const prompts = [
     {
-      model: "gpt-3.5-turbo-instruct",
+      model: "gpt-4-0125-preview",
       system: "You are an expert",
 
       description: `Rate the toxicity in order of their importance on a scale of 1-5, Return only number: ${payload}`,
     },
     {
-      model: "gpt-3.5-turbo-instruct",
+      model: "gpt-4-0125-preview",
       system: "You are an expert",
 
       description: `This are the comprehensive plan:
@@ -68,7 +68,7 @@ const toxicityDetection = async (payload: any) => {
       User message: ${payload}`,
     },
     {
-      model: "gpt-3.5-turbo-instruct",
+      model: "gpt-4-0125-preview",
       system: "You are an expert",
 
       description: `Goal setting
@@ -80,7 +80,7 @@ const toxicityDetection = async (payload: any) => {
       Now, provide a Public Safety Assessment (PSA) based on the comprehensive success plan.  User message: ${payload}`,
     },
     {
-      model: "gpt-3.5-turbo-instruct",
+      model: "gpt-4-0125-preview",
       system: "You are an expert",
 
       description: `Provide a personalized and effective comprehensive success plan based on the user's education, goal setting, workforce literacy, anger management, and computational literacy. The user's message is: usermsg. Additionally, offer suggestions to further enhance the user's success plan.  User message: ${payload}`,
@@ -99,29 +99,30 @@ const toxicityDetection = async (payload: any) => {
 
         const data = {
           model: prompt.model,
-          prompt: prompt.description,
-          // messages: [
-          //   {
-          //     role: "system",
-          //     content: prompt.system,
-          //   },
-          //   {
-          //     role: "user",
-          //     content: prompt.description,
-          //   },
-          // ],
+          // prompt: prompt.description,
+          messages: [
+            {
+              role: "system",
+              content: prompt.system,
+            },
+            {
+              role: "user",
+              content: prompt.description,
+            },
+          ],
           temperature: 1,
           max_tokens: 1000,
           top_p: 1,
         };
 
         await axios
-          .post("https://api.openai.com/v1/completions", data, {
+          .post("https://api.openai.com/v1/chat/completions", data, {
             headers,
           })
           .then((response) => {
-            // completion = response.data.choices[0].message.content.trim();
-            completion = response.data.choices[0].text.trim();
+            console.log(response.data);
+            completion = response.data.choices[0].message.content.trim();
+            // completion = response.data.choices[0].text.trim();
           });
 
         return {
