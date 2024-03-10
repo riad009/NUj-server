@@ -1,5 +1,16 @@
 import { Schema, model } from "mongoose";
-import { TAppointment } from "./appointments.interface";
+import { TAppointment, TLocation } from "./appointments.interface";
+
+const locationSchema = new Schema<TLocation>({
+  lat: {
+    type: Number,
+    required: true,
+  },
+  lng: {
+    type: Number,
+    required: true,
+  },
+});
 
 const appointmentSchema = new Schema<TAppointment>(
   {
@@ -22,8 +33,8 @@ const appointmentSchema = new Schema<TAppointment>(
       required: true,
     },
     location: {
-      type: String,
-      required: true,
+      type: locationSchema,
+      required: false,
     },
     locationImage: {
       type: String,
@@ -48,6 +59,10 @@ const appointmentSchema = new Schema<TAppointment>(
       enum: ["pending", "in-progsess", "completed"],
       default: "pending",
       required: true,
+    },
+    neighbourhood: {
+      type: String,
+      required: false,
     },
   },
   {

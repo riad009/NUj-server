@@ -1,5 +1,10 @@
 import z from "zod";
 
+const locationSchema = z.object({
+  lat: z.number({ required_error: "Invalid location" }),
+  lng: z.number({ required_error: "Invalid location" }),
+});
+
 const createAppointmentValidationSchema = z.object({
   body: z.object({
     participantId: z.string({
@@ -14,7 +19,7 @@ const createAppointmentValidationSchema = z.object({
     date: z.string({
       required_error: "Specify the date",
     }),
-    location: z.string({ required_error: "Specify the location" }),
+    location: locationSchema.optional(),
     locationImage: z.string({
       required_error: "Please, provide a picture of your location",
     }),
@@ -22,6 +27,7 @@ const createAppointmentValidationSchema = z.object({
     isDeleted: z.boolean().default(false).optional(),
     isApproved: z.boolean().default(false).optional(),
     status: z.enum(["pending", "in-progress", "completed"]).optional(),
+    neighbourhood: z.string().optional(),
   }),
 });
 
