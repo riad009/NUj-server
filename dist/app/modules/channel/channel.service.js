@@ -19,7 +19,12 @@ const getAllChannels = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, functio
     const result = yield channel_model_1.Channel.find({ ecoSpaceId }).sort({ createdAt: 1 });
     return result;
 });
+const getSingleChannel = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield channel_model_1.Channel.findById(id);
+    return result;
+});
 exports.ChannelService = {
     createChannel,
     getAllChannels,
+    getSingleChannel,
 };
