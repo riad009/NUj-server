@@ -7,10 +7,11 @@ export type TEcoSpace = {
   phone: string;
   email: string;
   website: string;
-  serviceId: Types.ObjectId;
-  serviceDescription: string;
+  serviceId: Types.ObjectId[];
+  // serviceDescription: string;
+  description: string;
   staffs: string[];
-  project: string;
+  projects: string[];
   plan?: Types.ObjectId;
   planPurchasedAt?: string;
   planPrice?: string;

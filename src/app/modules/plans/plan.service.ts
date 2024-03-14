@@ -7,7 +7,7 @@ const createPlanIntoDB = async (payload: Partial<TPlan>) => {
 };
 
 const getAllPlanFromDB = async () => {
-  const result = await PlanModel.find({});
+  const result = await PlanModel.find({}).sort({ price: 1 });
   return result;
 };
 

@@ -8,14 +8,16 @@ const createEcoSpaceValidation = z.object({
     phone: z.string({ required_error: "Must provide a valid phone" }),
     email: z.string({ required_error: "Must provide valid email" }),
     website: z.string({ required_error: "Must provide a website url" }),
-    serviceId: z.string({ required_error: "Choose a service" }),
-    serviceDescription: z.string({
-      required_error: "Must provide a description for service",
-    }),
+    serviceId: z.array(z.string({ required_error: "Choose a service" })),
+    // serviceDescription: z.string({
+    //   required_error: "Must provide a description for service",
+    // }),
+    description: z.string().optional(),
     staffs: z.array(z.string()).optional(),
-    project: z.string({
-      required_error: "Add the project name your company is working on.",
-    }),
+    projects: z.array(z.string()).optional(),
+    // project: z.string({
+    //   required_error: "Add the project name your company is working on.",
+    // }),
     plan: z.string().optional(),
     planPrice: z.number().min(0).optional(),
     planPurchasedAt: z.string().optional(),
@@ -40,18 +42,22 @@ const updateEcoSpaceValidation = z.object({
     website: z
       .string({ required_error: "Must provide a website url" })
       .optional(),
-    serviceId: z.string({ required_error: "Choose a service" }).optional(),
-    serviceDescription: z
-      .string({
-        required_error: "Must provide a description for service",
-      })
+    serviceId: z
+      .array(z.string({ required_error: "Choose a service" }))
       .optional(),
+    // serviceDescription: z
+    //   .string({
+    //     required_error: "Must provide a description for service",
+    //   })
+    //   .optional(),
+    description: z.string().optional(),
     staffs: z.array(z.string()).optional(),
-    project: z
-      .string({
-        required_error: "Add the project name your company is working on.",
-      })
-      .optional(),
+    // project: z
+    //   .string({
+    //     required_error: "Add the project name your company is working on.",
+    //   })
+    //   .optional(),
+    projects: z.array(z.string()).optional(),
     plan: z.string().optional(),
     planPrice: z.number().min(0).optional(),
     planPurchasedAt: z.string().optional(),
