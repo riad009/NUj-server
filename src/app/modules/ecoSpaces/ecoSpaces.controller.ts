@@ -30,6 +30,23 @@ const updateEcoSpace = catchAsync(async (req, res, next) => {
   });
 });
 
+const addNewProjectToEcoSpace = catchAsync(async (req, res, next) => {
+  const ecoSpaceId = req?.params?.ecoSpaceId;
+  const payload = req?.body;
+
+  const result = await EcoSpaceServices.addNewProjectToEcoSpaceFromDB(
+    ecoSpaceId,
+    payload
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Project added successfully",
+    data: result,
+  });
+});
+
 const getSingleEcoSpace = catchAsync(async (req, res, next) => {
   const result = await EcoSpaceServices.getSingleEcoSpaceFromDB(
     req.params.ecoSpaceId
@@ -141,6 +158,7 @@ export const EcoSpaceControllers = {
   getEcoSpacesByServiceId,
   deleteEcoSpace,
   updateEcoSpace,
+  addNewProjectToEcoSpace,
   inviteEcospace,
   acceptInvite,
 };

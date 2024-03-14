@@ -32,6 +32,17 @@ const updateEcoSpaceFromDB = async (
   return result;
 };
 
+// inserting new project to the ecospace projects array
+const addNewProjectToEcoSpaceFromDB = async (
+  ecoSpaceId: string,
+  payload: Record<string, any>
+) => {
+  const result = await EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, {
+    $push: { projects: payload?.project },
+  });
+  return result;
+};
+
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
@@ -145,6 +156,7 @@ export const EcoSpaceServices = {
   getEcoSpacesByServiceIdFromDB,
   deleteEcoSpaceFromDB,
   updateEcoSpaceFromDB,
+  addNewProjectToEcoSpaceFromDB,
   inviteEcospace,
   acceptInvite,
 };

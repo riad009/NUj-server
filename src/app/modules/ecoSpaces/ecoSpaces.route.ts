@@ -53,6 +53,11 @@ router.patch(
   EcoSpaceControllers.updateEcoSpace
 );
 
+router.patch(
+  "/add-project/eco-space/:ecoSpaceId",
+  EcoSpaceControllers.addNewProjectToEcoSpace
+);
+
 router.post("/invite", EcoSpaceControllers.inviteEcospace);
 router.patch("/accept-invite", EcoSpaceControllers.acceptInvite);
 
