@@ -36,10 +36,7 @@ const appointmentSchema = new Schema<TAppointment>(
       type: locationSchema,
       required: false,
     },
-    locationImage: {
-      type: String,
-      required: true,
-    },
+
     reason: {
       type: String,
       required: true,
