@@ -29,7 +29,7 @@ router.post(
 );
 
 // getting ecospaces by owner ids
-router.get("/list/:ownerId", EcoSpaceControllers.getEcoSpacesByOwnerId);
+router.get("/list", EcoSpaceControllers.getEcoSpacesByOwnerId);
 
 // Getting ecospaces by query (serviceid)
 router.get(

@@ -65,8 +65,10 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
 };
 
 // getting list of ecospaces for a single user by _id(owner)
-const getEcoSpacesByOwnerIdFromDB = async (ownerId: string) => {
-  const result = await EcoSpaceModel.find({ owner: ownerId })
+const getEcoSpacesByOwnerIdFromDB = async (ownerId: string, email: string) => {
+  const result = await EcoSpaceModel.find({
+    $or: [{ owner: ownerId }, { staffs: { $in: [email] } }],
+  })
     .sort({ createdAt: -1 })
     .populate("serviceId");
   return result;
