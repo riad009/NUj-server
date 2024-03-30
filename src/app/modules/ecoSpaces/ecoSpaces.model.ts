@@ -45,10 +45,10 @@ const ecoSpaceSchema = new Schema<TEcoSpace>(
       type: [String],
       required: false,
     },
-    projects: {
-      type: [String],
-      required: [true, "Add the project name your company is working on."],
-    },
+    // projects: {
+    //   type: [String],
+    //   required: [true, "Add the project name your company is working on."],
+    // },
     plan: {
       type: Schema.Types.ObjectId,
       ref: "Plan",

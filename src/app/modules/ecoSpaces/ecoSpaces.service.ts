@@ -6,6 +6,8 @@ import { TEcoSpace } from "./ecoSpaces.interface";
 import { EcoSpaceModel } from "./ecoSpaces.model";
 import { AppointmentModel } from "../appointments/appointments.model";
 import { sendEmail } from "../../helper/sendEmail";
+import { TProject } from "../project/project.interface";
+import { ProjectModel } from "../project/project.model";
 
 // creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
@@ -16,10 +18,25 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   if (userExist?.isDeleted) {
     throw new AppError(400, "User not found");
   }
+  const { projects, ...newPayload } = payload;
 
-  const result = (await EcoSpaceModel.create(payload)).populate(
-    "owner serviceId plan"
-  );
+  // const result = (await EcoSpaceModel.create(newPayload)).populate(
+  //   "owner serviceId plan"
+  // );
+  const result = await EcoSpaceModel.create(newPayload);
+  if (!result) {
+    throw new AppError(400, "Could not create");
+  }
+  projects?.forEach(async (project) => {
+    const newProjectPayload: TProject = {
+      ecoSpaceId: result?._id,
+      projectName: project,
+      email: result?.email,
+      clients: [],
+    };
+    const projectResult = await ProjectModel.create(newProjectPayload);
+  });
+
   return result;
 };
 
