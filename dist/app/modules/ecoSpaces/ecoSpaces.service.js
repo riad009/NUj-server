@@ -36,6 +36,13 @@ const updateEcoSpaceFromDB = (ecoSpaceId, payload) => __awaiter(void 0, void 0, 
     const result = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, payload);
     return result;
 });
+// inserting new project to the ecospace projects array
+const addNewProjectToEcoSpaceFromDB = (ecoSpaceId, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, {
+        $push: { projects: payload === null || payload === void 0 ? void 0 : payload.project },
+    });
+    return result;
+});
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
     const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId).populate("serviceId owner");
@@ -120,6 +127,7 @@ exports.EcoSpaceServices = {
     getEcoSpacesByServiceIdFromDB,
     deleteEcoSpaceFromDB,
     updateEcoSpaceFromDB,
+    addNewProjectToEcoSpaceFromDB,
     inviteEcospace,
     acceptInvite,
 };

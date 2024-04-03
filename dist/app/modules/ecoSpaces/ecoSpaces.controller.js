@@ -34,6 +34,18 @@ const updateEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
         data: result,
     });
 }));
+const addNewProjectToEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
+    const ecoSpaceId = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.ecoSpaceId;
+    const payload = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.addNewProjectToEcoSpaceFromDB(ecoSpaceId, payload);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Project added successfully",
+        data: result,
+    });
+}));
 const getSingleEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getSingleEcoSpaceFromDB(req.params.ecoSpaceId);
     (0, sendResponse_1.sendResponse)(res, {
@@ -73,8 +85,8 @@ const getAllEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __await
     });
 }));
 const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
-    const serviceId = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.serviceId;
+    var _c;
+    const serviceId = (_c = req === null || req === void 0 ? void 0 : req.params) === null || _c === void 0 ? void 0 : _c.serviceId;
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByServiceIdFromDB(serviceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -84,8 +96,8 @@ const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) =>
     });
 }));
 const deleteEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
-    const ecoSpaceId = (_c = req === null || req === void 0 ? void 0 : req.params) === null || _c === void 0 ? void 0 : _c.ecoSpaceId;
+    var _d;
+    const ecoSpaceId = (_d = req === null || req === void 0 ? void 0 : req.params) === null || _d === void 0 ? void 0 : _d.ecoSpaceId;
     const result = yield ecoSpaces_service_1.EcoSpaceServices.deleteEcoSpaceFromDB(ecoSpaceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -123,6 +135,7 @@ exports.EcoSpaceControllers = {
     getEcoSpacesByServiceId,
     deleteEcoSpace,
     updateEcoSpace,
+    addNewProjectToEcoSpace,
     inviteEcospace,
     acceptInvite,
 };

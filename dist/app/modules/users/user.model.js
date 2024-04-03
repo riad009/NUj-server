@@ -48,6 +48,10 @@ const userSchema = new mongoose_1.Schema({
         default: false,
         required: false,
     },
+    plan: {
+        type: String,
+        required: false,
+    },
 }, {
     timestamps: true,
 });

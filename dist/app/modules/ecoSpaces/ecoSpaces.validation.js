@@ -13,14 +13,16 @@ const createEcoSpaceValidation = zod_1.default.object({
         phone: zod_1.default.string({ required_error: "Must provide a valid phone" }),
         email: zod_1.default.string({ required_error: "Must provide valid email" }),
         website: zod_1.default.string({ required_error: "Must provide a website url" }),
-        serviceId: zod_1.default.string({ required_error: "Choose a service" }),
-        serviceDescription: zod_1.default.string({
-            required_error: "Must provide a description for service",
-        }),
+        serviceId: zod_1.default.array(zod_1.default.string({ required_error: "Choose a service" })),
+        // serviceDescription: z.string({
+        //   required_error: "Must provide a description for service",
+        // }),
+        description: zod_1.default.string().optional(),
         staffs: zod_1.default.array(zod_1.default.string()).optional(),
-        project: zod_1.default.string({
-            required_error: "Add the project name your company is working on.",
-        }),
+        projects: zod_1.default.array(zod_1.default.string()).optional(),
+        // project: z.string({
+        //   required_error: "Add the project name your company is working on.",
+        // }),
         plan: zod_1.default.string().optional(),
         planPrice: zod_1.default.number().min(0).optional(),
         planPurchasedAt: zod_1.default.string().optional(),
@@ -44,18 +46,22 @@ const updateEcoSpaceValidation = zod_1.default.object({
         website: zod_1.default
             .string({ required_error: "Must provide a website url" })
             .optional(),
-        serviceId: zod_1.default.string({ required_error: "Choose a service" }).optional(),
-        serviceDescription: zod_1.default
-            .string({
-            required_error: "Must provide a description for service",
-        })
+        serviceId: zod_1.default
+            .array(zod_1.default.string({ required_error: "Choose a service" }))
             .optional(),
+        // serviceDescription: z
+        //   .string({
+        //     required_error: "Must provide a description for service",
+        //   })
+        //   .optional(),
+        description: zod_1.default.string().optional(),
         staffs: zod_1.default.array(zod_1.default.string()).optional(),
-        project: zod_1.default
-            .string({
-            required_error: "Add the project name your company is working on.",
-        })
-            .optional(),
+        // project: z
+        //   .string({
+        //     required_error: "Add the project name your company is working on.",
+        //   })
+        //   .optional(),
+        projects: zod_1.default.array(zod_1.default.string()).optional(),
         plan: zod_1.default.string().optional(),
         planPrice: zod_1.default.number().min(0).optional(),
         planPurchasedAt: zod_1.default.string().optional(),

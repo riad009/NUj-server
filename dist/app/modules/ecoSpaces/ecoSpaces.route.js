@@ -26,6 +26,7 @@ router.get("/:ecoSpaceId", ecoSpaces_controller_1.EcoSpaceControllers.getSingleE
 router.delete("/delete/eco-space/:ecoSpaceId", ecoSpaces_controller_1.EcoSpaceControllers.deleteEcoSpace);
 // updating ecospace
 router.patch("/update/eco-space/:ecoSpaceId", (0, validateRequest_1.validateRequest)(ecoSpaces_validation_1.EcoSpaceValidations.updateEcoSpaceValidation), ecoSpaces_controller_1.EcoSpaceControllers.updateEcoSpace);
+router.patch("/add-project/eco-space/:ecoSpaceId", ecoSpaces_controller_1.EcoSpaceControllers.addNewProjectToEcoSpace);
 router.post("/invite", ecoSpaces_controller_1.EcoSpaceControllers.inviteEcospace);
 router.patch("/accept-invite", ecoSpaces_controller_1.EcoSpaceControllers.acceptInvite);
 exports.EcoSpaceRouter = router;

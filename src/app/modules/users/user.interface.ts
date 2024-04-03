@@ -8,5 +8,6 @@ export type TUser = {
   gender: "male" | "female" | "other";
   dateOfBirth: string;
   address: string;
+  plan: string;
   isDeleted: boolean;
 };

@@ -2,6 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppointmentModel = void 0;
 const mongoose_1 = require("mongoose");
+const locationSchema = new mongoose_1.Schema({
+    lat: {
+        type: Number,
+        required: true,
+    },
+    lng: {
+        type: Number,
+        required: true,
+    },
+});
 const appointmentSchema = new mongoose_1.Schema({
     participantId: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -22,12 +32,8 @@ const appointmentSchema = new mongoose_1.Schema({
         required: true,
     },
     location: {
-        type: String,
-        required: true,
-    },
-    locationImage: {
-        type: String,
-        required: true,
+        type: locationSchema,
+        required: false,
     },
     reason: {
         type: String,
@@ -48,6 +54,10 @@ const appointmentSchema = new mongoose_1.Schema({
         enum: ["pending", "in-progsess", "completed"],
         default: "pending",
         required: true,
+    },
+    neighbourhood: {
+        type: String,
+        required: false,
     },
 }, {
     timestamps: true,

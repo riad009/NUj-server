@@ -48,6 +48,11 @@ const userSchema = new Schema<TUser>(
       default: false,
       required: false,
     },
+    plan: {
+      type: String,
+
+      required: false,
+    },
   },
   {
     timestamps: true,

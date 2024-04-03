@@ -29,20 +29,24 @@ const ecoSpaceSchema = new mongoose_1.Schema({
         required: [true, "Must provide a valid website url"],
     },
     serviceId: {
-        type: mongoose_1.Schema.Types.ObjectId,
+        type: [mongoose_1.Schema.Types.ObjectId],
         ref: "Service",
         required: [true, "Choose one service"],
     },
-    serviceDescription: {
+    // serviceDescription: {
+    //   type: String,
+    //   required: [true, "Must provide a description for service"],
+    // },
+    description: {
         type: String,
-        required: [true, "Must provide a description for service"],
+        required: false,
     },
     staffs: {
         type: [String],
         required: false,
     },
-    project: {
-        type: String,
+    projects: {
+        type: [String],
         required: [true, "Add the project name your company is working on."],
     },
     plan: {
