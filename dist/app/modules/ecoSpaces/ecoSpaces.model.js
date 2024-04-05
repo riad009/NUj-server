@@ -45,10 +45,10 @@ const ecoSpaceSchema = new mongoose_1.Schema({
         type: [String],
         required: false,
     },
-    projects: {
-        type: [String],
-        required: [true, "Add the project name your company is working on."],
-    },
+    // projects: {
+    //   type: [String],
+    //   required: [true, "Add the project name your company is working on."],
+    // },
     plan: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "Plan",

@@ -6,6 +6,7 @@ import { UserControllers } from "./user.controller";
 const router = Router();
 
 import multer from "multer";
+import auth from "../../middlewares/auth";
 const storage = multer.diskStorage({});
 
 const upload = multer({ storage });
@@ -14,8 +15,14 @@ const upload = multer({ storage });
 router.post(
   "/create-user",
   validateRequest(UserValidations.createUserValidation),
-  UserControllers.createUser
+  UserControllers.signup
 );
+
+router.post("/signin", UserControllers.signin);
+
+router.post("/create-google-user", UserControllers.createGoogleUser);
+
+router.get("/profile", auth("user"), UserControllers.getUserProfile);
 
 // getting all users
 router.get("/all", UserControllers.getAllUsers);

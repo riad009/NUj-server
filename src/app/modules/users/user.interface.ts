@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export type TUser = {
   name: string;
   role: "admin" | "user";
@@ -10,4 +12,12 @@ export type TUser = {
   address: string;
   plan: string;
   isDeleted: boolean;
+  password: string;
 };
+
+export type IUserModel = {
+  isUserExist(
+    id: string
+  ): Promise<Pick<TUser, "name" | "password" | "role" | "email">>;
+  isPasswordMatch(givenPass: string, savedPass: string): Promise<boolean>;
+} & Model<TUser>;

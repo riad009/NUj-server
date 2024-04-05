@@ -66,8 +66,10 @@ const getRecentEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __aw
     });
 }));
 const getEcoSpacesByOwnerId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const ownerId = req.params.ownerId;
-    const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(ownerId);
+    var _c, _d;
+    const ownerId = (_c = req === null || req === void 0 ? void 0 : req.query) === null || _c === void 0 ? void 0 : _c.ownerId;
+    const email = (_d = req === null || req === void 0 ? void 0 : req.query) === null || _d === void 0 ? void 0 : _d.email;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(ownerId, email);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
@@ -85,8 +87,8 @@ const getAllEcoSpaces = (0, catchAsync_1.catchAsync)((req, res, next) => __await
     });
 }));
 const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
-    const serviceId = (_c = req === null || req === void 0 ? void 0 : req.params) === null || _c === void 0 ? void 0 : _c.serviceId;
+    var _e;
+    const serviceId = (_e = req === null || req === void 0 ? void 0 : req.params) === null || _e === void 0 ? void 0 : _e.serviceId;
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByServiceIdFromDB(serviceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -96,8 +98,8 @@ const getEcoSpacesByServiceId = (0, catchAsync_1.catchAsync)((req, res, next) =>
     });
 }));
 const deleteEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
-    const ecoSpaceId = (_d = req === null || req === void 0 ? void 0 : req.params) === null || _d === void 0 ? void 0 : _d.ecoSpaceId;
+    var _f;
+    const ecoSpaceId = (_f = req === null || req === void 0 ? void 0 : req.params) === null || _f === void 0 ? void 0 : _f.ecoSpaceId;
     const result = yield ecoSpaces_service_1.EcoSpaceServices.deleteEcoSpaceFromDB(ecoSpaceId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

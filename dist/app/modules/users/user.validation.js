@@ -11,6 +11,7 @@ const createUserValidation = zod_1.z.object({
         photo: zod_1.z.string().optional(),
         gender: zod_1.z.enum(["male", "female", "other"]).optional(),
         address: zod_1.z.string().optional(),
+        password: zod_1.z.string(),
         dateOfBirth: zod_1.z.string().optional(),
         isNotify: zod_1.z.boolean().default(true).optional(),
         isDeleted: zod_1.z.boolean().default(false).optional(),

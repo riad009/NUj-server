@@ -1,15 +1,83 @@
+import { jwtHelpers } from "../../../helpers/jwtHelper";
 import config from "../../config";
 import { AppError } from "../../errors/AppError";
 import { TUser } from "./user.interface";
 import { UserModel } from "./user.model";
 import cloudinary from "cloudinary";
-// Creating user
-const createUserIntoDB = async (payload: Partial<TUser>) => {
-  const isExist = await UserModel.findOne({ email: payload?.email });
-  if (isExist) {
-    throw new AppError(200, "User Already exists");
+
+const createGoogleUser = async (payload: any) => {
+  const { email } = payload;
+
+  const isUserExist = await UserModel.isUserExist(email);
+
+  const token = jwtHelpers.createToken({
+    email,
+    role: "user",
+  });
+
+  if (isUserExist) {
+    return token;
   }
-  const result = await UserModel.create(payload);
+
+  await UserModel.create(payload);
+  return token;
+};
+
+// Creating user
+const signup = async (payload: Partial<TUser>) => {
+  const { email } = payload;
+
+  console.log({ payload });
+
+  const isUserExist = await UserModel.findOne({ email: payload?.email });
+
+  if (isUserExist) {
+    throw new AppError(500, "User already exists");
+  }
+
+  const user = await UserModel.create(payload);
+
+  const token = jwtHelpers.createToken({
+    email,
+    role: user.role || "user",
+  });
+
+  return token;
+};
+
+const signin = async (payload: any) => {
+  const { email, password } = payload;
+
+  const isUserExist = await UserModel.findOne({ email });
+
+  if (!isUserExist) {
+    throw new AppError(5000, "User does not exist");
+  }
+
+  console.log("password", password, isUserExist?.password);
+
+  const isPasswordMatch =
+    isUserExist.password &&
+    (await UserModel.isPasswordMatch(password, isUserExist?.password));
+
+  if (!isPasswordMatch) {
+    throw new AppError(400, "Incorrect password!");
+  }
+
+  const token = jwtHelpers.createToken({
+    email: email,
+    role: isUserExist.role,
+    id: isUserExist._id,
+  });
+
+  return token;
+};
+
+const getUserProfile = async (email: string) => {
+  const result = await UserModel.findOne({
+    email,
+  });
+
   return result;
 };
 
@@ -76,10 +144,13 @@ const updateNotifyFromDB = async (userId: string, isNotify: boolean) => {
 };
 
 export const UserServices = {
-  createUserIntoDB,
+  signup,
   updateUserFromDB,
   updateNotifyFromDB,
   getAllUsersFromDB,
   getSingleUserFromDB,
   updateImage,
+  signin,
+  createGoogleUser,
+  getUserProfile,
 };

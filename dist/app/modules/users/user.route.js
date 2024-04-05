@@ -10,10 +10,14 @@ const user_validation_1 = require("./user.validation");
 const user_controller_1 = require("./user.controller");
 const router = (0, express_1.Router)();
 const multer_1 = __importDefault(require("multer"));
+const auth_1 = __importDefault(require("../../middlewares/auth"));
 const storage = multer_1.default.diskStorage({});
 const upload = (0, multer_1.default)({ storage });
 // creating user
-router.post("/create-user", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.createUserValidation), user_controller_1.UserControllers.createUser);
+router.post("/create-user", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.createUserValidation), user_controller_1.UserControllers.signup);
+router.post("/signin", user_controller_1.UserControllers.signin);
+router.post("/create-google-user", user_controller_1.UserControllers.createGoogleUser);
+router.get("/profile", (0, auth_1.default)("user"), user_controller_1.UserControllers.getUserProfile);
 // getting all users
 router.get("/all", user_controller_1.UserControllers.getAllUsers);
 // getting single user by _id

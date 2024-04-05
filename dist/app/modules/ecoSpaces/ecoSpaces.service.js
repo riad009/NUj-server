@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -19,6 +30,7 @@ const user_model_1 = require("../users/user.model");
 const ecoSpaces_model_1 = require("./ecoSpaces.model");
 const appointments_model_1 = require("../appointments/appointments.model");
 const sendEmail_1 = require("../../helper/sendEmail");
+const project_model_1 = require("../project/project.model");
 // creating ecospace
 const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userExist = yield user_model_1.UserModel.findById(payload === null || payload === void 0 ? void 0 : payload.owner);
@@ -28,7 +40,23 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     if (userExist === null || userExist === void 0 ? void 0 : userExist.isDeleted) {
         throw new AppError_1.AppError(400, "User not found");
     }
-    const result = (yield ecoSpaces_model_1.EcoSpaceModel.create(payload)).populate("owner serviceId plan");
+    const { projects } = payload, newPayload = __rest(payload, ["projects"]);
+    // const result = (await EcoSpaceModel.create(newPayload)).populate(
+    //   "owner serviceId plan"
+    // );
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.create(newPayload);
+    if (!result) {
+        throw new AppError_1.AppError(400, "Could not create");
+    }
+    projects === null || projects === void 0 ? void 0 : projects.forEach((project) => __awaiter(void 0, void 0, void 0, function* () {
+        const newProjectPayload = {
+            ecoSpaceId: result === null || result === void 0 ? void 0 : result._id,
+            projectName: project,
+            email: result === null || result === void 0 ? void 0 : result.email,
+            clients: [],
+        };
+        const projectResult = yield project_model_1.ProjectModel.create(newProjectPayload);
+    }));
     return result;
 });
 // updating single ecospce details by querying with id
@@ -56,8 +84,10 @@ const getRecentEcoSpacesFromDB = (limit) => __awaiter(void 0, void 0, void 0, fu
     return result;
 });
 // getting list of ecospaces for a single user by _id(owner)
-const getEcoSpacesByOwnerIdFromDB = (ownerId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ owner: ownerId })
+const getEcoSpacesByOwnerIdFromDB = (ownerId, email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.find({
+        $or: [{ owner: ownerId }, { staffs: { $in: [email] } }],
+    })
         .sort({ createdAt: -1 })
         .populate("serviceId");
     return result;

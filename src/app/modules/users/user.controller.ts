@@ -2,14 +2,46 @@ import { catchAsync } from "../../middlewares/catchAsync";
 import { sendResponse } from "../../middlewares/sendResponse";
 import { UserServices } from "./user.service";
 
-const createUser = catchAsync(async (req, res, next) => {
+const createGoogleUser = catchAsync(async (req, res) => {
+  const result = await UserServices.createGoogleUser(req.body);
+
+  sendResponse(res, {
+    status: 200,
+    success: true,
+    message: "Google user successfully",
+    data: result,
+  });
+});
+
+const signup = catchAsync(async (req, res, next) => {
   const payload = req.body;
-  const result = await UserServices.createUserIntoDB(payload);
+  const result = await UserServices.signup(payload);
 
   sendResponse(res, {
     success: true,
     status: 200,
     message: "User created successfully",
+    data: result,
+  });
+});
+
+const signin = catchAsync(async (req, res) => {
+  const result = await UserServices.signin(req.body);
+
+  sendResponse(res, {
+    status: 200,
+    success: true,
+    message: "User signed in successfully",
+    data: result,
+  });
+});
+
+const getUserProfile = catchAsync(async (req, res) => {
+  const result = await UserServices.getUserProfile(req?.user?.email);
+  sendResponse(res, {
+    status: 200,
+    success: true,
+    message: "User profile got successfully!",
     data: result,
   });
 });
@@ -76,10 +108,13 @@ const updateNotify = catchAsync(async (req, res, next) => {
 });
 
 export const UserControllers = {
-  createUser,
+  signup,
   updateUser,
   updateNotify,
   getAllUsers,
   getSingleUser,
   updateImage,
+  signin,
+  createGoogleUser,
+  getUserProfile,
 };

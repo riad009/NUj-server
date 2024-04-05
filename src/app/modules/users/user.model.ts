@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
-import { TUser } from "./user.interface";
-
-const userSchema = new Schema<TUser>(
+import { IUserModel, TUser } from "./user.interface";
+import bcrypt from "bcrypt";
+import config from "../../config";
+const userSchema = new Schema<TUser, IUserModel>(
   {
     name: {
       type: String,
@@ -17,6 +18,11 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
+    password: {
+      type: String,
+      required: false,
+      // select: 0,
+    },
     phone: {
       type: String,
       required: false,
@@ -24,6 +30,7 @@ const userSchema = new Schema<TUser>(
     photo: {
       type: String,
       required: false,
+      default: "https://i.ibb.co/mcHGwPy/dummy.jpg",
     },
     gender: {
       type: String,
@@ -50,7 +57,6 @@ const userSchema = new Schema<TUser>(
     },
     plan: {
       type: String,
-
       required: false,
     },
   },
@@ -59,4 +65,31 @@ const userSchema = new Schema<TUser>(
   }
 );
 
-export const UserModel = model<TUser>("User", userSchema);
+userSchema.pre("save", async function (next) {
+  // hash password
+  if (this.password) {
+    this.password = await bcrypt.hash(
+      this.password,
+      Number(config.bcrypt_salt_rounds)
+    );
+  }
+
+  next();
+});
+
+userSchema.statics.isPasswordMatch = async function (givenPass, savedPass) {
+  const isMatch = await bcrypt.compare(givenPass, savedPass);
+
+  return isMatch;
+};
+
+userSchema.statics.isUserExist = async function (email) {
+  const user = await UserModel.findOne(
+    { email },
+    { email: 1, password: 1, role: 1 }
+  ).lean();
+
+  return user;
+};
+
+export const UserModel = model<TUser, IUserModel>("User", userSchema);

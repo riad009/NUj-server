@@ -13,17 +13,62 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
+const jwtHelper_1 = require("../../../helpers/jwtHelper");
 const config_1 = __importDefault(require("../../config"));
 const AppError_1 = require("../../errors/AppError");
 const user_model_1 = require("./user.model");
 const cloudinary_1 = __importDefault(require("cloudinary"));
-// Creating user
-const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isExist = yield user_model_1.UserModel.findOne({ email: payload === null || payload === void 0 ? void 0 : payload.email });
-    if (isExist) {
-        throw new AppError_1.AppError(200, "User Already exists");
+const createGoogleUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = payload;
+    const isUserExist = yield user_model_1.UserModel.isUserExist(email);
+    const token = jwtHelper_1.jwtHelpers.createToken({
+        email,
+        role: "user",
+    });
+    if (isUserExist) {
+        return token;
     }
-    const result = yield user_model_1.UserModel.create(payload);
+    yield user_model_1.UserModel.create(payload);
+    return token;
+});
+// Creating user
+const signup = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = payload;
+    console.log({ payload });
+    const isUserExist = yield user_model_1.UserModel.findOne({ email: payload === null || payload === void 0 ? void 0 : payload.email });
+    if (isUserExist) {
+        throw new AppError_1.AppError(500, "User already exists");
+    }
+    const user = yield user_model_1.UserModel.create(payload);
+    const token = jwtHelper_1.jwtHelpers.createToken({
+        email,
+        role: user.role || "user",
+    });
+    return token;
+});
+const signin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = payload;
+    const isUserExist = yield user_model_1.UserModel.findOne({ email });
+    if (!isUserExist) {
+        throw new AppError_1.AppError(5000, "User does not exist");
+    }
+    console.log("password", password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password);
+    const isPasswordMatch = isUserExist.password &&
+        (yield user_model_1.UserModel.isPasswordMatch(password, isUserExist === null || isUserExist === void 0 ? void 0 : isUserExist.password));
+    if (!isPasswordMatch) {
+        throw new AppError_1.AppError(400, "Incorrect password!");
+    }
+    const token = jwtHelper_1.jwtHelpers.createToken({
+        email: email,
+        role: isUserExist.role,
+        id: isUserExist._id,
+    });
+    return token;
+});
+const getUserProfile = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findOne({
+        email,
+    });
     return result;
 });
 // getting all the users
@@ -75,10 +120,13 @@ const updateNotifyFromDB = (userId, isNotify) => __awaiter(void 0, void 0, void 
     return result;
 });
 exports.UserServices = {
-    createUserIntoDB,
+    signup,
     updateUserFromDB,
     updateNotifyFromDB,
     getAllUsersFromDB,
     getSingleUserFromDB,
     updateImage,
+    signin,
+    createGoogleUser,
+    getUserProfile,
 };
