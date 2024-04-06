@@ -62,9 +62,7 @@ const addNewProjectToEcoSpaceFromDB = async (
 
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
-  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate(
-    "serviceId owner"
-  );
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate("plan");
 
   return ecoSpace;
 };
@@ -104,7 +102,7 @@ const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
   }
   const result = await EcoSpaceModel.find({ serviceId })
     .sort({ createdAt: -1 })
-    .populate("serviceId plan");
+    .populate("serviceId");
   if (!result.length) {
     throw new AppError(400, "No EcoSpaces Found");
   }
