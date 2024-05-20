@@ -11,6 +11,8 @@ import { ProjectModel } from "../project/project.model";
 
 // creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
+  console.log({ payload });
+
   const userExist = await UserModel.findById(payload?.owner);
   if (!userExist) {
     throw new AppError(400, "User not found");
@@ -81,11 +83,20 @@ const getRecentEcoSpacesFromDB = async (limit: number) => {
 
 // getting list of ecospaces for a single user by _id(owner)
 const getEcoSpacesByOwnerIdFromDB = async (ownerId: string, email: string) => {
+  const projects = await ProjectModel.find({ clients: email });
+
+  const projectEcoSpaceIds = projects.map((project) => project.ecoSpaceId);
+
   const result = await EcoSpaceModel.find({
-    $or: [{ owner: ownerId }, { staffs: { $in: [email] } }],
+    $or: [
+      { owner: ownerId },
+      { coWorkers: { $in: [email] } },
+      { _id: { $in: projectEcoSpaceIds } },
+    ],
   })
     .sort({ createdAt: -1 })
     .populate("serviceId");
+
   return result;
 };
 
@@ -145,9 +156,16 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
 const inviteEcospace = async (
   email: string,
   ecoSpaceId: string,
-  ecoSpaceName: string
+  ecoSpaceName: string,
+  type: string
 ) => {
-  const result = await sendEmail(email, ecoSpaceId, ecoSpaceName);
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId);
+
+  if (ecoSpace?.coWorkers?.includes(email)) {
+    throw new AppError(400, "Co worker already exists!");
+  }
+
+  const result = await sendEmail(email, ecoSpaceId, ecoSpaceName, type);
 
   return result;
 };
@@ -155,10 +173,10 @@ const acceptInvite = async (email: string, ecoSpaceId: string) => {
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId);
 
   if (!ecoSpace) {
-    throw new Error("Ecospace not found!");
+    throw new AppError(400, "Ecospace not found!");
   }
 
-  ecoSpace?.staffs.push(email);
+  ecoSpace?.coWorkers.push(email);
   const result = await ecoSpace?.save();
 
   return result;

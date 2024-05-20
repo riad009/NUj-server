@@ -2,8 +2,9 @@ import nodemailer from "nodemailer";
 
 export const sendEmail = async (
   email: string,
-  ecoSpaceId: string,
-  ecoSpaceName: string
+  id: string,
+  name: string,
+  type: string
 ) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -16,10 +17,10 @@ export const sendEmail = async (
   const mailOptions = {
     from: "Reachoutpro.ai@gmail.com",
     to: email,
-    subject: `Notifications from the ${ecoSpaceName}`,
+    subject: `Notifications from the ${name}`,
     html: `
-    <p>Dear ${email}, You have been invited to join the project <strong>${ecoSpaceName}</strong>.</p>
-    <p>Click the following link to accept: <a href="https://nu-j-9c35c.web.app/accept-invitation/${ecoSpaceId}/${email}">Accept Invitation</a></p>
+    <p>Dear ${email}, You have been invited to join the ${type} <strong>${name}</strong>.</p>
+    <p>Click the following link to accept: <a href="https://nu-j-9c35c.web.app/accept-invitation/${type}/${id}/${email}">Accept Invitation</a></p>
   `,
   };
 

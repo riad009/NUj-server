@@ -1,3 +1,5 @@
+import { AppError } from "../../errors/AppError";
+import { sendEmail } from "../../helper/sendEmail";
 import { TProject } from "./project.interface";
 import { ProjectModel } from "./project.model";
 
@@ -6,8 +8,18 @@ const createProjectIntoDB = async (payload: TProject) => {
   return result;
 };
 
-const getAllProjectsFromDB = async (ecoSpaceId: string) => {
-  const result = await ProjectModel.find({ ecoSpaceId }).sort({ createdAt: 1 });
+const getAllProjectsFromDB = async (
+  ecoSpaceId: string,
+  email?: string,
+  role?: string
+) => {
+  let query: any = { ecoSpaceId };
+
+  if (email && role === "user") {
+    query = { ...query, clients: email };
+  }
+
+  const result = await ProjectModel.find(query).sort({ createdAt: 1 });
   return result;
 };
 const getSingleProjectFromDB = async (id: string) => {
@@ -15,8 +27,40 @@ const getSingleProjectFromDB = async (id: string) => {
   return result;
 };
 
+const inviteProject = async (
+  email: string,
+  projectId: string,
+  projectName: string,
+  type: string
+) => {
+  const project = await ProjectModel.findById(projectId);
+  if (project?.clients?.includes(email)) {
+    throw new AppError(400, "Client already exists!");
+  }
+
+  const result = await sendEmail(email, projectId, projectName, type);
+
+  return result;
+};
+const acceptInvite = async (email: string, projectId: string) => {
+  console.log({ email, projectId });
+
+  const project = await ProjectModel.findById(projectId);
+
+  if (!project) {
+    throw new AppError(400, "Ecospace not found!");
+  }
+
+  project?.clients.push(email);
+  const result = await project?.save();
+
+  return result;
+};
+
 export const ProjectService = {
   createProjectIntoDB,
   getAllProjectsFromDB,
   getSingleProjectFromDB,
+  inviteProject,
+  acceptInvite,
 };

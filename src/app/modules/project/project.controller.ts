@@ -3,7 +3,7 @@ import { sendResponse } from "../../middlewares/sendResponse";
 import { ProjectService } from "./project.service";
 
 const createProject = catchAsync(async (req, res, next) => {
-  const result = await req.body;
+  const result = await ProjectService.createProjectIntoDB(req.body);
 
   sendResponse(res, {
     success: true,
@@ -15,8 +15,14 @@ const createProject = catchAsync(async (req, res, next) => {
 
 const getAllProjects = catchAsync(async (req, res, next) => {
   const ecoSpaceId = req.params.ecoSpaceId;
+  const email = req.query.email;
+  const role = req.query.role;
 
-  const result = await ProjectService.getAllProjectsFromDB(ecoSpaceId);
+  const result = await ProjectService.getAllProjectsFromDB(
+    ecoSpaceId,
+    email as string,
+    role as string
+  );
 
   sendResponse(res, {
     success: true,
@@ -39,8 +45,40 @@ const getSingleProject = catchAsync(async (req, res, next) => {
   });
 });
 
+const inviteProject = catchAsync(async (req, res, next) => {
+  const { email, projectId, projectName, type } = req?.body;
+  console.log("req?.body", req?.body);
+  const result = await ProjectService.inviteProject(
+    email,
+    projectId,
+    projectName,
+    type
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Invited successfully",
+    data: result,
+  });
+});
+
+const acceptInvite = catchAsync(async (req, res, next) => {
+  const { email, projectId } = req?.body;
+  const result = await ProjectService.acceptInvite(email, projectId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Invite accepted successfully",
+    data: result,
+  });
+});
+
 export const ProjectController = {
   createProject,
   getAllProjects,
   getSingleProject,
+  acceptInvite,
+  inviteProject,
 };

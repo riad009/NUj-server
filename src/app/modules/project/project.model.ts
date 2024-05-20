@@ -14,7 +14,7 @@ const projectSchema = new Schema<TProject>(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
     },
     clients: {
       type: [String],

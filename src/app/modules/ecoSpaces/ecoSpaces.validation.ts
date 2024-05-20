@@ -13,7 +13,7 @@ const createEcoSpaceValidation = z.object({
     //   required_error: "Must provide a description for service",
     // }),
     description: z.string().optional(),
-    staffs: z.array(z.string()).optional(),
+    coWorkers: z.array(z.string()).optional(),
     // projects: z.array(z.string()).optional(),
     // project: z.string({
     //   required_error: "Add the project name your company is working on.",
@@ -51,7 +51,7 @@ const updateEcoSpaceValidation = z.object({
     //   })
     //   .optional(),
     description: z.string().optional(),
-    staffs: z.array(z.string()).optional(),
+    coWorkers: z.array(z.string()).optional(),
     // project: z
     //   .string({
     //     required_error: "Add the project name your company is working on.",
