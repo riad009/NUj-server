@@ -27,6 +27,11 @@ const getSingleProjectFromDB = async (id: string) => {
   return result;
 };
 
+const deleteProject = async (id: string) => {
+  const result = await ProjectModel.findByIdAndDelete(id);
+  return result;
+};
+
 const inviteProject = async (
   email: string,
   projectId: string,
@@ -63,4 +68,5 @@ export const ProjectService = {
   getSingleProjectFromDB,
   inviteProject,
   acceptInvite,
+  deleteProject,
 };

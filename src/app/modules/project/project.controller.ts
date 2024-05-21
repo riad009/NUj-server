@@ -45,6 +45,19 @@ const getSingleProject = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteProject = catchAsync(async (req, res, next) => {
+  const projectId = req.params.projectId;
+
+  const result = await ProjectService.deleteProject(projectId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "retrieved successfully",
+    data: result,
+  });
+});
+
 const inviteProject = catchAsync(async (req, res, next) => {
   const { email, projectId, projectName, type } = req?.body;
   console.log("req?.body", req?.body);
@@ -81,4 +94,5 @@ export const ProjectController = {
   getSingleProject,
   acceptInvite,
   inviteProject,
+  deleteProject,
 };
