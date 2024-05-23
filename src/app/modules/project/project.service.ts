@@ -11,11 +11,12 @@ const createProjectIntoDB = async (payload: TProject) => {
 const getAllProjectsFromDB = async (
   ecoSpaceId: string,
   email?: string,
-  role?: string
+  role?: string,
+  isCoWorker?: string
 ) => {
   let query: any = { ecoSpaceId };
 
-  if (email && role === "user") {
+  if (email && role === "user" && !isCoWorker) {
     query = { ...query, clients: email };
   }
 

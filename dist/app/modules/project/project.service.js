@@ -10,21 +10,53 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectService = void 0;
+const AppError_1 = require("../../errors/AppError");
+const sendEmail_1 = require("../../helper/sendEmail");
 const project_model_1 = require("./project.model");
 const createProjectIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield project_model_1.ProjectModel.create(payload);
     return result;
 });
-const getAllProjectsFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield project_model_1.ProjectModel.find({ ecoSpaceId }).sort({ createdAt: 1 });
+const getAllProjectsFromDB = (ecoSpaceId, email, role, isCoWorker) => __awaiter(void 0, void 0, void 0, function* () {
+    let query = { ecoSpaceId };
+    if (email && role === "user" && !isCoWorker) {
+        query = Object.assign(Object.assign({}, query), { clients: email });
+    }
+    const result = yield project_model_1.ProjectModel.find(query).sort({ createdAt: 1 });
     return result;
 });
 const getSingleProjectFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield project_model_1.ProjectModel.findById(id);
     return result;
 });
+const deleteProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield project_model_1.ProjectModel.findByIdAndDelete(id);
+    return result;
+});
+const inviteProject = (email, projectId, projectName, type) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const project = yield project_model_1.ProjectModel.findById(projectId);
+    if ((_a = project === null || project === void 0 ? void 0 : project.clients) === null || _a === void 0 ? void 0 : _a.includes(email)) {
+        throw new AppError_1.AppError(400, "Client already exists!");
+    }
+    const result = yield (0, sendEmail_1.sendEmail)(email, projectId, projectName, type);
+    return result;
+});
+const acceptInvite = (email, projectId) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log({ email, projectId });
+    const project = yield project_model_1.ProjectModel.findById(projectId);
+    if (!project) {
+        throw new AppError_1.AppError(400, "Ecospace not found!");
+    }
+    project === null || project === void 0 ? void 0 : project.clients.push(email);
+    const result = yield (project === null || project === void 0 ? void 0 : project.save());
+    return result;
+});
 exports.ProjectService = {
     createProjectIntoDB,
     getAllProjectsFromDB,
     getSingleProjectFromDB,
+    inviteProject,
+    acceptInvite,
+    deleteProject,
 };

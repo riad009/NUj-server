@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const sendEmail = (email, ecoSpaceId, ecoSpaceName) => __awaiter(void 0, void 0, void 0, function* () {
+const sendEmail = (email, id, name, type) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = nodemailer_1.default.createTransport({
         service: "gmail",
         auth: {
@@ -25,10 +25,10 @@ const sendEmail = (email, ecoSpaceId, ecoSpaceName) => __awaiter(void 0, void 0,
     const mailOptions = {
         from: "Reachoutpro.ai@gmail.com",
         to: email,
-        subject: `Notifications from the ${ecoSpaceName}`,
+        subject: `Notifications from the ${name}`,
         html: `
-    <p>Dear ${email}, You have been invited to join the project <strong>${ecoSpaceName}</strong>.</p>
-    <p>Click the following link to accept: <a href="https://nu-j-9c35c.web.app/accept-invitation/${ecoSpaceId}/${email}">Accept Invitation</a></p>
+    <p>Dear ${email}, You have been invited to join the ${type} <strong>${name}</strong>.</p>
+    <p>Click the following link to accept: <a href="https://nu-j-9c35c.web.app/accept-invitation/${type}/${id}/${email}">Accept Invitation</a></p>
   `,
     };
     try {

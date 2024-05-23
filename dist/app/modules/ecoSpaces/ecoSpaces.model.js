@@ -12,9 +12,9 @@ const ecoSpaceSchema = new mongoose_1.Schema({
         type: String,
         required: [true, "Must provide a valid company name"],
     },
-    address: {
+    description: {
         type: String,
-        required: [true, "Must provide a valid address"],
+        required: false,
     },
     phone: {
         type: String,
@@ -23,6 +23,10 @@ const ecoSpaceSchema = new mongoose_1.Schema({
     email: {
         type: String,
         required: [true, "Must provide a valid email"],
+    },
+    address: {
+        type: String,
+        required: [true, "Must provide a valid address"],
     },
     website: {
         type: String,
@@ -37,11 +41,7 @@ const ecoSpaceSchema = new mongoose_1.Schema({
     //   type: String,
     //   required: [true, "Must provide a description for service"],
     // },
-    description: {
-        type: String,
-        required: false,
-    },
-    staffs: {
+    coWorkers: {
         type: [String],
         required: false,
     },

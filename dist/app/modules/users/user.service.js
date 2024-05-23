@@ -73,12 +73,18 @@ const getUserProfile = (email) => __awaiter(void 0, void 0, void 0, function* ()
 });
 // getting all the users
 const getAllUsersFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.UserModel.find({ role: "user" });
+    const roles = ["user", "admin"];
+    const result = yield user_model_1.UserModel.find({ role: { $in: roles } });
     return result;
 });
 // get single user with _id
 const getSingleUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.findById(userId);
+    return result;
+});
+// delete
+const deleteUser = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findByIdAndDelete(userId);
     return result;
 });
 // Updating user
@@ -129,4 +135,5 @@ exports.UserServices = {
     signin,
     createGoogleUser,
     getUserProfile,
+    deleteUser,
 };

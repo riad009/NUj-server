@@ -69,6 +69,7 @@ const getEcoSpacesByOwnerId = (0, catchAsync_1.catchAsync)((req, res, next) => _
     var _c, _d;
     const ownerId = (_c = req === null || req === void 0 ? void 0 : req.query) === null || _c === void 0 ? void 0 : _c.ownerId;
     const email = (_d = req === null || req === void 0 ? void 0 : req.query) === null || _d === void 0 ? void 0 : _d.email;
+    console.log({ email, ownerId });
     const result = yield ecoSpaces_service_1.EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(ownerId, email);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -109,8 +110,8 @@ const deleteEcoSpace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
     });
 }));
 const inviteEcospace = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, ecoSpaceId, ecoSpaceName } = req === null || req === void 0 ? void 0 : req.body;
-    const result = yield ecoSpaces_service_1.EcoSpaceServices.inviteEcospace(email, ecoSpaceId, ecoSpaceName);
+    const { email, ecoSpaceId, ecoSpaceName, type } = req === null || req === void 0 ? void 0 : req.body;
+    const result = yield ecoSpaces_service_1.EcoSpaceServices.inviteEcospace(email, ecoSpaceId, ecoSpaceName, type);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,

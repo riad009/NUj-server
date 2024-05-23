@@ -99,6 +99,16 @@ const updateNotify = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(
         data: null,
     });
 }));
+const deleteUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.userId;
+    const result = yield user_service_1.UserServices.deleteUser(userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "User deleted!",
+        data: result,
+    });
+}));
 exports.UserControllers = {
     signup,
     updateUser,
@@ -109,4 +119,5 @@ exports.UserControllers = {
     signin,
     createGoogleUser,
     getUserProfile,
+    deleteUser,
 };

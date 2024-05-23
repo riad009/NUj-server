@@ -17,14 +17,15 @@ const upload = (0, multer_1.default)({ storage });
 router.post("/create-user", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.createUserValidation), user_controller_1.UserControllers.signup);
 router.post("/signin", user_controller_1.UserControllers.signin);
 router.post("/create-google-user", user_controller_1.UserControllers.createGoogleUser);
-router.get("/profile", (0, auth_1.default)("user"), user_controller_1.UserControllers.getUserProfile);
+router.get("/profile", (0, auth_1.default)("user", "admin", "superAdmin"), user_controller_1.UserControllers.getUserProfile);
 // getting all users
 router.get("/all", user_controller_1.UserControllers.getAllUsers);
 // getting single user by _id
 router.get("/:userId", user_controller_1.UserControllers.getSingleUser);
 // updating user
-router.put("/update-user/:userId", (0, validateRequest_1.validateRequest)(user_validation_1.UserValidations.updateUserValidation), user_controller_1.UserControllers.updateUser);
+router.put("/update-user/:userId", user_controller_1.UserControllers.updateUser);
 // updating isnotify
 router.patch("/isnotify/:userId", user_controller_1.UserControllers.updateNotify);
+router.delete("/delete/:userId", user_controller_1.UserControllers.deleteUser);
 router.patch("/update-image/:userId", upload.single("image"), user_controller_1.UserControllers.updateImage);
 exports.UserRouter = router;

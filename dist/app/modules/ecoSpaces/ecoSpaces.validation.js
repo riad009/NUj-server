@@ -18,7 +18,7 @@ const createEcoSpaceValidation = zod_1.default.object({
         //   required_error: "Must provide a description for service",
         // }),
         description: zod_1.default.string().optional(),
-        staffs: zod_1.default.array(zod_1.default.string()).optional(),
+        coWorkers: zod_1.default.array(zod_1.default.string()).optional(),
         // projects: z.array(z.string()).optional(),
         // project: z.string({
         //   required_error: "Add the project name your company is working on.",
@@ -55,7 +55,7 @@ const updateEcoSpaceValidation = zod_1.default.object({
         //   })
         //   .optional(),
         description: zod_1.default.string().optional(),
-        staffs: zod_1.default.array(zod_1.default.string()).optional(),
+        coWorkers: zod_1.default.array(zod_1.default.string()).optional(),
         // project: z
         //   .string({
         //     required_error: "Add the project name your company is working on.",

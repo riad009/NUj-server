@@ -22,7 +22,11 @@ router.post("/signin", UserControllers.signin);
 
 router.post("/create-google-user", UserControllers.createGoogleUser);
 
-router.get("/profile", auth("user"), UserControllers.getUserProfile);
+router.get(
+  "/profile",
+  auth("user", "admin", "superAdmin"),
+  UserControllers.getUserProfile
+);
 
 // getting all users
 router.get("/all", UserControllers.getAllUsers);
@@ -33,7 +37,7 @@ router.get("/:userId", UserControllers.getSingleUser);
 // updating user
 router.put(
   "/update-user/:userId",
-  validateRequest(UserValidations.updateUserValidation),
+
   UserControllers.updateUser
 );
 

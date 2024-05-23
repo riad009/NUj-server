@@ -5,7 +5,6 @@ const express_1 = require("express");
 const validateRequest_1 = require("../../middlewares/validateRequest");
 const ecoSpaces_validation_1 = require("./ecoSpaces.validation");
 const ecoSpaces_controller_1 = require("./ecoSpaces.controller");
-const EcoSpaceDocuments_validation_1 = require("../EcoSpaceDocuments/EcoSpaceDocuments.validation");
 const EcoSpaceDocuments_controller_1 = require("../EcoSpaceDocuments/EcoSpaceDocuments.controller");
 const router = (0, express_1.Router)();
 // creating eco space
@@ -15,7 +14,7 @@ router.get("/all", ecoSpaces_controller_1.EcoSpaceControllers.getAllEcoSpaces);
 // getting recent ecospace
 router.get("/recent-eco-spaces", ecoSpaces_controller_1.EcoSpaceControllers.getRecentEcoSpaces);
 // !Uploading from EcoSpaceDocuments controller
-router.post("/upload-documents", (0, validateRequest_1.validateRequest)(EcoSpaceDocuments_validation_1.EcoSpaceDocumentValidations.createEcoSpaceDocumentValidationSchema), EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.createEcoSpaceDocument);
+router.post("/upload-documents", EcoSpaceDocuments_controller_1.EcoSpaceDocumentControllers.createEcoSpaceDocument);
 // getting ecospaces by owner ids
 router.get("/list", ecoSpaces_controller_1.EcoSpaceControllers.getEcoSpacesByOwnerId);
 // Getting ecospaces by query (serviceid)
