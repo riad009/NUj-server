@@ -39,6 +39,7 @@ router.put(
 
 // updating isnotify
 router.patch("/isnotify/:userId", UserControllers.updateNotify);
+router.delete("/delete/:userId", UserControllers.deleteUser);
 
 router.patch(
   "/update-image/:userId",

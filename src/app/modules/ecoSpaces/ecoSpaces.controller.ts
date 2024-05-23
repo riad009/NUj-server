@@ -75,7 +75,7 @@ const getRecentEcoSpaces = catchAsync(async (req, res, next) => {
 const getEcoSpacesByOwnerId = catchAsync(async (req, res, next) => {
   const ownerId = req?.query?.ownerId;
   const email = req?.query?.email;
-  console.log({ email });
+  console.log({ email, ownerId });
   const result = await EcoSpaceServices.getEcoSpacesByOwnerIdFromDB(
     ownerId as string,
     email as string

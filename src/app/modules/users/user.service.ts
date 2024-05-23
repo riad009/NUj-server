@@ -83,13 +83,20 @@ const getUserProfile = async (email: string) => {
 
 // getting all the users
 const getAllUsersFromDB = async () => {
-  const result = await UserModel.find({ role: "user" });
+  const roles = ["user", "admin"];
+  const result = await UserModel.find({ role: { $in: roles } });
   return result;
 };
 
 // get single user with _id
 const getSingleUserFromDB = async (userId: string) => {
   const result = await UserModel.findById(userId);
+  return result;
+};
+
+// delete
+const deleteUser = async (userId: string) => {
+  const result = await UserModel.findByIdAndDelete(userId);
   return result;
 };
 
@@ -153,4 +160,5 @@ export const UserServices = {
   signin,
   createGoogleUser,
   getUserProfile,
+  deleteUser,
 };
