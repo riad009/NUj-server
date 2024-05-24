@@ -24,8 +24,8 @@ const createMessage = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter
     });
 }));
 const getAllMessages = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const channelId = req.params.channelId;
-    const result = yield message_service_1.MessageService.getAllMessages(channelId);
+    const projectId = req.params.projectId;
+    const result = yield message_service_1.MessageService.getAllMessages(projectId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,

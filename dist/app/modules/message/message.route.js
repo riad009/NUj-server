@@ -10,6 +10,6 @@ const multer_1 = __importDefault(require("multer"));
 const message_controller_1 = require("./message.controller");
 const storage = multer_1.default.diskStorage({});
 const upload = (0, multer_1.default)({ storage });
-router.get("/:channelId", message_controller_1.MessageController.getAllMessages);
+router.get("/:projectId", message_controller_1.MessageController.getAllMessages);
 router.post("/create", upload.array("file"), message_controller_1.MessageController.createMessage);
 exports.MessageRoutes = router;

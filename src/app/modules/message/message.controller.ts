@@ -16,9 +16,9 @@ const createMessage = catchAsync(async (req, res, next) => {
 });
 
 const getAllMessages = catchAsync(async (req, res, next) => {
-  const channelId = req.params.channelId;
+  const projectId = req.params.projectId;
 
-  const result = await MessageService.getAllMessages(channelId);
+  const result = await MessageService.getAllMessages(projectId);
 
   sendResponse(res, {
     success: true,

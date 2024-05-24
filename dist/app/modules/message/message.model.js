@@ -8,9 +8,9 @@ const messageSchema = new mongoose_1.Schema({
         ref: "EcoSpace",
         required: true,
     },
-    channelId: {
+    projectId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "Channel",
+        ref: "Project",
         required: true,
     },
     email: {

@@ -9,7 +9,7 @@ cloudinary.v2.config({
 });
 
 const createMessage = async (files: any, payload: any) => {
-  const { email, userImage, ecoSpaceId, message, channelId } = payload;
+  const { email, userImage, ecoSpaceId, message, projectId } = payload;
 
   const uploadedFiles = [];
 
@@ -42,7 +42,7 @@ const createMessage = async (files: any, payload: any) => {
     userImage,
     ecoSpaceId,
     message,
-    channelId,
+    projectId,
   };
   for (const file of uploadedFiles) {
     if (file?.name === "image") {
@@ -59,8 +59,10 @@ const createMessage = async (files: any, payload: any) => {
   return result;
 };
 
-const getAllMessages = async (channelId: string) => {
-  const result = await Message.find({ channelId }).sort({ createdAt: 1 });
+const getAllMessages = async (projectId: string) => {
+  console.log({ projectId });
+
+  const result = await Message.find({ projectId }).sort({ createdAt: 1 });
   return result;
 };
 
