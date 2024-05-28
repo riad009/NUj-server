@@ -14,7 +14,12 @@ const locationSchema = new Schema<TLocation>({
 
 const appointmentSchema = new Schema<TAppointment>(
   {
-    participantId: {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    requestedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
@@ -37,27 +42,18 @@ const appointmentSchema = new Schema<TAppointment>(
       required: false,
     },
 
-    reason: {
+    appointmentLength: {
       type: String,
       required: true,
     },
-    isDeleted: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    isApproved: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+
     status: {
       type: String,
-      enum: ["pending", "in-progsess", "completed"],
+      enum: ["pending", "in-progsess", "approved", "rejected"],
       default: "pending",
       required: true,
     },
-    neighbourhood: {
+    destinationInformation: {
       type: String,
       required: false,
     },

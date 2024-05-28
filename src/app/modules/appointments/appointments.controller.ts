@@ -45,6 +45,26 @@ const getEcoSpaceAppointments = catchAsync(async (req, res, next) => {
   });
 });
 
+const getRequestedAppointments = catchAsync(async (req, res, next) => {
+  const userId = req?.query?.userId;
+  const requestedBy = req?.query?.requestedBy;
+  const ecoSpaceId = req?.query?.ecoSpaceId;
+  const query = req?.query?.query;
+  const result = await AppointmentServices.getRequestedAppointments(
+    userId as string,
+    requestedBy as string,
+    ecoSpaceId as string,
+    query as string
+  );
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Appointments are retrieved successfully",
+    data: result,
+  });
+});
+
 const getSingleAppointment = catchAsync(async (req, res, next) => {
   const appointmentId = req?.params?.appointmentId;
   const result = await AppointmentServices.getSingleAppointmentFromDB(
@@ -75,8 +95,10 @@ const approveAppointment = catchAsync(async (req, res, next) => {
 
 const completeAppointment = catchAsync(async (req, res, next) => {
   const appointmentId = req?.params?.appointmentId;
+  const status = req?.query?.status;
   const result = await AppointmentServices.completeAppointmentFromDB(
-    appointmentId
+    appointmentId,
+    status as string
   );
 
   sendResponse(res, {
@@ -113,6 +135,18 @@ const getAppointmentsForSingleUser = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteAppointment = catchAsync(async (req, res, next) => {
+  const id = req?.params?.id;
+  const result = await AppointmentServices.deleteAppointment(id);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Appointment delete successfully",
+    data: result,
+  });
+});
+
 export const AppointmentControllers = {
   createAppointment,
   getRecentAppointment,
@@ -122,4 +156,6 @@ export const AppointmentControllers = {
   completeAppointment,
   getAppointmentsForSingleUser,
   updateLocationImage,
+  getRequestedAppointments,
+  deleteAppointment,
 };

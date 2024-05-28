@@ -1,6 +1,4 @@
 import { Router } from "express";
-import { validateRequest } from "../../middlewares/validateRequest";
-import { AppointmentValidations } from "./appointments.validation";
 import { AppointmentControllers } from "./appointments.controller";
 
 const router = Router();
@@ -21,19 +19,26 @@ router.get("/recent-appointments", AppointmentControllers.getRecentAppointment);
 
 router.get("/list/:ecoSpaceId", AppointmentControllers.getEcoSpaceAppointments);
 
+router.get(
+  "/requested-appointments",
+  AppointmentControllers.getRequestedAppointments
+);
+
 // single appointment details
 router.get(
   "/details/:appointmentId",
   AppointmentControllers.getSingleAppointment
 );
 
+router.delete("/delete/:id", AppointmentControllers.deleteAppointment);
+
 // updating appointment status
 router.get(
   "/approve/:appointmentId",
   AppointmentControllers.approveAppointment
 );
-router.get(
-  "/mark-as-completed/:appointmentId",
+router.patch(
+  "/update-status/:appointmentId",
   AppointmentControllers.completeAppointment
 );
 

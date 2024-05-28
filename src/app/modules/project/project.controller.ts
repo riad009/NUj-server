@@ -18,12 +18,14 @@ const getAllProjects = catchAsync(async (req, res, next) => {
   const email = req.query.email;
   const role = req.query.role;
   const isCoWorker = req.query.isCoWorker;
+  const isOwner = req.query.isOwner;
 
   const result = await ProjectService.getAllProjectsFromDB(
     ecoSpaceId,
     email as string,
     role as string,
-    isCoWorker as string
+    isCoWorker as string,
+    isOwner as string
   );
 
   sendResponse(res, {

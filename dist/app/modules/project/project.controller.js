@@ -27,7 +27,8 @@ const getAllProjects = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
     const email = req.query.email;
     const role = req.query.role;
     const isCoWorker = req.query.isCoWorker;
-    const result = yield project_service_1.ProjectService.getAllProjectsFromDB(ecoSpaceId, email, role, isCoWorker);
+    const isOwner = req.query.isOwner;
+    const result = yield project_service_1.ProjectService.getAllProjectsFromDB(ecoSpaceId, email, role, isCoWorker, isOwner);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,

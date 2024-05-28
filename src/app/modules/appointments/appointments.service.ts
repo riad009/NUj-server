@@ -1,14 +1,13 @@
 import config from "../../config";
 import { AppError } from "../../errors/AppError";
 import { UserModel } from "../users/user.model";
-import { TAppointment } from "./appointments.interface";
 import { AppointmentModel } from "./appointments.model";
 import cloudinary from "cloudinary";
 // creating appointment
-const createAppointmentIntoDB = async (payload: TAppointment) => {
-  const userId = payload?.participantId;
+const createAppointmentIntoDB = async (payload: any) => {
+  const userEmail = payload?.userEmail;
 
-  const userExist = UserModel.findById(userId);
+  const userExist: any = await UserModel.findOne({ email: userEmail });
 
   if (!userExist) {
     throw new AppError(400, "User not found");
@@ -19,6 +18,8 @@ const createAppointmentIntoDB = async (payload: TAppointment) => {
     throw new AppError(400, "User is deleted");
   }
 
+  payload.userId = userExist?._id;
+
   const result = await AppointmentModel.create(payload);
   return result;
 };
@@ -27,11 +28,11 @@ const createAppointmentIntoDB = async (payload: TAppointment) => {
 const getRecentAppointmentFromDB = async (limit: number) => {
   const result = await AppointmentModel.find(
     {},
-    { participantId: 1, ecoSpaceId: 1, reason: 1 }
+    { userId: 1, ecoSpaceId: 1, status: 1 }
   )
     .sort({ createdAt: -1 })
     .limit(limit)
-    .populate("participantId ecoSpaceId");
+    .populate("userId ecoSpaceId");
 
   return result;
 };
@@ -40,39 +41,71 @@ const getRecentAppointmentFromDB = async (limit: number) => {
 const getEcoSpaceAppointmentsFromDB = async (ecoSpaceId: string) => {
   const result = await AppointmentModel.find({ ecoSpaceId })
     .sort({ date: -1 })
-    .populate("participantId");
+    .populate("userId");
   return result;
 };
 
 // get single appointment by _id
 const getSingleAppointmentFromDB = async (appointmentId: string) => {
   const result = await AppointmentModel.findById(appointmentId).populate(
-    "ecoSpaceId participantId"
+    "ecoSpaceId userId"
   );
   return result;
 };
 
 const approveAppointmentFromDB = async (appointmentId: string) => {
   const result = await AppointmentModel.findByIdAndUpdate(appointmentId, {
-    isApproved: true,
     status: "in-progress",
   });
   return result;
 };
 
-const completeAppointmentFromDB = async (appointmentId: string) => {
+const completeAppointmentFromDB = async (
+  appointmentId: string,
+  status: string
+) => {
+  console.log({ appointmentId, status });
+
   const result = await AppointmentModel.findByIdAndUpdate(appointmentId, {
-    isApproved: true,
-    status: "completed",
+    status,
   });
   return result;
 };
 
-// getting all appointments for a single user
+const getRequestedAppointments = async (
+  userId: string,
+  requestedBy: string,
+  ecoSpaceId: string,
+  query: string
+) => {
+  let findQuery;
+  if (query === "requested") {
+    findQuery = {
+      $and: [
+        { $or: [{ userId: userId }, { requestedBy: requestedBy }] },
+        { ecoSpaceId: ecoSpaceId },
+      ],
+    };
+  } else if (query === "requests") {
+    findQuery = {
+      $and: [{ ecoSpaceId: ecoSpaceId }, { status: "in-progress" }],
+    };
+  } else {
+    findQuery = {};
+  }
+
+  const result = await AppointmentModel.find(findQuery);
+  return result;
+};
 const getAppointmentsForSingleUserFromDB = async (userId: string) => {
   const result = await AppointmentModel.find({
-    participantId: userId,
+    userId: userId,
   }).populate("ecoSpaceId");
+  return result;
+};
+
+const deleteAppointment = async (id: string) => {
+  const result = await AppointmentModel.findByIdAndDelete(id);
   return result;
 };
 
@@ -101,4 +134,6 @@ export const AppointmentServices = {
   completeAppointmentFromDB,
   getAppointmentsForSingleUserFromDB,
   updateLocationImage,
+  getRequestedAppointments,
+  deleteAppointment,
 };

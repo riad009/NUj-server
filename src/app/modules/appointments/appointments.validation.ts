@@ -7,7 +7,7 @@ const locationSchema = z.object({
 
 const createAppointmentValidationSchema = z.object({
   body: z.object({
-    participantId: z.string({
+    userId: z.string({
       required_error: "Participant is required to take appointment",
     }),
     ecoSpaceId: z.string({

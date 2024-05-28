@@ -17,11 +17,13 @@ const createProjectIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
     const result = yield project_model_1.ProjectModel.create(payload);
     return result;
 });
-const getAllProjectsFromDB = (ecoSpaceId, email, role, isCoWorker) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProjectsFromDB = (ecoSpaceId, email, role, isCoWorker, isOwner) => __awaiter(void 0, void 0, void 0, function* () {
     let query = { ecoSpaceId };
-    if (email && role === "user" && !isCoWorker) {
+    const userrole = "user" || "admin";
+    if (email && userrole && isCoWorker === "false" && isOwner === "false") {
         query = Object.assign(Object.assign({}, query), { clients: email });
     }
+    console.log({ query, email, role, isCoWorker, isOwner, userrole });
     const result = yield project_model_1.ProjectModel.find(query).sort({ createdAt: 1 });
     return result;
 });

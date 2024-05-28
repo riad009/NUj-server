@@ -6,15 +6,14 @@ export type TLocation = {
 };
 
 export type TAppointment = {
-  participantId: Types.ObjectId;
+  userId: Types.ObjectId;
+  requestedBy: Types.ObjectId;
   ecoSpaceId: Types.ObjectId;
   time: string;
   date: string;
   location: TLocation;
   locationImage: string;
-  reason: string;
-  isDeleted: boolean;
-  isApproved: boolean;
+  appointmentLength: string;
   status: "pending" | "in-progress" | "completed";
-  neighbourhood: string;
+  destinationInformation: string;
 };
