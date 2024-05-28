@@ -10,11 +10,15 @@ const messageSchema = new Schema(
     projectId: {
       type: Schema.Types.ObjectId,
       ref: "Project",
-      required: true,
+      required: false,
+    },
+    userEmail: {
+      type: String,
+      required: false,
     },
     email: {
       type: String,
-      required: true,
+      required: false,
     },
     userImage: {
       type: String,

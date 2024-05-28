@@ -147,6 +147,17 @@ const deleteAppointment = catchAsync(async (req, res, next) => {
   });
 });
 
+const appointmentMail = catchAsync(async (req, res, next) => {
+  const result = await AppointmentServices.appointmentMail(req.body);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Appointment delete successfully",
+    data: result,
+  });
+});
+
 export const AppointmentControllers = {
   createAppointment,
   getRecentAppointment,
@@ -158,4 +169,5 @@ export const AppointmentControllers = {
   updateLocationImage,
   getRequestedAppointments,
   deleteAppointment,
+  appointmentMail,
 };

@@ -45,9 +45,23 @@ const getEcoSpaceAppointments = (0, catchAsync_1.catchAsync)((req, res, next) =>
         data: result,
     });
 }));
+const getRequestedAppointments = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b, _c, _d, _e;
+    const userId = (_b = req === null || req === void 0 ? void 0 : req.query) === null || _b === void 0 ? void 0 : _b.userId;
+    const requestedBy = (_c = req === null || req === void 0 ? void 0 : req.query) === null || _c === void 0 ? void 0 : _c.requestedBy;
+    const ecoSpaceId = (_d = req === null || req === void 0 ? void 0 : req.query) === null || _d === void 0 ? void 0 : _d.ecoSpaceId;
+    const query = (_e = req === null || req === void 0 ? void 0 : req.query) === null || _e === void 0 ? void 0 : _e.query;
+    const result = yield appointments_service_1.AppointmentServices.getRequestedAppointments(userId, requestedBy, ecoSpaceId, query);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Appointments are retrieved successfully",
+        data: result,
+    });
+}));
 const getSingleAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
-    const appointmentId = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.appointmentId;
+    var _f;
+    const appointmentId = (_f = req === null || req === void 0 ? void 0 : req.params) === null || _f === void 0 ? void 0 : _f.appointmentId;
     const result = yield appointments_service_1.AppointmentServices.getSingleAppointmentFromDB(appointmentId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -57,8 +71,8 @@ const getSingleAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __
     });
 }));
 const approveAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _c;
-    const appointmentId = (_c = req === null || req === void 0 ? void 0 : req.params) === null || _c === void 0 ? void 0 : _c.appointmentId;
+    var _g;
+    const appointmentId = (_g = req === null || req === void 0 ? void 0 : req.params) === null || _g === void 0 ? void 0 : _g.appointmentId;
     const result = yield appointments_service_1.AppointmentServices.approveAppointmentFromDB(appointmentId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -68,9 +82,10 @@ const approveAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __aw
     });
 }));
 const completeAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
-    const appointmentId = (_d = req === null || req === void 0 ? void 0 : req.params) === null || _d === void 0 ? void 0 : _d.appointmentId;
-    const result = yield appointments_service_1.AppointmentServices.completeAppointmentFromDB(appointmentId);
+    var _h, _j;
+    const appointmentId = (_h = req === null || req === void 0 ? void 0 : req.params) === null || _h === void 0 ? void 0 : _h.appointmentId;
+    const status = (_j = req === null || req === void 0 ? void 0 : req.query) === null || _j === void 0 ? void 0 : _j.status;
+    const result = yield appointments_service_1.AppointmentServices.completeAppointmentFromDB(appointmentId, status);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
@@ -89,13 +104,24 @@ const updateLocationImage = (0, catchAsync_1.catchAsync)((req, res, next) => __a
     });
 }));
 const getAppointmentsForSingleUser = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _e;
-    const userId = (_e = req === null || req === void 0 ? void 0 : req.params) === null || _e === void 0 ? void 0 : _e.userId;
+    var _k;
+    const userId = (_k = req === null || req === void 0 ? void 0 : req.params) === null || _k === void 0 ? void 0 : _k.userId;
     const result = yield appointments_service_1.AppointmentServices.getAppointmentsForSingleUserFromDB(userId);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
         message: "Appointments are retrieved successfully",
+        data: result,
+    });
+}));
+const deleteAppointment = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _l;
+    const id = (_l = req === null || req === void 0 ? void 0 : req.params) === null || _l === void 0 ? void 0 : _l.id;
+    const result = yield appointments_service_1.AppointmentServices.deleteAppointment(id);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Appointment delete successfully",
         data: result,
     });
 }));
@@ -108,4 +134,6 @@ exports.AppointmentControllers = {
     completeAppointment,
     getAppointmentsForSingleUser,
     updateLocationImage,
+    getRequestedAppointments,
+    deleteAppointment,
 };

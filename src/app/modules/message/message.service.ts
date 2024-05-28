@@ -9,7 +9,8 @@ cloudinary.v2.config({
 });
 
 const createMessage = async (files: any, payload: any) => {
-  const { email, userImage, ecoSpaceId, message, projectId } = payload;
+  const { email, userImage, ecoSpaceId, message, projectId, userEmail } =
+    payload;
 
   const uploadedFiles = [];
 
@@ -42,7 +43,6 @@ const createMessage = async (files: any, payload: any) => {
     userImage,
     ecoSpaceId,
     message,
-    projectId,
   };
   for (const file of uploadedFiles) {
     if (file?.name === "image") {
@@ -52,6 +52,14 @@ const createMessage = async (files: any, payload: any) => {
     } else if (file?.name === "video") {
       messageData.video = file?.url;
     }
+  }
+
+  if (projectId) {
+    messageData.projectId = projectId;
+  }
+
+  if (userEmail) {
+    messageData.userEmail = userEmail;
   }
 
   const result = await Message.create(messageData);
@@ -66,7 +74,13 @@ const getAllMessages = async (projectId: string) => {
   return result;
 };
 
+const getAllMessagesEmail = async (userEmail: string) => {
+  const result = await Message.find({ userEmail }).sort({ createdAt: 1 });
+  return result;
+};
+
 export const MessageService = {
   createMessage,
   getAllMessages,
+  getAllMessagesEmail,
 };

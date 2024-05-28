@@ -11,7 +11,7 @@ const locationSchema = zod_1.default.object({
 });
 const createAppointmentValidationSchema = zod_1.default.object({
     body: zod_1.default.object({
-        participantId: zod_1.default.string({
+        userId: zod_1.default.string({
             required_error: "Participant is required to take appointment",
         }),
         ecoSpaceId: zod_1.default.string({

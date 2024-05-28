@@ -53,4 +53,6 @@ router.patch(
   AppointmentControllers.updateLocationImage
 );
 
+router.post("/send-mail/", AppointmentControllers.appointmentMail);
+
 export const AppointmentRouter = router;

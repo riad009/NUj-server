@@ -17,8 +17,19 @@ const createMessage = catchAsync(async (req, res, next) => {
 
 const getAllMessages = catchAsync(async (req, res, next) => {
   const projectId = req.params.projectId;
-
   const result = await MessageService.getAllMessages(projectId);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Messages retrieved successfully",
+    data: result,
+  });
+});
+
+const getAllMessagesEmail = catchAsync(async (req, res, next) => {
+  const email = req.params.email;
+  const result = await MessageService.getAllMessagesEmail(email);
 
   sendResponse(res, {
     success: true,
@@ -31,4 +42,5 @@ const getAllMessages = catchAsync(async (req, res, next) => {
 export const MessageController = {
   createMessage,
   getAllMessages,
+  getAllMessagesEmail,
 };

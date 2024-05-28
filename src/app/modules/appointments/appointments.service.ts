@@ -1,5 +1,6 @@
 import config from "../../config";
 import { AppError } from "../../errors/AppError";
+import { sendAppointmentEmail } from "../../helper/sendAppointmentEmail";
 import { UserModel } from "../users/user.model";
 import { AppointmentModel } from "./appointments.model";
 import cloudinary from "cloudinary";
@@ -109,6 +110,14 @@ const deleteAppointment = async (id: string) => {
   return result;
 };
 
+const appointmentMail = async (payload: any) => {
+  const { email, name, status } = payload;
+
+  console.log({ status });
+  const result = await sendAppointmentEmail(email, name, status);
+  return result;
+};
+
 cloudinary.v2.config({
   cloud_name: config.cloud_name,
   api_key: config.api_key,
@@ -136,4 +145,5 @@ export const AppointmentServices = {
   updateLocationImage,
   getRequestedAppointments,
   deleteAppointment,
+  appointmentMail,
 };

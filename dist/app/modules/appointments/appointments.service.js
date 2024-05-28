@@ -20,8 +20,8 @@ const appointments_model_1 = require("./appointments.model");
 const cloudinary_1 = __importDefault(require("cloudinary"));
 // creating appointment
 const createAppointmentIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = payload === null || payload === void 0 ? void 0 : payload.participantId;
-    const userExist = user_model_1.UserModel.findById(userId);
+    const userEmail = payload === null || payload === void 0 ? void 0 : payload.userEmail;
+    const userExist = yield user_model_1.UserModel.findOne({ email: userEmail });
     if (!userExist) {
         throw new AppError_1.AppError(400, "User not found");
     }
@@ -29,48 +29,72 @@ const createAppointmentIntoDB = (payload) => __awaiter(void 0, void 0, void 0, f
     if (userExist === null || userExist === void 0 ? void 0 : userExist.isDeleted) {
         throw new AppError_1.AppError(400, "User is deleted");
     }
+    payload.userId = userExist === null || userExist === void 0 ? void 0 : userExist._id;
     const result = yield appointments_model_1.AppointmentModel.create(payload);
     return result;
 });
 // getting recent appointments
 const getRecentAppointmentFromDB = (limit) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield appointments_model_1.AppointmentModel.find({}, { participantId: 1, ecoSpaceId: 1, reason: 1 })
+    const result = yield appointments_model_1.AppointmentModel.find({}, { userId: 1, ecoSpaceId: 1, status: 1 })
         .sort({ createdAt: -1 })
         .limit(limit)
-        .populate("participantId ecoSpaceId");
+        .populate("userId ecoSpaceId");
     return result;
 });
 // getting ecospace specific appointments (querying by id)
 const getEcoSpaceAppointmentsFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield appointments_model_1.AppointmentModel.find({ ecoSpaceId })
         .sort({ date: -1 })
-        .populate("participantId");
+        .populate("userId");
     return result;
 });
 // get single appointment by _id
 const getSingleAppointmentFromDB = (appointmentId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield appointments_model_1.AppointmentModel.findById(appointmentId).populate("ecoSpaceId participantId");
+    const result = yield appointments_model_1.AppointmentModel.findById(appointmentId).populate("ecoSpaceId userId");
     return result;
 });
 const approveAppointmentFromDB = (appointmentId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield appointments_model_1.AppointmentModel.findByIdAndUpdate(appointmentId, {
-        isApproved: true,
         status: "in-progress",
     });
     return result;
 });
-const completeAppointmentFromDB = (appointmentId) => __awaiter(void 0, void 0, void 0, function* () {
+const completeAppointmentFromDB = (appointmentId, status) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log({ appointmentId, status });
     const result = yield appointments_model_1.AppointmentModel.findByIdAndUpdate(appointmentId, {
-        isApproved: true,
-        status: "completed",
+        status,
     });
     return result;
 });
-// getting all appointments for a single user
+const getRequestedAppointments = (userId, requestedBy, ecoSpaceId, query) => __awaiter(void 0, void 0, void 0, function* () {
+    let findQuery;
+    if (query === "requested") {
+        findQuery = {
+            $and: [
+                { $or: [{ userId: userId }, { requestedBy: requestedBy }] },
+                { ecoSpaceId: ecoSpaceId },
+            ],
+        };
+    }
+    else if (query === "requests") {
+        findQuery = {
+            $and: [{ ecoSpaceId: ecoSpaceId }, { status: "in-progress" }],
+        };
+    }
+    else {
+        findQuery = {};
+    }
+    const result = yield appointments_model_1.AppointmentModel.find(findQuery);
+    return result;
+});
 const getAppointmentsForSingleUserFromDB = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield appointments_model_1.AppointmentModel.find({
-        participantId: userId,
+        userId: userId,
     }).populate("ecoSpaceId");
+    return result;
+});
+const deleteAppointment = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield appointments_model_1.AppointmentModel.findByIdAndDelete(id);
     return result;
 });
 cloudinary_1.default.v2.config({
@@ -94,4 +118,6 @@ exports.AppointmentServices = {
     completeAppointmentFromDB,
     getAppointmentsForSingleUserFromDB,
     updateLocationImage,
+    getRequestedAppointments,
+    deleteAppointment,
 };

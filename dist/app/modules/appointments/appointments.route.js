@@ -16,11 +16,13 @@ appointments_controller_1.AppointmentControllers.createAppointment);
 // getting recent appointments
 router.get("/recent-appointments", appointments_controller_1.AppointmentControllers.getRecentAppointment);
 router.get("/list/:ecoSpaceId", appointments_controller_1.AppointmentControllers.getEcoSpaceAppointments);
+router.get("/requested-appointments", appointments_controller_1.AppointmentControllers.getRequestedAppointments);
 // single appointment details
 router.get("/details/:appointmentId", appointments_controller_1.AppointmentControllers.getSingleAppointment);
+router.delete("/delete/:id", appointments_controller_1.AppointmentControllers.deleteAppointment);
 // updating appointment status
 router.get("/approve/:appointmentId", appointments_controller_1.AppointmentControllers.approveAppointment);
-router.get("/mark-as-completed/:appointmentId", appointments_controller_1.AppointmentControllers.completeAppointment);
+router.patch("/update-status/:appointmentId", appointments_controller_1.AppointmentControllers.completeAppointment);
 router.get("/user/appointment/list/:userId", appointments_controller_1.AppointmentControllers.getAppointmentsForSingleUser);
 router.patch("/location-image/", upload.single("image"), appointments_controller_1.AppointmentControllers.updateLocationImage);
 exports.AppointmentRouter = router;
