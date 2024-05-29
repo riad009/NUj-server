@@ -110,14 +110,6 @@ const deleteAppointment = async (id: string) => {
   return result;
 };
 
-const appointmentMail = async (payload: any) => {
-  const { email, name, status } = payload;
-
-  console.log({ status });
-  const result = await sendAppointmentEmail(email, name, status);
-  return result;
-};
-
 cloudinary.v2.config({
   cloud_name: config.cloud_name,
   api_key: config.api_key,
@@ -145,5 +137,4 @@ export const AppointmentServices = {
   updateLocationImage,
   getRequestedAppointments,
   deleteAppointment,
-  appointmentMail,
 };

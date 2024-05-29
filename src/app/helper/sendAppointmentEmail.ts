@@ -3,7 +3,8 @@ import nodemailer from "nodemailer";
 export const sendAppointmentEmail = async (
   email: string,
   name: string,
-  status: string
+  status: string,
+  text: string
 ) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -12,13 +13,6 @@ export const sendAppointmentEmail = async (
       pass: "ifigscdpsahxuahn",
     },
   });
-
-  const text =
-    status === "approved"
-      ? `Congratulations ${name}! Your appointment has been approved`
-      : status === "rejected"
-      ? "Your appointment was not approved. Please contact your provider"
-      : "";
 
   const mailOptions = {
     from: "Reachoutpro.ai@gmail.com",

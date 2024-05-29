@@ -33,7 +33,18 @@ const getAllMessages = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
         data: result,
     });
 }));
+const getAllMessagesEmail = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.params.email;
+    const result = yield message_service_1.MessageService.getAllMessagesEmail(email);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "Messages retrieved successfully",
+        data: result,
+    });
+}));
 exports.MessageController = {
     createMessage,
     getAllMessages,
+    getAllMessagesEmail,
 };

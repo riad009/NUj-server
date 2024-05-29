@@ -15,8 +15,8 @@ const general_route_1 = require("./app/modules/general/general.route");
 const appointments_route_1 = require("./app/modules/appointments/appointments.route");
 const EcoSpaceDocuments_route_1 = require("./app/modules/EcoSpaceDocuments/EcoSpaceDocuments.route");
 const message_route_1 = require("./app/modules/message/message.route");
-const channel_route_1 = require("./app/modules/channel/channel.route");
 const project_route_1 = require("./app/modules/project/project.route");
+const notification_route_1 = require("./app/modules/notification/notification.route");
 const app = (0, express_1.default)();
 // middlewares for globally
 app.use((0, cors_1.default)());
@@ -28,9 +28,9 @@ app.use("/api/v1/plans", plan_route_1.PlanRouter);
 app.use("/api/v1/eco-spaces", ecoSpaces_route_1.EcoSpaceRouter);
 app.use("/api/v1/general", general_route_1.GeneralRouter);
 app.use("/api/v1/appointments", appointments_route_1.AppointmentRouter);
+app.use("/api/v1/notification", notification_route_1.NotificationRouter);
 app.use("/api/v1/eco-space-documents", EcoSpaceDocuments_route_1.EcoSpaceDocumentRoutes);
 app.use("/api/v1/message", message_route_1.MessageRoutes);
-app.use("/api/v1/channel", channel_route_1.ChannelRoutes);
 app.use("/api/v1/project", project_route_1.ProjectRouter);
 // Global error handler
 app.use(globalErrorHandler_1.globalErrorHandler);

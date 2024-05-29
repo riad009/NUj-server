@@ -22,7 +22,7 @@ cloudinary_1.default.v2.config({
     api_secret: config_1.default.api_secret,
 });
 const createMessage = (files, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, userImage, ecoSpaceId, message, projectId } = payload;
+    const { email, userImage, ecoSpaceId, message, projectId, userEmail } = payload;
     const uploadedFiles = [];
     for (const file of files) {
         console.log("inside loop");
@@ -52,7 +52,6 @@ const createMessage = (files, payload) => __awaiter(void 0, void 0, void 0, func
         userImage,
         ecoSpaceId,
         message,
-        projectId,
     };
     for (const file of uploadedFiles) {
         if ((file === null || file === void 0 ? void 0 : file.name) === "image") {
@@ -65,6 +64,12 @@ const createMessage = (files, payload) => __awaiter(void 0, void 0, void 0, func
             messageData.video = file === null || file === void 0 ? void 0 : file.url;
         }
     }
+    if (projectId) {
+        messageData.projectId = projectId;
+    }
+    if (userEmail) {
+        messageData.userEmail = userEmail;
+    }
     const result = yield message_model_1.Message.create(messageData);
     return result;
 });
@@ -73,7 +78,12 @@ const getAllMessages = (projectId) => __awaiter(void 0, void 0, void 0, function
     const result = yield message_model_1.Message.find({ projectId }).sort({ createdAt: 1 });
     return result;
 });
+const getAllMessagesEmail = (userEmail) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield message_model_1.Message.find({ userEmail }).sort({ createdAt: 1 });
+    return result;
+});
 exports.MessageService = {
     createMessage,
     getAllMessages,
+    getAllMessagesEmail,
 };
