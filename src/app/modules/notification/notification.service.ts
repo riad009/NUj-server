@@ -11,14 +11,18 @@ const getNotification = async (email: any) => {
   const result = await Notification.find({ email }).sort({ createdAt: 1 });
   return result;
 };
-const updateNotification = async (email: any) => {
-  console.log("nottii", { email });
-  const result = await Notification.findOneAndUpdate(
-    { email },
-    { isViewed: true }
-  );
+const updateNotification = async (id: any) => {
+  const result = await Notification.findByIdAndUpdate(id, { isViewed: true });
   return result;
 };
+// const updateNotification = async (email: any) => {
+//   console.log("nottii", { email });
+//   const result = await Notification.findOneAndUpdate(
+//     { email },
+//     { isViewed: true }
+//   );
+//   return result;
+// };
 
 const appointmentMail = async (payload: any) => {
   const { email, name, status } = payload;

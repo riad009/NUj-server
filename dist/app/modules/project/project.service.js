@@ -20,10 +20,14 @@ const createProjectIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
 const getAllProjectsFromDB = (ecoSpaceId, email, role, isCoWorker, isOwner) => __awaiter(void 0, void 0, void 0, function* () {
     let query = { ecoSpaceId };
     const userrole = "user" || "admin";
-    if (email && userrole && isCoWorker === "false" && isOwner === "false") {
+    if (email &&
+        userrole &&
+        isCoWorker === "false" &&
+        isOwner === "false" &&
+        role !== "superAdmin") {
         query = Object.assign(Object.assign({}, query), { clients: email });
     }
-    console.log({ query, email, role, isCoWorker, isOwner, userrole });
+    console.log({ query });
     const result = yield project_model_1.ProjectModel.find(query).sort({ createdAt: 1 });
     return result;
 });

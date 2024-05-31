@@ -46,6 +46,14 @@ const appointmentSchema = new Schema<TAppointment>(
       type: String,
       required: true,
     },
+    businessName: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
 
     status: {
       type: String,

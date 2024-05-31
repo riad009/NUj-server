@@ -78,9 +78,19 @@ const getAllMessages = (projectId) => __awaiter(void 0, void 0, void 0, function
     const result = yield message_model_1.Message.find({ projectId }).sort({ createdAt: 1 });
     return result;
 });
-const getAllMessagesEmail = (userEmail) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield message_model_1.Message.find({ userEmail }).sort({ createdAt: 1 });
-    return result;
+const getAllMessagesEmail = (userEmail, selfEmail) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log({ userEmail, selfEmail });
+    const messagesForSelfEmail = yield message_model_1.Message.find({
+        email: selfEmail,
+        userEmail: userEmail,
+    });
+    const messagesUserEmail = yield message_model_1.Message.find({
+        email: userEmail,
+        userEmail: selfEmail,
+    });
+    const filteredMessages = [...messagesForSelfEmail, ...messagesUserEmail];
+    filteredMessages.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    return filteredMessages;
 });
 exports.MessageService = {
     createMessage,

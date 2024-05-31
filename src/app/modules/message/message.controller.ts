@@ -28,8 +28,13 @@ const getAllMessages = catchAsync(async (req, res, next) => {
 });
 
 const getAllMessagesEmail = catchAsync(async (req, res, next) => {
-  const email = req.params.email;
-  const result = await MessageService.getAllMessagesEmail(email);
+  const userEmail = req.query.userEmail;
+  const selfEmail = req.params.email;
+
+  const result = await MessageService.getAllMessagesEmail(
+    userEmail as string,
+    selfEmail
+  );
 
   sendResponse(res, {
     success: true,

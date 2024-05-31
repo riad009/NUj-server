@@ -36,12 +36,12 @@ const appointmentMail = catchAsync(async (req, res, next) => {
 });
 
 const updateNotification = catchAsync(async (req, res, next) => {
-  const result = await NotificationService.updateNotification(req.params.email);
+  const result = await NotificationService.updateNotification(req.params.id);
 
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "Appointment delete successfully",
+    message: "Appointment updated successfully",
     data: result,
   });
 });

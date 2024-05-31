@@ -35,5 +35,5 @@ app.use("/api/v1/project", ProjectRouter);
 // Global error handler
 app.use(globalErrorHandler);
 // error handle for no route found
-app.use(notFound);
+// app.use(notFound);
 export default app;

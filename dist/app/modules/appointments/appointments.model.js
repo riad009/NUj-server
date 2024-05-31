@@ -44,6 +44,14 @@ const appointmentSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
+    businessName: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: String,
+        required: true,
+    },
     status: {
         type: String,
         enum: ["pending", "in-progsess", "approved", "rejected"],

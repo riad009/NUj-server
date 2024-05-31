@@ -41,11 +41,11 @@ const appointmentMail = (0, catchAsync_1.catchAsync)((req, res, next) => __await
     });
 }));
 const updateNotification = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notification_service_1.NotificationService.updateNotification(req.params.email);
+    const result = yield notification_service_1.NotificationService.updateNotification(req.params.id);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,
-        message: "Appointment delete successfully",
+        message: "Appointment updated successfully",
         data: result,
     });
 }));

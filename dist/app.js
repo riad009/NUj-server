@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const globalErrorHandler_1 = require("./app/middlewares/globalErrorHandler");
-const notFound_1 = require("./app/middlewares/notFound");
 const user_route_1 = require("./app/modules/users/user.route");
 const service_route_1 = require("./app/modules/services/service.route");
 const plan_route_1 = require("./app/modules/plans/plan.route");
@@ -35,5 +34,5 @@ app.use("/api/v1/project", project_route_1.ProjectRouter);
 // Global error handler
 app.use(globalErrorHandler_1.globalErrorHandler);
 // error handle for no route found
-app.use(notFound_1.notFound);
+// app.use(notFound);
 exports.default = app;

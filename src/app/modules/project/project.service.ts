@@ -17,11 +17,17 @@ const getAllProjectsFromDB = async (
 ) => {
   let query: any = { ecoSpaceId };
   const userrole = "user" || "admin";
-  if (email && userrole && isCoWorker === "false" && isOwner === "false") {
+  if (
+    email &&
+    userrole &&
+    isCoWorker === "false" &&
+    isOwner === "false" &&
+    role !== "superAdmin"
+  ) {
     query = { ...query, clients: email };
   }
 
-  console.log({ query, email, role, isCoWorker, isOwner, userrole });
+  console.log({ query });
 
   const result = await ProjectModel.find(query).sort({ createdAt: 1 });
   return result;

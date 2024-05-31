@@ -13,6 +13,8 @@ export type TAppointment = {
   date: string;
   location: TLocation;
   locationImage: string;
+  businessName: string;
+  address: string;
   appointmentLength: string;
   status: "pending" | "in-progress" | "completed";
   destinationInformation: string;

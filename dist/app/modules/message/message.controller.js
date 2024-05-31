@@ -34,8 +34,9 @@ const getAllMessages = (0, catchAsync_1.catchAsync)((req, res, next) => __awaite
     });
 }));
 const getAllMessagesEmail = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const email = req.params.email;
-    const result = yield message_service_1.MessageService.getAllMessagesEmail(email);
+    const userEmail = req.query.userEmail;
+    const selfEmail = req.params.email;
+    const result = yield message_service_1.MessageService.getAllMessagesEmail(userEmail, selfEmail);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,

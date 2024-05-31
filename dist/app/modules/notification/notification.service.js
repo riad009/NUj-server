@@ -20,11 +20,18 @@ const getNotification = (email) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield notification_model_1.Notification.find({ email }).sort({ createdAt: 1 });
     return result;
 });
-const updateNotification = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("nottii", { email });
-    const result = yield notification_model_1.Notification.findOneAndUpdate({ email }, { isViewed: true });
+const updateNotification = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield notification_model_1.Notification.findByIdAndUpdate(id, { isViewed: true });
     return result;
 });
+// const updateNotification = async (email: any) => {
+//   console.log("nottii", { email });
+//   const result = await Notification.findOneAndUpdate(
+//     { email },
+//     { isViewed: true }
+//   );
+//   return result;
+// };
 const appointmentMail = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, name, status } = payload;
     const text = status === "approved"
