@@ -75,20 +75,19 @@ const getAllMessages = async (projectId: string) => {
 };
 
 const getAllMessagesEmail = async (userEmail: string, selfEmail: string) => {
-  console.log({ userEmail, selfEmail });
-
-  const messagesForSelfEmail = await Message.find({
+  const messagesForSelfEmail: any = await Message.find({
     email: selfEmail,
     userEmail: userEmail,
   });
 
-  const messagesUserEmail = await Message.find({
+  const messagesUserEmail: any = await Message.find({
     email: userEmail,
     userEmail: selfEmail,
   });
 
   const filteredMessages: any = [...messagesForSelfEmail, ...messagesUserEmail];
   filteredMessages.sort(
+    // @ts-ignore
     (a: any, b: any) => new Date(a.createdAt) - new Date(b.createdAt)
   );
   return filteredMessages;
