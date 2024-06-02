@@ -14,8 +14,7 @@ const catchAsync_1 = require("../../middlewares/catchAsync");
 const sendResponse_1 = require("../../middlewares/sendResponse");
 const message_service_1 = require("./message.service");
 const createMessage = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.files, req.body);
-    const result = yield message_service_1.MessageService.createMessage(req.files, req.body);
+    const result = yield message_service_1.MessageService.createMessage(req.files, req.body, req.query.type);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         status: 200,

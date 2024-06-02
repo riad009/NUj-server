@@ -16,13 +16,16 @@ exports.MessageService = void 0;
 const config_1 = __importDefault(require("../../config"));
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const message_model_1 = require("./message.model");
+const sendMeetingMail_1 = require("../../helper/sendMeetingMail");
+const project_model_1 = require("../project/project.model");
 cloudinary_1.default.v2.config({
     cloud_name: config_1.default.cloud_name,
     api_key: config_1.default.api_key,
     api_secret: config_1.default.api_secret,
 });
-const createMessage = (files, payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createMessage = (files, payload, type) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, userImage, ecoSpaceId, message, projectId, userEmail } = payload;
+    console.log({ payload });
     const uploadedFiles = [];
     for (const file of files) {
         console.log("inside loop");
@@ -71,6 +74,10 @@ const createMessage = (files, payload) => __awaiter(void 0, void 0, void 0, func
         messageData.userEmail = userEmail;
     }
     const result = yield message_model_1.Message.create(messageData);
+    if (type === "meeting") {
+        const project = yield project_model_1.ProjectModel.findById(projectId);
+        yield (0, sendMeetingMail_1.sendMeetingMail)(project === null || project === void 0 ? void 0 : project.clients, message);
+    }
     return result;
 });
 const getAllMessages = (projectId) => __awaiter(void 0, void 0, void 0, function* () {

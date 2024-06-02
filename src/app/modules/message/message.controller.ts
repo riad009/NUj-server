@@ -3,9 +3,11 @@ import { sendResponse } from "../../middlewares/sendResponse";
 import { MessageService } from "./message.service";
 
 const createMessage = catchAsync(async (req, res, next) => {
-  console.log(req.files, req.body);
-
-  const result = await MessageService.createMessage(req.files, req.body);
+  const result = await MessageService.createMessage(
+    req.files,
+    req.body,
+    req.query.type
+  );
 
   sendResponse(res, {
     success: true,

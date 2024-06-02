@@ -16,4 +16,9 @@ exports.default = {
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN,
     bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
+    zoom_sdk_key: process.env.ZOOM_MEETING_SDK_KEY,
+    zoom_sdk_secret: process.env.ZOOM_MEETING_SDK_SECRET,
+    zoom_account_id: process.env.ZOOM_ACCOUNT_ID,
+    zoom_client_id: process.env.ZOOM_CLIENT_ID,
+    zoom_client_secret: process.env.ZOOM_CLIENT_SECRET,
 };

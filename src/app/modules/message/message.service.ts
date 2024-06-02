@@ -1,6 +1,8 @@
 import config from "../../config";
 import cloudinary from "cloudinary";
 import { Message } from "./message.model";
+import { sendMeetingMail } from "../../helper/sendMeetingMail";
+import { ProjectModel } from "../project/project.model";
 
 cloudinary.v2.config({
   cloud_name: config.cloud_name,
@@ -8,9 +10,10 @@ cloudinary.v2.config({
   api_secret: config.api_secret,
 });
 
-const createMessage = async (files: any, payload: any) => {
+const createMessage = async (files: any, payload: any, type: any) => {
   const { email, userImage, ecoSpaceId, message, projectId, userEmail } =
     payload;
+  console.log({ payload });
 
   const uploadedFiles = [];
 
@@ -63,6 +66,10 @@ const createMessage = async (files: any, payload: any) => {
   }
 
   const result = await Message.create(messageData);
+  if (type === "meeting") {
+    const project = await ProjectModel.findById(projectId);
+    await sendMeetingMail(project?.clients, message);
+  }
 
   return result;
 };

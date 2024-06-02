@@ -10,6 +10,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.11",
     "nodemon": "^3.1.0",
+    "query-string": "^9.0.0",
     "zod": "^3.22.4"
   },
   "name": "server",
@@ -23,6 +24,7 @@
     "@types/multer": "^1.4.11",
     "@types/node": "^20.11.17",
     "@types/nodemailer": "^6.4.14",
+    "@types/query-string": "^6.3.0",
     "cors": "^2.8.5",
     "ts-node-dev": "^2.0.0"
   },
