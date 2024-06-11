@@ -19,7 +19,7 @@ const sendAppointmentEmail = (email, name, status, text) => __awaiter(void 0, vo
         service: "gmail",
         auth: {
             user: "Reachoutpro.ai@gmail.com",
-            pass: "ifigscdpsahxuahn",
+            pass: "fhtkcqbdluziedjm",
         },
     });
     const mailOptions = {

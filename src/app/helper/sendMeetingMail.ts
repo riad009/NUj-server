@@ -5,7 +5,7 @@ export const sendMeetingMail = async (to: any, message: any) => {
     service: "gmail",
     auth: {
       user: "Reachoutpro.ai@gmail.com",
-      pass: "ifigscdpsahxuahn",
+      pass: "fhtkcqbdluziedjm",
     },
   });
 

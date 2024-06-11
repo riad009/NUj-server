@@ -19,7 +19,7 @@ const sendMeetingMail = (to, message) => __awaiter(void 0, void 0, void 0, funct
         service: "gmail",
         auth: {
             user: "Reachoutpro.ai@gmail.com",
-            pass: "ifigscdpsahxuahn",
+            pass: "fhtkcqbdluziedjm",
         },
     });
     const mailOptions = {

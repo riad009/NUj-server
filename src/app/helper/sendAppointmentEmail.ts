@@ -10,7 +10,7 @@ export const sendAppointmentEmail = async (
     service: "gmail",
     auth: {
       user: "Reachoutpro.ai@gmail.com",
-      pass: "ifigscdpsahxuahn",
+      pass: "fhtkcqbdluziedjm",
     },
   });
 

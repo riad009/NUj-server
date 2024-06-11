@@ -19,7 +19,7 @@ const sendEmail = (email, id, name, type) => __awaiter(void 0, void 0, void 0, f
         service: "gmail",
         auth: {
             user: "Reachoutpro.ai@gmail.com",
-            pass: "ifigscdpsahxuahn",
+            pass: "fhtkcqbdluziedjm",
         },
     });
     const mailOptions = {
