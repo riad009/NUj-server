@@ -38,6 +38,10 @@ const messageSchema = new mongoose_1.Schema({
         type: String,
         required: false,
     },
+    document: {
+        type: String,
+        required: false,
+    },
     image: {
         type: String,
         required: false,

@@ -111,7 +111,7 @@ const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, v
     }
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId })
         .sort({ createdAt: -1 })
-        .populate("serviceId");
+        .populate("serviceId plan");
     if (!result.length) {
         throw new AppError_1.AppError(400, "No EcoSpaces Found");
     }

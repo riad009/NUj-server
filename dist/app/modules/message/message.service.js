@@ -42,6 +42,9 @@ const createMessage = (files, payload, type) => __awaiter(void 0, void 0, void 0
         else if (file.mimetype.startsWith("audio")) {
             fileType = "audio";
         }
+        else if (file.mimetype.startsWith("application")) {
+            fileType = "application";
+        }
         else {
             fileType = "other";
         }
@@ -65,6 +68,9 @@ const createMessage = (files, payload, type) => __awaiter(void 0, void 0, void 0
         }
         else if ((file === null || file === void 0 ? void 0 : file.name) === "video") {
             messageData.video = file === null || file === void 0 ? void 0 : file.url;
+        }
+        else if ((file === null || file === void 0 ? void 0 : file.name) === "application") {
+            messageData.document = file === null || file === void 0 ? void 0 : file.url;
         }
     }
     if (projectId) {

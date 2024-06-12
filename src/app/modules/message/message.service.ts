@@ -31,6 +31,8 @@ const createMessage = async (files: any, payload: any, type: any) => {
       fileType = "video";
     } else if (file.mimetype.startsWith("audio")) {
       fileType = "audio";
+    } else if (file.mimetype.startsWith("application")) {
+      fileType = "application";
     } else {
       fileType = "other";
     }
@@ -54,6 +56,8 @@ const createMessage = async (files: any, payload: any, type: any) => {
       messageData.audio = file?.url;
     } else if (file?.name === "video") {
       messageData.video = file?.url;
+    } else if (file?.name === "application") {
+      messageData.document = file?.url;
     }
   }
 

@@ -17,7 +17,7 @@ const createNotification = (payload) => __awaiter(void 0, void 0, void 0, functi
     return result;
 });
 const getNotification = (email) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield notification_model_1.Notification.find({ email }).sort({ createdAt: 1 });
+    const result = yield notification_model_1.Notification.find({ email }).sort({ createdAt: -1 });
     return result;
 });
 const updateNotification = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,7 +38,9 @@ const appointmentMail = (payload) => __awaiter(void 0, void 0, void 0, function*
         ? `Congratulations ${name}! Your appointment has been approved`
         : status === "rejected"
             ? "Your appointment was not approved. Please contact your provider"
-            : "";
+            : status === "in-progress"
+                ? "Your appointment is In-progress"
+                : "";
     console.log({ status });
     yield (0, sendAppointmentEmail_1.sendAppointmentEmail)(email, name, status, text);
     payload.message = text;

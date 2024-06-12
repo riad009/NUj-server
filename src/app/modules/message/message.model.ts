@@ -37,6 +37,10 @@ const messageSchema = new Schema(
       type: String,
       required: false,
     },
+    document: {
+      type: String,
+      required: false,
+    },
     image: {
       type: String,
       required: false,
