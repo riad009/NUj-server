@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 export const sendAppointmentEmail = async (
   email: string,
   name: string,
-  status: string,
   text: string
 ) => {
   const transporter = nodemailer.createTransport({

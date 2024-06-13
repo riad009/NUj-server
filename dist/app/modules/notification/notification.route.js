@@ -8,4 +8,5 @@ router.get("/create", notification_controller_1.NotificationController.createNot
 router.get("/", notification_controller_1.NotificationController.getNotification);
 router.post("/send-mail/", notification_controller_1.NotificationController.appointmentMail);
 router.get("/get/:id", notification_controller_1.NotificationController.updateNotification);
+router.delete("/delete/:id", notification_controller_1.NotificationController.deleteNotification);
 exports.NotificationRouter = router;

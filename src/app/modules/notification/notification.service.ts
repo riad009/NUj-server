@@ -15,6 +15,11 @@ const updateNotification = async (id: any) => {
   const result = await Notification.findByIdAndUpdate(id, { isViewed: true });
   return result;
 };
+
+const deleteNotification = async (id: any) => {
+  const result = await Notification.findByIdAndDelete(id);
+  return result;
+};
 // const updateNotification = async (email: any) => {
 //   console.log("nottii", { email });
 //   const result = await Notification.findOneAndUpdate(
@@ -25,19 +30,9 @@ const updateNotification = async (id: any) => {
 // };
 
 const appointmentMail = async (payload: any) => {
-  const { email, name, status } = payload;
+  const { email, name, text } = payload;
 
-  const text =
-    status === "approved"
-      ? `Congratulations ${name}! Your appointment has been approved`
-      : status === "rejected"
-      ? "Your appointment was not approved. Please contact your provider"
-      : status === "in-progress"
-      ? "Your appointment is In-progress"
-      : "";
-
-  console.log({ status });
-  await sendAppointmentEmail(email, name, status, text);
+  await sendAppointmentEmail(email, name, text);
 
   payload.message = text;
   const result = await Notification.create(payload);
@@ -50,4 +45,5 @@ export const NotificationService = {
   createNotification,
   appointmentMail,
   updateNotification,
+  deleteNotification,
 };

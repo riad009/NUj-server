@@ -3,6 +3,7 @@ import { sendResponse } from "../../middlewares/sendResponse";
 import { UserServices } from "./user.service";
 
 const createGoogleUser = catchAsync(async (req, res) => {
+  console.log("inside google");
   const result = await UserServices.createGoogleUser(req.body);
 
   sendResponse(res, {

@@ -24,6 +24,10 @@ const updateNotification = (id) => __awaiter(void 0, void 0, void 0, function* (
     const result = yield notification_model_1.Notification.findByIdAndUpdate(id, { isViewed: true });
     return result;
 });
+const deleteNotification = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield notification_model_1.Notification.findByIdAndDelete(id);
+    return result;
+});
 // const updateNotification = async (email: any) => {
 //   console.log("nottii", { email });
 //   const result = await Notification.findOneAndUpdate(
@@ -33,16 +37,8 @@ const updateNotification = (id) => __awaiter(void 0, void 0, void 0, function* (
 //   return result;
 // };
 const appointmentMail = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, name, status } = payload;
-    const text = status === "approved"
-        ? `Congratulations ${name}! Your appointment has been approved`
-        : status === "rejected"
-            ? "Your appointment was not approved. Please contact your provider"
-            : status === "in-progress"
-                ? "Your appointment is In-progress"
-                : "";
-    console.log({ status });
-    yield (0, sendAppointmentEmail_1.sendAppointmentEmail)(email, name, status, text);
+    const { email, name, text } = payload;
+    yield (0, sendAppointmentEmail_1.sendAppointmentEmail)(email, name, text);
     payload.message = text;
     const result = yield notification_model_1.Notification.create(payload);
     return result;
@@ -52,4 +48,5 @@ exports.NotificationService = {
     createNotification,
     appointmentMail,
     updateNotification,
+    deleteNotification,
 };

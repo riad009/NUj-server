@@ -46,9 +46,21 @@ const updateNotification = catchAsync(async (req, res, next) => {
   });
 });
 
+const deleteNotification = catchAsync(async (req, res, next) => {
+  const result = await NotificationService.deleteNotification(req.params.id);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: "Appointment updated successfully",
+    data: result,
+  });
+});
+
 export const NotificationController = {
   createNotification,
   getNotification,
   appointmentMail,
   updateNotification,
+  deleteNotification,
 };

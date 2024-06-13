@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendAppointmentEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const sendAppointmentEmail = (email, name, status, text) => __awaiter(void 0, void 0, void 0, function* () {
+const sendAppointmentEmail = (email, name, text) => __awaiter(void 0, void 0, void 0, function* () {
     const transporter = nodemailer_1.default.createTransport({
         service: "gmail",
         auth: {

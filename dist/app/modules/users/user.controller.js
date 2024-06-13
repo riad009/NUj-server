@@ -14,6 +14,7 @@ const catchAsync_1 = require("../../middlewares/catchAsync");
 const sendResponse_1 = require("../../middlewares/sendResponse");
 const user_service_1 = require("./user.service");
 const createGoogleUser = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("inside google");
     const result = yield user_service_1.UserServices.createGoogleUser(req.body);
     (0, sendResponse_1.sendResponse)(res, {
         status: 200,
