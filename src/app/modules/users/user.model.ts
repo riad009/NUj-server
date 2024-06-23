@@ -59,6 +59,10 @@ const userSchema = new Schema<TUser, IUserModel>(
       type: String,
       required: false,
     },
+    resetPasswordToken: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

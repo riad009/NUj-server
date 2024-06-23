@@ -1,9 +1,11 @@
 import { jwtHelpers } from "../../../helpers/jwtHelper";
 import config from "../../config";
 import { AppError } from "../../errors/AppError";
+import { resetMail } from "../../helper/resetMail";
 import { TUser } from "./user.interface";
 import { UserModel } from "./user.model";
 import cloudinary from "cloudinary";
+import jwt from "jsonwebtoken";
 
 const createGoogleUser = async (payload: any) => {
   const { email } = payload;
@@ -150,6 +152,48 @@ const updateNotifyFromDB = async (userId: string, isNotify: boolean) => {
   return result;
 };
 
+const forgotPassword = async (payload: any) => {
+  const { email } = payload;
+
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    throw new AppError(500, "User not found");
+  }
+
+  const token = jwt.sign({ email }, "nujsecret", {
+    expiresIn: "1h",
+  });
+  user.resetPasswordToken = token;
+  await user.save();
+
+  await resetMail(email, token);
+
+  return "Mail sent";
+};
+
+const resetPassword = async (payload: any) => {
+  const { newPassword, token } = payload;
+
+  console.log({ payload });
+
+  const decoded = jwtHelpers.verifyToken(token);
+  console.log({ decoded, token });
+  const { email } = decoded;
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user || user.resetPasswordToken !== token) {
+    throw new AppError(500, "Invalid token");
+  }
+
+  user.password = newPassword;
+  user.resetPasswordToken = undefined;
+
+  const result = await user.save();
+
+  return result;
+};
+
 export const UserServices = {
   signup,
   updateUserFromDB,
@@ -161,4 +205,6 @@ export const UserServices = {
   createGoogleUser,
   getUserProfile,
   deleteUser,
+  forgotPassword,
+  resetPassword,
 };

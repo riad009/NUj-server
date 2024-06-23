@@ -28,4 +28,6 @@ router.put("/update-user/:userId", user_controller_1.UserControllers.updateUser)
 router.patch("/isnotify/:userId", user_controller_1.UserControllers.updateNotify);
 router.delete("/delete/:userId", user_controller_1.UserControllers.deleteUser);
 router.patch("/update-image/:userId", upload.single("image"), user_controller_1.UserControllers.updateImage);
+router.post("/forgot-password", user_controller_1.UserControllers.forgotPassword);
+router.post("/reset-password", user_controller_1.UserControllers.resetPassword);
 exports.UserRouter = router;

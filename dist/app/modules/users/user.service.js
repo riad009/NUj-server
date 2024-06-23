@@ -16,8 +16,10 @@ exports.UserServices = void 0;
 const jwtHelper_1 = require("../../../helpers/jwtHelper");
 const config_1 = __importDefault(require("../../config"));
 const AppError_1 = require("../../errors/AppError");
+const resetMail_1 = require("../../helper/resetMail");
 const user_model_1 = require("./user.model");
 const cloudinary_1 = __importDefault(require("cloudinary"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createGoogleUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = payload;
     const isUserExist = yield user_model_1.UserModel.isUserExist(email);
@@ -125,6 +127,35 @@ const updateNotifyFromDB = (userId, isNotify) => __awaiter(void 0, void 0, void 
     const result = yield user_model_1.UserModel.findByIdAndUpdate(userId, { isNotify });
     return result;
 });
+const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = payload;
+    const user = yield user_model_1.UserModel.findOne({ email });
+    if (!user) {
+        throw new AppError_1.AppError(500, "User not found");
+    }
+    const token = jsonwebtoken_1.default.sign({ email }, "nujsecret", {
+        expiresIn: "1h",
+    });
+    user.resetPasswordToken = token;
+    yield user.save();
+    yield (0, resetMail_1.resetMail)(email, token);
+    return "Mail sent";
+});
+const resetPassword = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { newPassword, token } = payload;
+    console.log({ payload });
+    const decoded = jwtHelper_1.jwtHelpers.verifyToken(token);
+    console.log({ decoded, token });
+    const { email } = decoded;
+    const user = yield user_model_1.UserModel.findOne({ email });
+    if (!user || user.resetPasswordToken !== token) {
+        throw new AppError_1.AppError(500, "Invalid token");
+    }
+    user.password = newPassword;
+    user.resetPasswordToken = undefined;
+    const result = yield user.save();
+    return result;
+});
 exports.UserServices = {
     signup,
     updateUserFromDB,
@@ -136,4 +167,6 @@ exports.UserServices = {
     createGoogleUser,
     getUserProfile,
     deleteUser,
+    forgotPassword,
+    resetPassword,
 };

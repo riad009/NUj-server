@@ -121,6 +121,28 @@ const deleteUser = catchAsync(async (req, res, next) => {
   });
 });
 
+const forgotPassword = catchAsync(async (req, res) => {
+  const result = await UserServices.forgotPassword(req.body);
+
+  sendResponse(res, {
+    status: 200,
+    success: true,
+    message: "Password Reset link sent!",
+    data: result,
+  });
+});
+
+const resetPassword = catchAsync(async (req, res) => {
+  const result = await UserServices.resetPassword(req.body);
+
+  sendResponse(res, {
+    status: 200,
+    success: true,
+    message: "Password reset success!",
+    data: result,
+  });
+});
+
 export const UserControllers = {
   signup,
   updateUser,
@@ -132,4 +154,6 @@ export const UserControllers = {
   createGoogleUser,
   getUserProfile,
   deleteUser,
+  forgotPassword,
+  resetPassword,
 };

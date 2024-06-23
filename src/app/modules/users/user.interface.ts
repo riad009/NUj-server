@@ -13,6 +13,7 @@ export type TUser = {
   plan: string;
   isDeleted: boolean;
   password: string;
+  resetPasswordToken: string | undefined;
 };
 
 export type IUserModel = {
