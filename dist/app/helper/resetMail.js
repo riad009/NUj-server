@@ -27,7 +27,7 @@ const resetMail = (email, link) => __awaiter(void 0, void 0, void 0, function* (
         to: email,
         subject: `Reset your password`,
         // text: `Please reset your password from the link below: https://tf-front-sigma.vercel.app/reset-password/${link}`,
-        text: `Please reset your password from the link below: http://localhost:5173/reset-password/${link}`,
+        text: `Please reset your password from the link below: https://nu-j-9c35c.web.app/reset-password/${link}`,
     };
     try {
         const result = yield transporter.sendMail(mailOptions);
