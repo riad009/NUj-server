@@ -7,6 +7,7 @@ const router = (0, express_1.Router)();
 router.post("/create", project_controller_1.ProjectController.createProject);
 router.post("/invite", project_controller_1.ProjectController.inviteProject);
 router.patch("/accept-invite", project_controller_1.ProjectController.acceptInvite);
+router.patch("/update/:projectId", project_controller_1.ProjectController.updateProject);
 router.get("/:ecoSpaceId", project_controller_1.ProjectController.getAllProjects);
 router.delete("/:projectId", project_controller_1.ProjectController.deleteProject);
 router.get("/single/:projectId", project_controller_1.ProjectController.getSingleProject);

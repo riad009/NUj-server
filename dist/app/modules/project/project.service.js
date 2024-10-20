@@ -39,6 +39,12 @@ const deleteProject = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield project_model_1.ProjectModel.findByIdAndDelete(id);
     return result;
 });
+const updateProject = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield project_model_1.ProjectModel.findByIdAndUpdate(id, payload, {
+        new: true,
+    });
+    return result;
+});
 const inviteProject = (email, projectId, projectName, type) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const project = yield project_model_1.ProjectModel.findById(projectId);
@@ -65,4 +71,5 @@ exports.ProjectService = {
     inviteProject,
     acceptInvite,
     deleteProject,
+    updateProject,
 };

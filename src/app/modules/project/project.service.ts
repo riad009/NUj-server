@@ -42,6 +42,14 @@ const deleteProject = async (id: string) => {
   return result;
 };
 
+const updateProject = async (id: string, payload: TProject) => {
+  
+  const result = await ProjectModel.findByIdAndUpdate(id, payload, {
+    new: true,
+  });
+  return result;
+};
+
 const inviteProject = async (
   email: string,
   projectId: string,
@@ -79,4 +87,5 @@ export const ProjectService = {
   inviteProject,
   acceptInvite,
   deleteProject,
+  updateProject,
 };

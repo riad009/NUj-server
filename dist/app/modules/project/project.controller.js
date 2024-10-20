@@ -46,6 +46,16 @@ const getSingleProject = (0, catchAsync_1.catchAsync)((req, res, next) => __awai
         data: result,
     });
 }));
+const updateProject = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const projectId = req.params.projectId;
+    const result = yield project_service_1.ProjectService.updateProject(projectId, req.body);
+    (0, sendResponse_1.sendResponse)(res, {
+        success: true,
+        status: 200,
+        message: "retrieved successfully",
+        data: result,
+    });
+}));
 const deleteProject = (0, catchAsync_1.catchAsync)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const projectId = req.params.projectId;
     const result = yield project_service_1.ProjectService.deleteProject(projectId);
@@ -83,5 +93,6 @@ exports.ProjectController = {
     getSingleProject,
     acceptInvite,
     inviteProject,
+    updateProject,
     deleteProject,
 };
