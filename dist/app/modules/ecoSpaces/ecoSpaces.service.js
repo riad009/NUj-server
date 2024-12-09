@@ -36,10 +36,10 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     console.log({ payload });
     const userExist = yield user_model_1.UserModel.findById(payload === null || payload === void 0 ? void 0 : payload.owner);
     if (!userExist) {
-        throw new AppError_1.AppError(400, "User not found");
+        throw new AppError_1.AppError(400, 'User not found');
     }
     if (userExist === null || userExist === void 0 ? void 0 : userExist.isDeleted) {
-        throw new AppError_1.AppError(400, "User not found");
+        throw new AppError_1.AppError(400, 'User not found');
     }
     const { projects } = payload, newPayload = __rest(payload, ["projects"]);
     // const result = (await EcoSpaceModel.create(newPayload)).populate(
@@ -47,7 +47,7 @@ const createEcoSpaceIntoDB = (payload) => __awaiter(void 0, void 0, void 0, func
     // );
     const result = yield ecoSpaces_model_1.EcoSpaceModel.create(newPayload);
     if (!result) {
-        throw new AppError_1.AppError(400, "Could not create");
+        throw new AppError_1.AppError(400, 'Could not create');
     }
     projects === null || projects === void 0 ? void 0 : projects.forEach((project) => __awaiter(void 0, void 0, void 0, function* () {
         const newProjectPayload = {
@@ -74,7 +74,7 @@ const addNewProjectToEcoSpaceFromDB = (ecoSpaceId, payload) => __awaiter(void 0,
 });
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
-    const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId).populate("plan");
+    const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId).populate('plan');
     return ecoSpace;
 });
 // Getting recent ecospace, this will only return limited ecosapce with limited values
@@ -96,7 +96,7 @@ const getEcoSpacesByOwnerIdFromDB = (ownerId, email) => __awaiter(void 0, void 0
         ],
     })
         .sort({ createdAt: -1 })
-        .populate("serviceId");
+        .populate('serviceId');
     return result;
 });
 // getting all the ecospaces for admin only
@@ -104,16 +104,22 @@ const getAllEcoSpacesFromDB = () => __awaiter(void 0, void 0, void 0, function* 
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({});
     return result;
 });
+const deleteCoWorker = (ecoSpaceId, email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, {
+        $pull: { coWorkers: email },
+    });
+    return result;
+});
 // Getting ecospaces for taking appointment - query(serviceId)
 const getEcoSpacesByServiceIdFromDB = (serviceId) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!serviceId || serviceId === "null") {
+    if (!serviceId || serviceId === 'null') {
         return yield ecoSpaces_model_1.EcoSpaceModel.find({});
     }
     const result = yield ecoSpaces_model_1.EcoSpaceModel.find({ serviceId })
         .sort({ createdAt: -1 })
-        .populate("serviceId plan");
+        .populate('serviceId plan');
     if (!result.length) {
-        throw new AppError_1.AppError(400, "No EcoSpaces Found");
+        throw new AppError_1.AppError(400, 'No EcoSpaces Found');
     }
     return result;
 });
@@ -124,13 +130,13 @@ const deleteEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, f
         session.startTransaction();
         const deleteEcoSpaceResult = yield ecoSpaces_model_1.EcoSpaceModel.findByIdAndDelete(ecoSpaceId, { session });
         if (!deleteEcoSpaceResult) {
-            throw new AppError_1.AppError(400, "Could not delete");
+            throw new AppError_1.AppError(400, 'Could not delete');
         }
         const deleteAppointmentsResult = yield appointments_model_1.AppointmentModel.deleteMany({
             ecoSpaceId,
         }, { session });
         if (!deleteAppointmentsResult) {
-            throw new AppError_1.AppError(400, "Could not delete");
+            throw new AppError_1.AppError(400, 'Could not delete');
         }
         yield session.commitTransaction();
         yield session.endSession();
@@ -139,14 +145,14 @@ const deleteEcoSpaceFromDB = (ecoSpaceId) => __awaiter(void 0, void 0, void 0, f
     catch (error) {
         yield session.abortTransaction();
         yield session.endSession();
-        throw new AppError_1.AppError(400, "Could not delete");
+        throw new AppError_1.AppError(400, 'Could not delete');
     }
 });
 const inviteEcospace = (email, ecoSpaceId, ecoSpaceName, type) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId);
     if ((_a = ecoSpace === null || ecoSpace === void 0 ? void 0 : ecoSpace.coWorkers) === null || _a === void 0 ? void 0 : _a.includes(email)) {
-        throw new AppError_1.AppError(400, "Co worker already exists!");
+        throw new AppError_1.AppError(400, 'Co worker already exists!');
     }
     const result = yield (0, sendEmail_1.sendEmail)(email, ecoSpaceId, ecoSpaceName, type);
     return result;
@@ -154,7 +160,7 @@ const inviteEcospace = (email, ecoSpaceId, ecoSpaceName, type) => __awaiter(void
 const acceptInvite = (email, ecoSpaceId) => __awaiter(void 0, void 0, void 0, function* () {
     const ecoSpace = yield ecoSpaces_model_1.EcoSpaceModel.findById(ecoSpaceId);
     if (!ecoSpace) {
-        throw new AppError_1.AppError(400, "Ecospace not found!");
+        throw new AppError_1.AppError(400, 'Ecospace not found!');
     }
     ecoSpace === null || ecoSpace === void 0 ? void 0 : ecoSpace.coWorkers.push(email);
     const result = yield (ecoSpace === null || ecoSpace === void 0 ? void 0 : ecoSpace.save());
@@ -172,4 +178,5 @@ exports.EcoSpaceServices = {
     addNewProjectToEcoSpaceFromDB,
     inviteEcospace,
     acceptInvite,
+    deleteCoWorker,
 };

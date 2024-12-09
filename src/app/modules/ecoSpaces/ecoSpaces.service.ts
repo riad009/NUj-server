@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
-import { AppError } from "../../errors/AppError";
-import { EcoSpaceDocumentModel } from "../EcoSpaceDocuments/EcoSpaceDocuments.model";
-import { UserModel } from "../users/user.model";
-import { TEcoSpace } from "./ecoSpaces.interface";
-import { EcoSpaceModel } from "./ecoSpaces.model";
-import { AppointmentModel } from "../appointments/appointments.model";
-import { sendEmail } from "../../helper/sendEmail";
-import { TProject } from "../project/project.interface";
-import { ProjectModel } from "../project/project.model";
+import mongoose from 'mongoose';
+import { AppError } from '../../errors/AppError';
+import { EcoSpaceDocumentModel } from '../EcoSpaceDocuments/EcoSpaceDocuments.model';
+import { UserModel } from '../users/user.model';
+import { TEcoSpace } from './ecoSpaces.interface';
+import { EcoSpaceModel } from './ecoSpaces.model';
+import { AppointmentModel } from '../appointments/appointments.model';
+import { sendEmail } from '../../helper/sendEmail';
+import { TProject } from '../project/project.interface';
+import { ProjectModel } from '../project/project.model';
 
 // creating ecospace
 const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
@@ -15,10 +15,10 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
 
   const userExist = await UserModel.findById(payload?.owner);
   if (!userExist) {
-    throw new AppError(400, "User not found");
+    throw new AppError(400, 'User not found');
   }
   if (userExist?.isDeleted) {
-    throw new AppError(400, "User not found");
+    throw new AppError(400, 'User not found');
   }
   const { projects, ...newPayload } = payload;
 
@@ -27,7 +27,7 @@ const createEcoSpaceIntoDB = async (payload: Partial<TEcoSpace>) => {
   // );
   const result = await EcoSpaceModel.create(newPayload);
   if (!result) {
-    throw new AppError(400, "Could not create");
+    throw new AppError(400, 'Could not create');
   }
   projects?.forEach(async (project) => {
     const newProjectPayload: TProject = {
@@ -64,7 +64,7 @@ const addNewProjectToEcoSpaceFromDB = async (
 
 // Get single ecospace by id
 const getSingleEcoSpaceFromDB = async (ecoSpaceId: string) => {
-  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate("plan");
+  const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId).populate('plan');
 
   return ecoSpace;
 };
@@ -95,7 +95,7 @@ const getEcoSpacesByOwnerIdFromDB = async (ownerId: string, email: string) => {
     ],
   })
     .sort({ createdAt: -1 })
-    .populate("serviceId");
+    .populate('serviceId');
 
   return result;
 };
@@ -105,17 +105,23 @@ const getAllEcoSpacesFromDB = async () => {
   const result = await EcoSpaceModel.find({});
   return result;
 };
+const deleteCoWorker = async (ecoSpaceId: string, email: string) => {
+  const result = await EcoSpaceModel.findByIdAndUpdate(ecoSpaceId, {
+    $pull: { coWorkers: email },
+  });
+  return result;
+};
 
 // Getting ecospaces for taking appointment - query(serviceId)
 const getEcoSpacesByServiceIdFromDB = async (serviceId: string) => {
-  if (!serviceId || serviceId === "null") {
+  if (!serviceId || serviceId === 'null') {
     return await EcoSpaceModel.find({});
   }
   const result = await EcoSpaceModel.find({ serviceId })
     .sort({ createdAt: -1 })
-    .populate("serviceId plan");
+    .populate('serviceId plan');
   if (!result.length) {
-    throw new AppError(400, "No EcoSpaces Found");
+    throw new AppError(400, 'No EcoSpaces Found');
   }
   return result;
 };
@@ -130,7 +136,7 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
       { session }
     );
     if (!deleteEcoSpaceResult) {
-      throw new AppError(400, "Could not delete");
+      throw new AppError(400, 'Could not delete');
     }
 
     const deleteAppointmentsResult = await AppointmentModel.deleteMany(
@@ -140,7 +146,7 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
       { session }
     );
     if (!deleteAppointmentsResult) {
-      throw new AppError(400, "Could not delete");
+      throw new AppError(400, 'Could not delete');
     }
 
     await session.commitTransaction();
@@ -149,7 +155,7 @@ const deleteEcoSpaceFromDB = async (ecoSpaceId: string) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(400, "Could not delete");
+    throw new AppError(400, 'Could not delete');
   }
 };
 
@@ -162,7 +168,7 @@ const inviteEcospace = async (
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId);
 
   if (ecoSpace?.coWorkers?.includes(email)) {
-    throw new AppError(400, "Co worker already exists!");
+    throw new AppError(400, 'Co worker already exists!');
   }
 
   const result = await sendEmail(email, ecoSpaceId, ecoSpaceName, type);
@@ -173,7 +179,7 @@ const acceptInvite = async (email: string, ecoSpaceId: string) => {
   const ecoSpace = await EcoSpaceModel.findById(ecoSpaceId);
 
   if (!ecoSpace) {
-    throw new AppError(400, "Ecospace not found!");
+    throw new AppError(400, 'Ecospace not found!');
   }
 
   ecoSpace?.coWorkers.push(email);
@@ -194,4 +200,5 @@ export const EcoSpaceServices = {
   addNewProjectToEcoSpaceFromDB,
   inviteEcospace,
   acceptInvite,
+  deleteCoWorker,
 };

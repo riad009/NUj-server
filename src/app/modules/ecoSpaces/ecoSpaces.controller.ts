@@ -1,6 +1,6 @@
-import { catchAsync } from "../../middlewares/catchAsync";
-import { sendResponse } from "../../middlewares/sendResponse";
-import { EcoSpaceServices } from "./ecoSpaces.service";
+import { catchAsync } from '../../middlewares/catchAsync';
+import { sendResponse } from '../../middlewares/sendResponse';
+import { EcoSpaceServices } from './ecoSpaces.service';
 
 const createEcoSpace = catchAsync(async (req, res, next) => {
   const result = await EcoSpaceServices.createEcoSpaceIntoDB(req.body);
@@ -8,7 +8,7 @@ const createEcoSpace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpace created successfully",
+    message: 'EcoSpace created successfully',
     data: result,
   });
 });
@@ -25,7 +25,7 @@ const updateEcoSpace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpace Updated successfully",
+    message: 'EcoSpace Updated successfully',
     data: result,
   });
 });
@@ -42,7 +42,7 @@ const addNewProjectToEcoSpace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "Project added successfully",
+    message: 'Project added successfully',
     data: result,
   });
 });
@@ -55,7 +55,7 @@ const getSingleEcoSpace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpace Found successfully",
+    message: 'EcoSpace Found successfully',
     data: result,
   });
 });
@@ -67,7 +67,7 @@ const getRecentEcoSpaces = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "Recent EcoSpaces retrieved successfully",
+    message: 'Recent EcoSpaces retrieved successfully',
     data: result,
   });
 });
@@ -84,7 +84,7 @@ const getEcoSpacesByOwnerId = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpaces retrieved successfully",
+    message: 'EcoSpaces retrieved successfully',
     data: result,
   });
 });
@@ -95,7 +95,7 @@ const getAllEcoSpaces = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpaces retrieved successfully",
+    message: 'EcoSpaces retrieved successfully',
     data: result,
   });
 });
@@ -109,7 +109,7 @@ const getEcoSpacesByServiceId = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpaces retrieved successfully",
+    message: 'EcoSpaces retrieved successfully',
     data: result,
   });
 });
@@ -121,7 +121,19 @@ const deleteEcoSpace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "EcoSpace deleted successfully",
+    message: 'EcoSpace deleted successfully',
+    data: result,
+  });
+});
+const deleteCoWorker = catchAsync(async (req, res, next) => {
+  const ecoSpaceId = req?.params?.ecoSpaceId;
+  const email = req?.body?.email;
+  const result = await EcoSpaceServices.deleteCoWorker(ecoSpaceId, email);
+
+  sendResponse(res, {
+    success: true,
+    status: 200,
+    message: 'CoWorker deleted successfully',
     data: result,
   });
 });
@@ -138,7 +150,7 @@ const inviteEcospace = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "Invited successfully",
+    message: 'Invited successfully',
     data: result,
   });
 });
@@ -150,7 +162,7 @@ const acceptInvite = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     success: true,
     status: 200,
-    message: "Invite accepted successfully",
+    message: 'Invite accepted successfully',
     data: result,
   });
 });
@@ -167,4 +179,5 @@ export const EcoSpaceControllers = {
   addNewProjectToEcoSpace,
   inviteEcospace,
   acceptInvite,
+  deleteCoWorker,
 };
