@@ -20,7 +20,7 @@ export const sendEmail = async (
     subject: `Notifications from the ${name}`,
     html: `
     <p>Dear ${email}, You have been invited to join the ${type} <strong>${name}</strong>.</p>
-    <p>Click the following link to accept: <a href="https://nu-j-9c35c.web.app/accept-invitation/${type}/${id}/${email}">Accept Invitation</a></p>
+    <p>Click the following link to accept: <a href="https://nuj-six.vercel.app/accept-invitation/${type}/${id}/${email}">Accept Invitation</a></p>
   `,
   };
 
